@@ -1,22 +1,21 @@
 const translations = {
     'zh-Hant': {
-        title: "光遇身高查看工具", toggle_instructions: "點此展開/收合使用教學", inst_1: "1. 在遊戲中，點擊右上角齒輪進入設定，選擇「帳號」，再點選「帳號資訊」，最後點選「造型 QR code」。", inst_2: "（注意：這不是加好友的 QR Code！）", inst_3: "2. 掃描該 QR Code。", inst_4: "3. 掃描後會得到一串網址，例如：<br><code>https://sky.thatg.co/o=8RV7ImJv...</code>", inst_5: "<b>4. 請複製完整的網址</b>", inst_5_zh: "，然後直接貼到下方的輸入框中即可！", input_label: "請在此貼上掃描到的完整網址：", placeholder: "將完整網址貼在這裡……", calculate_btn: "開始計算", res_current: "當前身高:", res_tallest: "最高身高:", res_shortest: "最低身高:", copy_btn: "複製結果", image_btn: "生成分享圖", status_calculating: "計算中……", status_error_empty: "錯誤：輸入框是空的。", status_error_general: "無法識別您貼上的內容。<br>請檢查看看：<ul><li>是不是貼錯了？</li><li>是不是沒有複製完整？</li></ul>", status_success: "計算完成！", status_copy_success: "身高結果已複製到剪貼簿！", status_copy_fail: "複製失敗，您的瀏覽器可能不支援。", copy_btn_copied: "已複製！", history_title: "歷史紀錄", clear_history_btn: "清空紀錄", history_current_label: "身高", history_note_placeholder: "點此新增備註...", customize_image: "自訂並生成分享圖", player_name: "玩家名稱 (選填):", player_name_placeholder: "在圖片上顯示你的名字", bg_style_image: "背景圖片 (推薦):", bg_style_gradient: "純色背景:", text_color: "文字顏色:", text_white: "淺色", text_black: "深色", confirm_clear_history: "您確定要清空所有歷史紀錄嗎？", confirm_delete_item: "您確定要刪除這條紀錄嗎？", item_deleted: "紀錄已刪除。"
+        title: "光遇身高查看工具", toggle_instructions: "點此展開/收合使用教學", inst_1: "1. 在遊戲中，點擊右上角齒輪進入設定，選擇「帳號」，再點選「帳號資訊」，最後點選「造型 QR code」。", inst_2: "（注意：這不是加好友的 QR Code！）", inst_3: "2. 掃描該 QR Code。", inst_4: "3. 掃描後會得到一串網址，例如：<br><code>https://sky.thatg.co/o=8RV7ImJv...</code>", inst_5: "<b>4. 請複製完整的網址</b>", inst_5_zh: "，然後直接貼到下方的輸入框中即可！", input_label: "請在此貼上掃描到的完整網址：", placeholder: "將完整網址貼在這裡……", calculate_btn: "開始計算", res_current: "當前身高:", res_tallest: "最高身高:", res_shortest: "最低身高:", copy_btn: "複製結果", image_btn: "生成分享圖", status_calculating: "計算中……", status_error_empty: "錯誤：輸入框是空的。", status_error_general: "無法識別您貼上的內容。<br>請檢查看看：<ul><li>是不是貼錯了？</li><li>是不是沒有複製完整？</ul>", status_success: "計算完成！", status_copy_success: "身高結果已複製到剪貼簿！", status_copy_fail: "複製失敗，您的瀏覽器可能不支援。", copy_btn_copied: "已複製！", history_title: "歷史紀錄", clear_history_btn: "清空紀錄", history_current_label: "身高", history_note_placeholder: "點此新增備註...", customize_image: "自訂並生成分享圖", player_name: "玩家名稱 (選填):", player_name_placeholder: "在圖片上顯示你的名字", bg_style_upload: "上傳我的圖片:", bg_style_image: "內建圖片背景 (推薦):", bg_style_gradient: "純色背景:", text_color: "文字顏色:", text_white: "淺色", text_black: "深色", confirm_clear_history: "您確定要清空所有歷史紀錄嗎？", confirm_delete_item: "您確定要刪除這條紀錄嗎？", item_deleted: "紀錄已刪除。"
     },
     'en': {
-        title: "Sky Height Tool", toggle_instructions: "Click to Expand/Collapse Instructions", inst_1: "1. In the game, go to Settings (top-right gear) > Account > Account Info > Outfit QR Code.", inst_2: "(Note: This is NOT the friend QR code!)", inst_3: "2. Scan the QR Code.", inst_4: "3. You will get a URL, for example:<br><code>https://sky.thatg.co/o=8RV7ImJv...</code>", inst_5: "<b>4. Copy the entire URL</b>", inst_5_zh: " and paste it into the input box below.", input_label: "Paste the full URL from the QR Code:", placeholder: "Paste the full URL here...", calculate_btn: "Calculate", res_current: "Current Height:", res_tallest: "Tallest Height:", res_shortest: "Shortest Height:", copy_btn: "Copy Results", image_btn: "Generate Image", status_calculating: "Calculating...", status_error_empty: "Error: Input box is empty.", status_error_general: "Couldn't recognize the content.<br>Please check if:<ul><li>You pasted the wrong text.</li><li>The text is incomplete.</li></ul>", status_success: "Calculation complete!", status_copy_success: "Results copied to clipboard!", status_copy_fail: "Copy failed. Your browser may not support this feature.", copy_btn_copied: "Copied!", history_title: "History", clear_history_btn: "Clear History", history_current_label: "Height", history_note_placeholder: "Click to add a note...", customize_image: "Customize & Generate Image", player_name: "Player Name (Optional):", player_name_placeholder: "Your name on the image", bg_style_image: "Background Image (Recommended):", bg_style_gradient: "Gradient Background:", text_color: "Text Color:", text_white: "Light", text_black: "Dark", confirm_clear_history: "Are you sure you want to clear all history?", confirm_delete_item: "Are you sure you want to delete this record?", item_deleted: "Record deleted."
+        title: "Sky Height Tool", toggle_instructions: "Click to Expand/Collapse Instructions", inst_1: "1. In the game, go to Settings (top-right gear) > Account > Account Info > Outfit QR Code.", inst_2: "(Note: This is NOT the friend QR code!)", inst_3: "2. Scan the QR Code.", inst_4: "3. You will get a URL, for example:<br><code>https://sky.thatg.co/o=8RV7ImJv...</code>", inst_5: "<b>4. Copy the entire URL</b>", inst_5_zh: " and paste it into the input box below.", input_label: "Paste the full URL from the QR Code:", placeholder: "Paste the full URL here...", calculate_btn: "Calculate", res_current: "Current Height:", res_tallest: "Tallest Height:", res_shortest: "Shortest Height:", copy_btn: "Copy Results", image_btn: "Generate Image", status_calculating: "Calculating...", status_error_empty: "Error: Input box is empty.", status_error_general: "Couldn't recognize the content.<br>Please check if:<ul><li>You pasted the wrong text.</li><li>The text is incomplete.</ul>", status_success: "Calculation complete!", status_copy_success: "Results copied to clipboard!", status_copy_fail: "Copy failed. Your browser may not support this feature.", copy_btn_copied: "Copied!", history_title: "History", clear_history_btn: "Clear History", history_current_label: "Height", history_note_placeholder: "Click to add a note...", customize_image: "Customize & Generate Image", player_name: "Player Name (Optional):", player_name_placeholder: "Your name on the image", bg_style_upload: "Upload My Image:", bg_style_image: "Built-in Image Backgrounds (Recommended):", bg_style_gradient: "Gradient Backgrounds:", text_color: "Text Color:", text_white: "Light", text_black: "Dark", confirm_clear_history: "Are you sure you want to clear all history?", confirm_delete_item: "Are you sure you want to delete this record?", item_deleted: "Record deleted."
     }
 };
 let currentLang = 'zh-Hant';
 
-// --- 配置背景 ---
 const backgroundImages = [
     { id: 'bg1', path: 'images/bg1.png' }, { id: 'bg2', path: 'images/bg2.png' }, { id: 'bg3', path: 'images/bg3.png' },
 ];
 const backgroundGradients = [
-    { id: 'daylight', colors: ['#a1c4fd', '#c2e9fb'], name: '晴天' },
-    { id: 'dawn', colors: ['#f6d365', '#fda085'], name: '晨島' },
-    { id: 'valley', colors: ['#f093fb', '#f5576c'], name: '霞谷' },
-    { id: 'night', colors: ['#2c3e50', '#1a293f'], name: '夜晚' },
+    { id: 'daylight', colors: ['#a1c4fd', '#c2e9fb'] },
+    { id: 'dawn', colors: ['#f6d365', '#fda085'] },
+    { id: 'valley', colors: ['#f093fb', '#f5576c'] },
+    { id: 'night', colors: ['#2c3e50', '#1a293f'] },
 ];
 
 function setLanguage(lang) {
@@ -29,6 +28,13 @@ function setLanguage(lang) {
             else if (key === 'inst_5_zh') { el.innerHTML = translation; } 
             else if (key.startsWith('inst_')) { el.innerHTML = translation; } 
             else { el.textContent = translation; }
+        }
+    });
+
+    document.querySelectorAll('.lang-option').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.lang === lang) {
+            btn.classList.add('active');
         }
     });
 }
@@ -72,7 +78,6 @@ function animateValue(element, start, end, duration) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    // DOM Elements
     const dom = {
         calculateBtn: document.getElementById('calculate-btn'), b64Input: document.getElementById('b64-input'),
         resCurrent: document.getElementById('res-current'), resTallest: document.getElementById('res-tallest'),
@@ -85,10 +90,12 @@ document.addEventListener('DOMContentLoaded', () => {
         docHtml: document.documentElement, bgSelector: document.getElementById('bg-selector'),
         gradientSelector: document.getElementById('gradient-selector'),
         textColorSelector: document.getElementById('text-color-selector'), playerNameInput: document.getElementById('player-name'),
-        customizationOptions: document.querySelector('.customization-options')
+        customizationOptions: document.querySelector('.customization-options'),
+        uploadBgInput: document.getElementById('upload-bg'), uploadedImagePreview: document.getElementById('uploaded-image-preview')
     };
 
     let history = [];
+    let uploadedImageUrl = null;
 
     function saveHistory() { localStorage.setItem('skyHeightHistory', JSON.stringify(history)); }
     function loadHistory() {
@@ -157,9 +164,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     applyTheme(savedTheme || (prefersDark ? 'dark' : 'light'));
     dom.themeSwitcher.addEventListener('click', () => applyTheme(dom.docHtml.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'));
-    dom.langSwitcher.addEventListener('click', () => {
-        setLanguage(currentLang === 'zh-Hant' ? 'en' : 'zh-Hant');
-        renderHistory();
+    
+    dom.langSwitcher.addEventListener('click', (e) => {
+        if (e.target.classList.contains('lang-option')) {
+            setLanguage(e.target.dataset.lang);
+            renderHistory();
+        }
     });
     
     function populateBgSelectors() {
@@ -170,7 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
             imgEl.classList.add('selectable-option', 'bg-selection');
             imgEl.dataset.type = 'image';
             imgEl.dataset.source = img.path;
-            if (index === 0) imgEl.classList.add('active');
+            if (index === 0) imgEl.classList.add('active'); 
             dom.bgSelector.appendChild(imgEl);
         });
         dom.gradientSelector.innerHTML = '';
@@ -183,14 +193,37 @@ document.addEventListener('DOMContentLoaded', () => {
             dom.gradientSelector.appendChild(gradEl);
         });
     }
+    
     dom.customizationOptions.addEventListener('click', (e) => {
         const target = e.target;
         if (target.classList.contains('bg-selection')) {
             document.querySelectorAll('.bg-selection').forEach(el => el.classList.remove('active'));
             target.classList.add('active');
+            if (uploadedImageUrl) {
+                dom.uploadedImagePreview.innerHTML = '';
+                uploadedImageUrl = null;
+                dom.uploadBgInput.value = '';
+            }
         } else if (target.classList.contains('text-color-option')) {
             document.querySelectorAll('.text-color-option').forEach(btn => btn.classList.remove('active'));
             target.classList.add('active');
+        }
+    });
+
+    dom.uploadBgInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                uploadedImageUrl = e.target.result;
+                dom.uploadedImagePreview.innerHTML = `<img src="${uploadedImageUrl}" class="selectable-option bg-selection active" data-type="uploaded" data-source="${uploadedImageUrl}">`;
+                document.querySelectorAll('.bg-selection').forEach(el => el.classList.remove('active'));
+                dom.uploadedImagePreview.querySelector('.bg-selection').classList.add('active');
+            };
+            reader.readAsDataURL(file);
+        } else {
+            uploadedImageUrl = null;
+            dom.uploadedImagePreview.innerHTML = '';
         }
     });
 
@@ -272,7 +305,7 @@ document.addEventListener('DOMContentLoaded', () => {
             link.click();
         };
 
-        if (activeBg.dataset.type === 'image') {
+        if (activeBg.dataset.type === 'image' || activeBg.dataset.type === 'uploaded') {
             const bgImage = new Image();
             bgImage.crossOrigin = "Anonymous";
             bgImage.src = activeBg.dataset.source;
@@ -282,7 +315,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 drawText();
             };
-            bgImage.onerror = () => { alert('背景圖片載入失敗！'); };
+            bgImage.onerror = () => { alert('背景圖片載入失敗！請確認圖片檔案是否正確或稍後再試。'); };
         } else {
             const colors = activeBg.dataset.colors.split(',');
             const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
@@ -294,7 +327,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- Initial Load ---
     populateBgSelectors();
     loadHistory();
     setLanguage(currentLang);
