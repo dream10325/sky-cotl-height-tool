@@ -28,8 +28,8 @@ function setLanguage(lang) {
             else { el.textContent = translation; }
         }
     });
-    document.querySelectorAll('.lang-option').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.lang === lang);
+    document.querySelectorAll('.lang-option').forEach(span => {
+        span.classList.toggle('active', span.dataset.lang === lang);
     });
 }
 function t(key) { return translations[currentLang][key] || key; }
@@ -77,9 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
         resCurrent: document.getElementById('res-current'), resTallest: document.getElementById('res-tallest'),
         resShortest: document.getElementById('res-shortest'), statusEl: document.getElementById('status'),
         copyBtn: document.getElementById('copy-btn'), imageBtn: document.getElementById('image-btn'),
-        resultActions: document.getElementById('result-actions'), 
-        langBtnEn: document.querySelector('.lang-option[data-lang="en"]'),
-        langBtnZh: document.querySelector('.lang-option[data-lang="zh-Hant"]'),
+        resultActions: document.getElementById('result-actions'), langSwitcher: document.getElementById('lang-switcher'),
         themeSwitcher: document.getElementById('theme-switcher'), themeIconLight: document.getElementById('theme-icon-light'),
         themeIconDark: document.getElementById('theme-icon-dark'), historyContainer: document.getElementById('history'),
         historyList: document.getElementById('history-list'), clearHistoryBtn: document.getElementById('clear-history-btn'),
@@ -161,13 +159,12 @@ document.addEventListener('DOMContentLoaded', () => {
     applyTheme(savedTheme || (prefersDark ? 'dark' : 'light'));
     dom.themeSwitcher.addEventListener('click', () => applyTheme(dom.docHtml.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'));
     
-    dom.langBtnEn.addEventListener('click', () => {
-        setLanguage('en');
-        renderHistory();
-    });
-    dom.langBtnZh.addEventListener('click', () => {
-        setLanguage('zh-Hant');
-        renderHistory();
+    dom.langSwitcher.addEventListener('click', (e) => {
+        const langToggle = e.target.closest('.lang-option');
+        if (langToggle) {
+            setLanguage(langToggle.dataset.lang);
+            renderHistory();
+        }
     });
     
     function populateBgSelectors() {
