@@ -23,10 +23,3 @@ All calculations are done in your browser. No data is uploaded, so you can use i
 2.  (This is NOT the friend QR code!)
 3.  Scan the QR Code with another device to get a URL.
 4.  **Copy the entire URL**, paste it into the tool, and click calculate.
-
-## 計算公式 (Formula)
-本工具的計算公式來源於社群分享，可能隨遊戲版本更新而變動。
-
-The formula used in this tool is based on community findings and may change with future game updates.
-
-`身高 = 7.6 - (8.3 * scale) - (3 * height_param)`
