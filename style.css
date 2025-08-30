@@ -3,13 +3,11 @@
     --primary-color: #4a90e2; --border-color: #e1e8ed; --label-color: #5a738e;
     --result-color: #1a293f; --error-color: #e74c3c; --success-color: #2ecc71;
     --details-bg: #eff6ff; --shadow-color: rgba(0,0,0,0.08);
-    --lang-button-hover: #e0e0e0;
 }
 html[data-theme='dark'] {
     --bg-color: #1a1a1a; --font-color: #dcdcdc; --card-bg: #2a2a2a;
     --border-color: #3a3a3a; --label-color: #9e9e9e; --result-color: #ffffff;
     --details-bg: #2c3e50; --shadow-color: rgba(0,0,0,0.2);
-    --lang-button-hover: #444444;
 }
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -39,22 +37,24 @@ h1 {
     color: var(--label-color); display: flex; justify-content: center; align-items: center;
     transition: background-color 0.2s;
 }
-.icon-button svg { width: 20px; height: 20px; }
-.icon-button:hover { background-color: var(--lang-button-hover); }
-.lang-switcher {
-    display: flex; border: 1px solid var(--border-color); border-radius: 8px;
-    overflow: hidden;
+.icon-button svg { width: 20px; height: 20px; fill: currentColor; }
+.icon-button:hover { background-color: var(--details-bg); }
+
+.lang-switcher-btn {
+    padding: 6px 10px; border: 1px solid var(--border-color); border-radius: 8px;
+    background: none; cursor: pointer; color: var(--label-color);
+    font-size: 0.9em; display: flex; align-items: center; gap: 4px;
+    transition: background-color 0.2s;
 }
-.lang-switcher .lang-option {
-    width: auto; padding: 8px 12px; margin: 0; border: none;
-    background: none; color: var(--label-color); font-size: 0.9em;
-    cursor: pointer; transition: background-color 0.2s, color 0.2s;
+.lang-switcher-btn:hover { background-color: var(--details-bg); }
+.lang-switcher-btn .lang-toggle {
+    color: var(--label-color); font-weight: normal; transition: color 0.2s, font-weight 0.2s;
 }
-.lang-switcher .lang-option.active {
-    background-color: var(--primary-color); color: white;
+.lang-switcher-btn .lang-toggle.active {
+    color: var(--primary-color); font-weight: bold;
 }
-.lang-switcher .lang-option:hover:not(.active) {
-    background-color: var(--lang-button-hover);
+.lang-switcher-btn .separator {
+    color: var(--border-color);
 }
 details {
     margin-bottom: 20px; border-radius: 8px; background-color: var(--details-bg);
@@ -85,8 +85,6 @@ button:hover { background-color: #357abd; }
 .result-item .value { font-family: 'Courier New', Courier, monospace; font-weight: bold; color: var(--result-color); }
 .result-item.important .value { font-size: 1.2em; }
 .result-actions { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
-.result-actions .action-buttons { display: flex; gap: 10px; }
-.result-actions .action-buttons button { flex: 1; margin-top: 0; }
 .customization-details { margin: 0; padding: 0; background: none; border: none; }
 .customization-details summary { font-size: 1em; font-weight: normal; }
 .customization-options { display: flex; flex-direction: column; gap: 15px; padding: 15px 10px 10px 10px; border-top: 1px solid var(--border-color); }
@@ -132,9 +130,7 @@ button:hover { background-color: #357abd; }
 }
 .history-note:hover { text-decoration: underline; }
 .delete-history-item {
-    position: absolute;
-    top: 5px; right: 5px;
-    width: 24px; height: 24px;
+    position: absolute; top: 5px; right: 5px; width: 24px; height: 24px;
     background: none; border: none; color: var(--label-color);
     font-size: 1.2em; line-height: 1; cursor: pointer; padding: 0;
     display: flex; align-items: center; justify-content: center;
@@ -144,15 +140,11 @@ button:hover { background-color: #357abd; }
 .status-error { color: var(--error-color); }
 .status-success { color: var(--success-color); }
 .footer {
-    margin-top: 20px;
-    text-align: center;
-    font-size: 0.8em;
-    color: var(--label-color);
+    margin-top: 20px; text-align: center;
 }
 .footer a {
-    color: var(--primary-color);
-    text-decoration: none;
+    color: var(--label-color); text-decoration: none; display: inline-flex;
+    align-items: center; gap: 8px; transition: color 0.2s;
 }
-.footer a:hover {
-    text-decoration: underline;
-}
+.footer a:hover { color: var(--primary-color); }
+.footer svg { fill: currentColor; }
