@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>光遇身高計算器</title>
+    <style>
+        :root {
+            --bg-color: #f7f9fc;
+            --font-color: #2c3e50;
+            --card-bg: #ffffff;
+            --primary-color: #4a90e2;
+            --border-color: #e1e8ed;
+            --label-color: #5a738e;
+            --result-color: #1a293f;
+            --error-color: #e74c3c;
+            --success-color: #2ecc71;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--font-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            padding: 25px;
+            box-sizing: border-box;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            font-size: 1.5em;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--label-color);
+            font-weight: 500;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9em;
+            box-sizing: border-box;
+            resize: vertical;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            border: none;
+            border-radius: 8px;
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        button:hover {
+            background-color: #357abd;
+        }
+        .results {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            font-size: 1.1em;
+        }
+        .result-item .label {
+            color: var(--label-color);
+        }
+        .result-item .value {
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            color: var(--result-color);
+        }
+        .result-item.important .value {
+            font-size: 1.2em;
+        }
+        #status {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 0.9em;
+            height: 20px;
+        }
+        .status-error {
+            color: var(--error-color);
+        }
+        .status-success {
+            color: var(--success-color);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>光遇身高計算器</h1>
+        
+        <label for="b64-input">請在此貼上來自 QR Code 的字串：</label>
+        <textarea id="b64-input" placeholder="將字串貼在這裡..."></textarea>
+        
+        <button id="calculate-btn">開始計算</button>
+
+        <div class="results">
+            <div class="result-item important">
+                <span class="label">當前身高:</span>
+                <span class="value" id="res-current">...</span>
+            </div>
+            <div class="result-item">
+                <span class="label">最高身高:</span>
+                <span class="value" id="res-tallest">...</span>
+            </div>
+            <div class="result-item">
+                <span class="label">最低身高:</span>
+                <span class="value" id="res-shortest">...</span>
+            </div>
+        </div>
+        <div id="status"></div>
+    </div>
+
+    <script>
+        function decodeAndCalculate(rawData) {
+            try {
+                const startMarker = "ImJvZHki";
+                const startIndex = rawData.indexOf(startMarker);
+                if (startIndex === -1) {
+                    return { error: "在輸入中找不到數據起始標記 'ImJvZHki'。" };
+                }
+                let b64Str = rawData.substring(startIndex);
+                b64Str = b64Str.replace(/-/g, '+').replace(/_/g, '/');
+                const padding = b64Str.length % 4;
+                if (padding) {
+                    b64Str += '='.repeat(4 - padding);
+                }
+                const decodedText = atob(b64Str);
+                const heightRegex = /eight[^:=\d\-.eE]{0,5}[:=]\s*(-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)/;
+                const scaleRegex = /cale[^:=\d\-.eE]{0,5}[:=]\s*(-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)/;
+                const heightMatch = heightRegex.exec(decodedText);
+                const scaleMatch = scaleRegex.exec(decodedText);
+                if (!heightMatch) {
+                    return { error: "無法匹配到 height 參數。" };
+                }
+                if (!scaleMatch) {
+                    return { error: "無法匹配到 scale 參數。" };
+                }
+                const height = parseFloat(heightMatch[1]);
+                const scale = parseFloat(scaleMatch[1]);
+                const currentHeight = 7.6 - (8.3 * scale) - (3 * height);
+                const shortestHeight = 7.6 - (8.3 * scale) - (3 * -2.0);
+                const tallestHeight = 7.6 - (8.3 * scale) - (3 * 2.0);
+                return {
+                    current: currentHeight,
+                    tallest: tallestHeight,
+                    shortest: shortestHeight,
+                };
+            } catch (e) {
+                return { error: `處理時發生錯誤: ${e.message}` };
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const calculateBtn = document.getElementById('calculate-btn');
+            const b64Input = document.getElementById('b64-input');
+            const resCurrent = document.getElementById('res-current');
+            const resTallest = document.getElementById('res-tallest');
+            const resShortest = document.getElementById('res-shortest');
+            const statusEl = document.getElementById('status');
+            calculateBtn.addEventListener('click', () => {
+                resCurrent.textContent = '...';
+                resTallest.textContent = '...';
+                resShortest.textContent = '...';
+                statusEl.textContent = '計算中...';
+                statusEl.className = '';
+                const rawData = b64Input.value.trim();
+                if (!rawData) {
+                    statusEl.textContent = '錯誤：輸入框是空的。';
+                    statusEl.className = 'status-error';
+                    return;
+                }
+                const results = decodeAndCalculate(rawData);
+                if (results.error) {
+                    statusEl.textContent = `錯誤: ${results.error}`;
+                    statusEl.className = 'status-error';
+                } else {
+                    resCurrent.textContent = results.current.toFixed(4);
+                    resTallest.textContent = results.tallest.toFixed(4);
+                    resShortest.textContent = results.shortest.toFixed(4);
+                    statusEl.textContent = '計算完成！';
+                    statusEl.className = 'status-success';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
