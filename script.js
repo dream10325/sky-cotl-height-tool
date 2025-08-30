@@ -159,12 +159,10 @@ document.addEventListener('DOMContentLoaded', () => {
     applyTheme(savedTheme || (prefersDark ? 'dark' : 'light'));
     dom.themeSwitcher.addEventListener('click', () => applyTheme(dom.docHtml.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'));
     
-    dom.langSwitcher.addEventListener('click', (e) => {
-        const langToggle = e.target.closest('.lang-toggle');
-        if (langToggle) {
-            setLanguage(langToggle.dataset.lang);
-            renderHistory();
-        }
+    dom.langSwitcher.addEventListener('click', () => {
+        const newLang = currentLang === 'zh-Hant' ? 'en' : 'zh-Hant';
+        setLanguage(newLang);
+        renderHistory();
     });
     
     function populateBgSelectors() {
@@ -195,7 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const selectable = target.closest('.selectable-option');
             if (selectable.parentElement.classList.contains('image-selector') || selectable.parentElement.classList.contains('gradient-selector')) {
                 document.querySelectorAll('.bg-selection').forEach(el => el.classList.remove('active'));
-                 selectable.classList.add('active');
+                selectable.classList.add('active');
             } else if (selectable.parentElement.id === 'text-color-selector') {
                  document.querySelectorAll('.text-color-option').forEach(btn => btn.classList.remove('active'));
                  selectable.classList.add('active');
@@ -214,9 +212,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 dom.uploadedImagePreview.querySelector('img').classList.add('active');
             };
             reader.readAsDataURL(file);
-        } else {
-            uploadedImageUrl = null;
-            dom.uploadedImagePreview.innerHTML = '';
         }
     });
 
