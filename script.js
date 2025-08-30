@@ -28,9 +28,7 @@ function setLanguage(lang) {
             else { el.textContent = translation; }
         }
     });
-    document.querySelectorAll('.lang-option').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.lang === lang);
-    });
+    document.getElementById('lang-display').textContent = lang === 'zh-Hant' ? '繁中' : 'EN';
 }
 function t(key) { return translations[currentLang][key] || key; }
 
@@ -78,6 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
         resShortest: document.getElementById('res-shortest'), statusEl: document.getElementById('status'),
         copyBtn: document.getElementById('copy-btn'), imageBtn: document.getElementById('image-btn'),
         resultActions: document.getElementById('result-actions'), langSwitcher: document.getElementById('lang-switcher'),
+        langDisplay: document.getElementById('lang-display'),
         themeSwitcher: document.getElementById('theme-switcher'), themeIconLight: document.getElementById('theme-icon-light'),
         themeIconDark: document.getElementById('theme-icon-dark'), historyContainer: document.getElementById('history'),
         historyList: document.getElementById('history-list'), clearHistoryBtn: document.getElementById('clear-history-btn'),
@@ -159,11 +158,10 @@ document.addEventListener('DOMContentLoaded', () => {
     applyTheme(savedTheme || (prefersDark ? 'dark' : 'light'));
     dom.themeSwitcher.addEventListener('click', () => applyTheme(dom.docHtml.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'));
     
-    dom.langSwitcher.addEventListener('click', (e) => {
-        if (e.target.classList.contains('lang-option')) {
-            setLanguage(e.target.dataset.lang);
-            renderHistory();
-        }
+    dom.langSwitcher.addEventListener('click', () => {
+        const newLang = currentLang === 'zh-Hant' ? 'en' : 'zh-Hant';
+        setLanguage(newLang);
+        renderHistory();
     });
     
     function populateBgSelectors() {
