@@ -39,6 +39,22 @@ h1 {
 }
 .icon-button svg { width: 20px; height: 20px; stroke: currentColor; fill: currentColor; }
 .icon-button:hover { background-color: var(--details-bg); }
+
+.lang-switcher {
+    display: flex; align-items: center; gap: 5px;
+    padding: 6px 10px; border: 1px solid var(--border-color); border-radius: 8px;
+    background: none;
+}
+.lang-switcher .lang-toggle {
+    cursor: pointer; font-size: 0.9em;
+    color: var(--label-color); font-weight: normal;
+}
+.lang-switcher .lang-toggle.active {
+    color: var(--primary-color); font-weight: bold;
+}
+.lang-switcher .separator {
+    color: var(--border-color);
+}
 details {
     margin-bottom: 20px; border-radius: 8px; background-color: var(--details-bg);
     padding: 5px 15px; border: 1px solid var(--border-color); transition: background-color 0.3s;
