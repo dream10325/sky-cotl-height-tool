@@ -37,25 +37,8 @@ h1 {
     color: var(--label-color); display: flex; justify-content: center; align-items: center;
     transition: background-color 0.2s;
 }
-.icon-button svg { width: 20px; height: 20px; fill: currentColor; }
+.icon-button svg { width: 20px; height: 20px; stroke: currentColor; fill: currentColor; }
 .icon-button:hover { background-color: var(--details-bg); }
-
-.lang-switcher-btn {
-    padding: 6px 10px; border: 1px solid var(--border-color); border-radius: 8px;
-    background: none; cursor: pointer; color: var(--label-color);
-    font-size: 0.9em; display: flex; align-items: center; gap: 4px;
-    transition: background-color 0.2s;
-}
-.lang-switcher-btn:hover { background-color: var(--details-bg); }
-.lang-switcher-btn .lang-toggle {
-    color: var(--label-color); font-weight: normal; transition: color 0.2s, font-weight 0.2s;
-}
-.lang-switcher-btn .lang-toggle.active {
-    color: var(--primary-color); font-weight: bold;
-}
-.lang-switcher-btn .separator {
-    color: var(--border-color);
-}
 details {
     margin-bottom: 20px; border-radius: 8px; background-color: var(--details-bg);
     padding: 5px 15px; border: 1px solid var(--border-color); transition: background-color 0.3s;
@@ -130,7 +113,9 @@ button:hover { background-color: #357abd; }
 }
 .history-note:hover { text-decoration: underline; }
 .delete-history-item {
-    position: absolute; top: 5px; right: 5px; width: 24px; height: 24px;
+    position: absolute;
+    top: 5px; right: 5px;
+    width: 24px; height: 24px;
     background: none; border: none; color: var(--label-color);
     font-size: 1.2em; line-height: 1; cursor: pointer; padding: 0;
     display: flex; align-items: center; justify-content: center;
@@ -140,7 +125,8 @@ button:hover { background-color: #357abd; }
 .status-error { color: var(--error-color); }
 .status-success { color: var(--success-color); }
 .footer {
-    margin-top: 20px; text-align: center;
+    margin-top: 20px;
+    text-align: center;
 }
 .footer a {
     color: var(--label-color); text-decoration: none; display: inline-flex;
