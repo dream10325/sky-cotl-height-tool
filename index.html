@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>光遇身高計算器</title>
+    <title>光遇身高查看工具</title>
     <style>
         :root {
             --bg-color: #f7f9fc;
@@ -15,6 +15,7 @@
             --result-color: #1a293f;
             --error-color: #e74c3c;
             --success-color: #2ecc71;
+            --details-bg: #eff6ff;
         }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -24,7 +25,7 @@
             padding: 20px;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             min-height: 100vh;
             box-sizing: border-box;
         }
@@ -43,6 +44,33 @@
             margin-bottom: 20px;
             color: var(--primary-color);
             font-size: 1.5em;
+        }
+        details {
+            margin-bottom: 20px;
+            border-radius: 8px;
+            background-color: var(--details-bg);
+            padding: 5px 15px;
+            border: 1px solid var(--border-color);
+        }
+        summary {
+            font-weight: bold;
+            cursor: pointer;
+            padding: 10px 0;
+            color: var(--primary-color);
+        }
+        .instructions p, .instructions ul {
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+        .instructions ul {
+            padding-left: 20px;
+        }
+        code {
+            background-color: #e1e8ed;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', Courier, monospace;
+            word-break: break-all;
         }
         label {
             display: block;
@@ -104,7 +132,9 @@
             margin-top: 15px;
             text-align: center;
             font-size: 0.9em;
-            height: 20px;
+            height: auto;
+            min-height: 20px;
+            line-height: 1.5;
         }
         .status-error {
             color: var(--error-color);
@@ -117,10 +147,21 @@
 <body>
 
     <div class="container">
-        <h1>光遇身高計算器</h1>
+        <h1>光遇身高查看工具</h1>
+
+        <details>
+            <summary>點此展開/收合使用教學</summary>
+            <div class="instructions">
+                <p>1. 在遊戲中，點擊右上角齒輪進入設定，選擇「帳號」，再點選「帳號資訊」，最後點選「造型 QR code」。</p>
+                <p><b>（注意：這不是加好友的 QR Code！）</b></p>
+                <p>2. 掃描該 QR Code。</p>
+                <p>3. 掃描後會得到一串網址，例如：<br><code>https://sky.thatg.co/o=8RV7ImJv...</code></p>
+                <p>4. <b>請複製完整的網址</b>，然後直接貼到下方的輸入框中即可！</p>
+            </div>
+        </details>
         
-        <label for="b64-input">請在此貼上來自 QR Code 的字串：</label>
-        <textarea id="b64-input" placeholder="將字串貼在這裡..."></textarea>
+        <label for="b64-input">請在此貼上掃描到的完整網址：</label>
+        <textarea id="b64-input" placeholder="將完整網址貼在這裡……"></textarea>
         
         <button id="calculate-btn">開始計算</button>
 
@@ -137,6 +178,7 @@
                 <span class="label">最低身高:</span>
                 <span class="value" id="res-shortest">...</span>
             </div>
+            <button id="copy-btn" style="display: none;">複製身高結果</button>
         </div>
         <div id="status"></div>
     </div>
@@ -147,7 +189,7 @@
                 const startMarker = "ImJvZHki";
                 const startIndex = rawData.indexOf(startMarker);
                 if (startIndex === -1) {
-                    return { error: "在輸入中找不到數據起始標記 'ImJvZHki'。" };
+                    return { error: "無法識別您貼上的內容。<br>請檢查看看：<ul><li>是不是貼錯了？</li><li>是不是沒有複製完整？</li></ul> };
                 }
                 let b64Str = rawData.substring(startIndex);
                 b64Str = b64Str.replace(/-/g, '+').replace(/_/g, '/');
@@ -160,11 +202,8 @@
                 const scaleRegex = /cale[^:=\d\-.eE]{0,5}[:=]\s*(-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)/;
                 const heightMatch = heightRegex.exec(decodedText);
                 const scaleMatch = scaleRegex.exec(decodedText);
-                if (!heightMatch) {
-                    return { error: "無法匹配到 height 參數。" };
-                }
-                if (!scaleMatch) {
-                    return { error: "無法匹配到 scale 參數。" };
+                if (!heightMatch || !scaleMatch) {
+                    return { error: "無法識別您貼上的內容。<br>請檢查看看：<ul><li>是不是貼錯了？</li><li>是不是沒有複製完整？</li></ul>" };
                 }
                 const height = parseFloat(heightMatch[1]);
                 const scale = parseFloat(scaleMatch[1]);
@@ -177,7 +216,7 @@
                     shortest: shortestHeight,
                 };
             } catch (e) {
-                return { error: `處理時發生錯誤: ${e.message}` };
+                 return { error: "無法識別您貼上的內容。<br>請檢查看看：<ul><li>是不是貼錯了？</li><li>是不是沒有複製完整？</li></ul>" };
             }
         }
 
@@ -188,29 +227,54 @@
             const resTallest = document.getElementById('res-tallest');
             const resShortest = document.getElementById('res-shortest');
             const statusEl = document.getElementById('status');
+            const copyBtn = document.getElementById('copy-btn');
+
             calculateBtn.addEventListener('click', () => {
                 resCurrent.textContent = '...';
                 resTallest.textContent = '...';
                 resShortest.textContent = '...';
-                statusEl.textContent = '計算中...';
+                copyBtn.style.display = 'none';
+                statusEl.innerHTML = '計算中……';
                 statusEl.className = '';
                 const rawData = b64Input.value.trim();
                 if (!rawData) {
-                    statusEl.textContent = '錯誤：輸入框是空的。';
+                    statusEl.innerHTML = '錯誤：輸入框是空的。';
                     statusEl.className = 'status-error';
                     return;
                 }
                 const results = decodeAndCalculate(rawData);
                 if (results.error) {
-                    statusEl.textContent = `錯誤: ${results.error}`;
+                    statusEl.innerHTML = results.error;
                     statusEl.className = 'status-error';
                 } else {
                     resCurrent.textContent = results.current.toFixed(4);
                     resTallest.textContent = results.tallest.toFixed(4);
                     resShortest.textContent = results.shortest.toFixed(4);
-                    statusEl.textContent = '計算完成！';
+                    statusEl.innerHTML = '計算完成！';
                     statusEl.className = 'status-success';
+                    copyBtn.style.display = 'block';
                 }
+            });
+
+            copyBtn.addEventListener('click', () => {
+                const current = resCurrent.textContent;
+                if (current === '...') {
+                    statusEl.innerHTML = '沒有可複製的結果。';
+                    statusEl.className = 'status-error';
+                    return;
+                }
+                
+                const tallest = resTallest.textContent;
+                const shortest = resShortest.textContent;
+                const copyText = `當前身高: ${current}\n最高身高: ${tallest}\n最低身高: ${shortest}`;
+
+                navigator.clipboard.writeText(copyText).then(() => {
+                    statusEl.innerHTML = '身高結果已複製到剪貼簿！';
+                    statusEl.className = 'status-success';
+                }).catch(err => {
+                    statusEl.innerHTML = '複製失敗，您的瀏覽器可能不支援。';
+                    statusEl.className = 'status-error';
+                });
             });
         });
     </script>
