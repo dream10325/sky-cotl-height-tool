@@ -41,7 +41,6 @@ h1 {
 }
 .icon-button svg { width: 20px; height: 20px; }
 .icon-button:hover { background-color: var(--lang-button-hover); }
-
 .lang-switcher {
     display: flex; border: 1px solid var(--border-color); border-radius: 8px;
     overflow: hidden;
@@ -57,7 +56,6 @@ h1 {
 .lang-switcher .lang-option:hover:not(.active) {
     background-color: var(--lang-button-hover);
 }
-
 details {
     margin-bottom: 20px; border-radius: 8px; background-color: var(--details-bg);
     padding: 5px 15px; border: 1px solid var(--border-color); transition: background-color 0.3s;
@@ -87,6 +85,8 @@ button:hover { background-color: #357abd; }
 .result-item .value { font-family: 'Courier New', Courier, monospace; font-weight: bold; color: var(--result-color); }
 .result-item.important .value { font-size: 1.2em; }
 .result-actions { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
+.result-actions .action-buttons { display: flex; gap: 10px; }
+.result-actions .action-buttons button { flex: 1; margin-top: 0; }
 .customization-details { margin: 0; padding: 0; background: none; border: none; }
 .customization-details summary { font-size: 1em; font-weight: normal; }
 .customization-options { display: flex; flex-direction: column; gap: 15px; padding: 15px 10px 10px 10px; border-top: 1px solid var(--border-color); }
@@ -106,16 +106,9 @@ button:hover { background-color: #357abd; }
     border-color: var(--primary-color);
     box-shadow: 0 0 0 2px var(--primary-color);
 }
-.image-selector .selectable-option {
-    height: 40px; object-fit: cover;
-}
-.gradient-selector .selectable-option {
-    height: 40px;
-}
-#uploaded-image-preview img {
-    height: 40px; object-fit: cover; flex-grow: 1;
-}
-
+.image-selector .selectable-option { height: 40px; object-fit: cover; }
+.gradient-selector .selectable-option { height: 40px; }
+#uploaded-image-preview img { height: 40px; object-fit: cover; flex-grow: 1; }
 .history-container { margin-top: 25px; border-top: 1px solid var(--border-color); padding-top: 15px;}
 .history-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
 .history-header h2 { margin: 0; font-size: 1.2em; color: var(--label-color); }
@@ -150,7 +143,6 @@ button:hover { background-color: #357abd; }
 #status { margin-top: 15px; text-align: center; font-size: 0.9em; height: auto; min-height: 20px; line-height: 1.5; }
 .status-error { color: var(--error-color); }
 .status-success { color: var(--success-color); }
-
 .footer {
     margin-top: 20px;
     text-align: center;
