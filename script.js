@@ -77,7 +77,9 @@ document.addEventListener('DOMContentLoaded', () => {
         resCurrent: document.getElementById('res-current'), resTallest: document.getElementById('res-tallest'),
         resShortest: document.getElementById('res-shortest'), statusEl: document.getElementById('status'),
         copyBtn: document.getElementById('copy-btn'), imageBtn: document.getElementById('image-btn'),
-        resultActions: document.getElementById('result-actions'), langSwitcher: document.getElementById('lang-switcher'),
+        resultActions: document.getElementById('result-actions'), 
+        langBtnEn: document.querySelector('.lang-option[data-lang="en"]'),
+        langBtnZh: document.querySelector('.lang-option[data-lang="zh-Hant"]'),
         themeSwitcher: document.getElementById('theme-switcher'), themeIconLight: document.getElementById('theme-icon-light'),
         themeIconDark: document.getElementById('theme-icon-dark'), historyContainer: document.getElementById('history'),
         historyList: document.getElementById('history-list'), clearHistoryBtn: document.getElementById('clear-history-btn'),
@@ -159,11 +161,13 @@ document.addEventListener('DOMContentLoaded', () => {
     applyTheme(savedTheme || (prefersDark ? 'dark' : 'light'));
     dom.themeSwitcher.addEventListener('click', () => applyTheme(dom.docHtml.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'));
     
-    dom.langSwitcher.addEventListener('click', (e) => {
-        if (e.target.classList.contains('lang-option')) {
-            setLanguage(e.target.dataset.lang);
-            renderHistory();
-        }
+    dom.langBtnEn.addEventListener('click', () => {
+        setLanguage('en');
+        renderHistory();
+    });
+    dom.langBtnZh.addEventListener('click', () => {
+        setLanguage('zh-Hant');
+        renderHistory();
     });
     
     function populateBgSelectors() {
