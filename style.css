@@ -3,11 +3,13 @@
     --primary-color: #4a90e2; --border-color: #e1e8ed; --label-color: #5a738e;
     --result-color: #1a293f; --error-color: #e74c3c; --success-color: #2ecc71;
     --details-bg: #eff6ff; --shadow-color: rgba(0,0,0,0.08);
+    --lang-button-hover: #e0e0e0;
 }
 html[data-theme='dark'] {
     --bg-color: #1a1a1a; --font-color: #dcdcdc; --card-bg: #2a2a2a;
     --border-color: #3a3a3a; --label-color: #9e9e9e; --result-color: #ffffff;
     --details-bg: #2c3e50; --shadow-color: rgba(0,0,0,0.2);
+    --lang-button-hover: #444444;
 }
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -37,23 +39,25 @@ h1 {
     color: var(--label-color); display: flex; justify-content: center; align-items: center;
     transition: background-color 0.2s;
 }
-.icon-button svg { width: 20px; height: 20px; stroke: currentColor; fill: currentColor; }
+.icon-button svg { width: 20px; height: 20px; stroke: currentColor; }
 .icon-button:hover { background-color: var(--details-bg); }
-
 .lang-switcher {
-    display: flex; align-items: center; gap: 5px;
-    padding: 6px 10px; border: 1px solid var(--border-color); border-radius: 8px;
-    background: none;
+    display: flex; border: 1px solid var(--border-color); border-radius: 8px;
+    overflow: hidden;
 }
-.lang-switcher .lang-toggle {
-    cursor: pointer; font-size: 0.9em;
-    color: var(--label-color); font-weight: normal;
+.lang-switcher .lang-option {
+    padding: 8px 12px; margin: 0; border: none;
+    background: none; color: var(--label-color); font-size: 0.9em;
+    cursor: pointer; transition: background-color 0.2s, color 0.2s;
 }
-.lang-switcher .lang-toggle.active {
-    color: var(--primary-color); font-weight: bold;
+.lang-switcher .lang-option:first-child {
+    border-right: 1px solid var(--border-color);
 }
-.lang-switcher .separator {
-    color: var(--border-color);
+.lang-switcher .lang-option.active {
+    background-color: var(--primary-color); color: white; font-weight: bold;
+}
+.lang-switcher .lang-option:hover:not(.active) {
+    background-color: var(--lang-button-hover);
 }
 details {
     margin-bottom: 20px; border-radius: 8px; background-color: var(--details-bg);
@@ -129,9 +133,7 @@ button:hover { background-color: #357abd; }
 }
 .history-note:hover { text-decoration: underline; }
 .delete-history-item {
-    position: absolute;
-    top: 5px; right: 5px;
-    width: 24px; height: 24px;
+    position: absolute; top: 5px; right: 5px; width: 24px; height: 24px;
     background: none; border: none; color: var(--label-color);
     font-size: 1.2em; line-height: 1; cursor: pointer; padding: 0;
     display: flex; align-items: center; justify-content: center;
@@ -149,4 +151,3 @@ button:hover { background-color: #357abd; }
     align-items: center; gap: 8px; transition: color 0.2s;
 }
 .footer a:hover { color: var(--primary-color); }
-.footer svg { fill: currentColor; }
