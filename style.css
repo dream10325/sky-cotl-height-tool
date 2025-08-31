@@ -157,3 +157,12 @@ input:checked + .slider:before { transform: translateX(20px); }
 .sim-controls { display: flex; gap: 10px; }
 .sim-controls button { width: 50%; }
 .sim-results { margin-top: 15px; }
+.extreme-notice {
+    font-size: 0.9em;
+    color: var(--success-color);
+    margin-left: 10px;
+    font-weight: bold;
+}
+html[data-theme='dark'] .extreme-notice {
+    color: #81c784; /* A slightly lighter green for dark mode */
+}
