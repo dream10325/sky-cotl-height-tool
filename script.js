@@ -7,6 +7,13 @@ const translations = {
         inst_3: "3. 接下來，您有兩種方式可以使用本工具：",
         inst_4: "<b>方法一 (推薦)：直接上傳截圖</b><br>回到本工具網頁，點擊「選擇圖片」按鈕，或直接將截圖檔案拖曳至上傳區域。工具會自動辨識並完成計算，無需複製貼上。",
         inst_5: "<b>方法二：貼上網址</b><br>使用另一部手機或網頁掃碼工具讀取你的截圖，掃描後會得到一串以 <code>https://sky.thatg.co/o=</code> 開頭的網址。<b>複製整個網址</b>並貼到本工具的輸入框，點擊計算即可。",
+        faq_title: "常見問題",
+        faq_q1: "Q: 網站無法計算身高？",
+        faq_a1: "A: 可能因為我在更新網站，過個幾分鐘如果還是一樣請回報問題。",
+        faq_q2: "Q: 要穿特定造型後才能計算身高嗎？",
+        faq_a2: "A: 沒有這回事，如果無法使用可能是我正在更新網站。",
+        faq_q3: "Q: 身高計算結果與以前不同？",
+        faq_a3: "A: 因為 09/01 01:58 前修正了一個重大問題，現在的數值才是正確的。",
         input_label: "請在此貼上掃描到的完整網址：",
         placeholder: "將完整網址貼在這裡……",
         calculate_btn: "開始計算",
@@ -73,6 +80,13 @@ const translations = {
         inst_3: "3. You now have two ways to use this tool:",
         inst_4: "<b>Method 1 (Recommended): Upload the Screenshot</b><br>Return to this web tool and click \"Select Image\" or drag and drop your screenshot file into the upload area. The tool will automatically scan the image and calculate your height. No copy-pasting needed.",
         inst_5: "<b>Method 2: Paste the URL</b><br>Use another phone's camera or a web QR code scanner to read your screenshot. This will give you a URL that starts with <code>https://sky.thatg.co/o=</code>. <b>Copy the entire URL</b>, paste it into the tool's input box, and click calculate.",
+        faq_title: "Frequently Asked Questions (FAQ)",
+        faq_q1: "Q: The website isn't calculating my height.",
+        faq_a1: "A: I might be updating the website. Please wait a few minutes. If the problem persists, please report the issue.",
+        faq_q2: "Q: Do I need a specific outfit to calculate my height?",
+        faq_a2: "A: Not at all. If it's not working, it's likely because I am in the middle of an update.",
+        faq_q3: "Q: My height calculation is different than before.",
+        faq_a3: "A: A major bug was fixed before 2025/09/01 01:58. The current values are the correct ones.",
         input_label: "Paste the full URL from the QR Code:",
         placeholder: "Paste the full URL here...",
         calculate_btn: "Calculate",
@@ -140,15 +154,16 @@ const backgroundGradients = [
     { id: 'daylight', colors: ['#a1c4fd', '#c2e9fb'] }, { id: 'dawn', colors: ['#f6d365', '#fda085'] },
     { id: 'valley', colors: ['#f093fb', '#f5576c'] }, { id: 'night', colors: ['#2c3e50', '#1a293f'] },
 ];
+
 function setLanguage(lang) {
     currentLang = lang; document.documentElement.lang = lang;
     document.querySelectorAll('[data-lang-key]').forEach(el => {
         const key = el.getAttribute('data-lang-key');
-        if (translations[lang][key]) {
+        if (translations[lang][key] !== undefined) { // Check if key exists
             const translation = translations[lang][key];
             if (el.tagName === 'TEXTAREA' || el.tagName === 'INPUT') { el.placeholder = translation; }
-            else if (key === 'inst_5_zh') { el.innerHTML = translation; }
-            else if (key.startsWith('inst_')) { el.innerHTML = translation; }
+            // Use innerHTML for keys that are expected to contain HTML tags
+            else if (key.startsWith('inst_') || key.startsWith('faq_') || key === 'status_error_general') { el.innerHTML = translation; }
             else { el.textContent = translation; }
         }
     });
@@ -156,6 +171,7 @@ function setLanguage(lang) {
         span.classList.toggle('active', span.dataset.lang === lang);
     });
 }
+
 function t(key) { return translations[currentLang][key] || key; }
 function decodeAndCalculate(rawData) {
     try {
@@ -657,5 +673,3 @@ document.addEventListener('DOMContentLoaded', () => {
     setLanguage(currentLang);
     updatePreview(); 
 });
-
-
