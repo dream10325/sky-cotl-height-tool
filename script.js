@@ -46,28 +46,28 @@ function decodeAndCalculate(rawData) {
         if (padding) { b64Str += '='.repeat(4 - padding); }
         
         const decodedText = atob(b64Str);
-        const numberRegex = /-?\d*\.\d+/;
         const heightKeyIndex = decodedText.search(/h?eigh/);
-        if (heightKeyIndex === -1) {
-            console.error("Height key not found");
-            return { error: t('status_error_general') };
-        }
+        if (heightKeyIndex === -1) { return { error: t('status_error_general') }; }
         const heightSearchArea = decodedText.substring(heightKeyIndex + 4);
-        const heightMatch = heightSearchArea.match(numberRegex);
-
-        const scaleKeyIndex = decodedText.search(/scale/);
-        if (scaleKeyIndex === -1) {
-            console.error("Scale key not found");
-            return { error: t('status_error_general') };
-        }
-        const scaleSearchArea = decodedText.substring(scaleKeyIndex + 5);
-        const scaleMatch = scaleSearchArea.match(numberRegex);
-        if (!heightMatch || !scaleMatch) {
-            console.error("Failed to match height or scale value", { heightMatch, scaleMatch });
-            return { error: t('status_error_general') };
-        }
+        const heightMatch = heightSearchArea.match(/-?\d*\.\d+/);
+        if (!heightMatch) { return { error: t('status_error_general') }; }
         const height = parseFloat(heightMatch[0]);
-        const scale = parseFloat(scaleMatch[0]);
+
+        let scale;
+        const scaleKeyIndex = decodedText.search(/scale/);
+        if (scaleKeyIndex === -1) { return { error: t('status_error_general') }; }
+        const scaleSearchArea = decodedText.substring(scaleKeyIndex + 5);
+        const scaleFloatMatch = scaleSearchArea.match(/\d*\.\d+/);
+        if (scaleFloatMatch) {
+            scale = parseFloat(scaleFloatMatch[0]);
+        } else {
+            const scaleIntMatch = scaleSearchArea.match(/\d+/);
+            if (scaleIntMatch) {
+                scale = parseInt(scaleIntMatch[0], 10) / 1000000000.0;
+            } else {
+                return { error: t('status_error_general') };
+            }
+        }
 
         const currentHeight = 7.6 - (8.3 * scale) - (3 * height);
         const shortestHeight = 7.6 - (8.3 * scale) - (3 * -2.0);
@@ -491,5 +491,6 @@ document.addEventListener('DOMContentLoaded', () => {
     setLanguage(currentLang);
     updatePreview(); 
 });
+
 
 
