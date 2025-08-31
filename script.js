@@ -193,7 +193,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const target = e.target;
         if (target.closest('.selectable-option')) {
             const selectable = target.closest('.selectable-option');
-            if (selectable.parentElement.classList.contains('image-selector') || selectable.parentElement.classList.contains('gradient-selector')) {
+            // BUG FIX: The original code was checking for a class 'gradient-selector' on the parent, 
+            // but the parent div only has an ID of 'gradient-selector'. Changed to check the ID instead.
+            if (selectable.parentElement.classList.contains('image-selector') || selectable.parentElement.id === 'gradient-selector') {
                 document.querySelectorAll('.bg-selection').forEach(el => el.classList.remove('active'));
                 selectable.classList.add('active');
             } else if (selectable.parentElement.id === 'text-color-selector') {
