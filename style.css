@@ -98,6 +98,44 @@ button.secondary-btn {
 }
 button.secondary-btn:hover { background-color: var(--details-bg); }
 .results { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border-color); }
+.result-item.json-output {
+    display: block;
+    text-align: left;
+}
+
+.result-item.json-output .json-header {
+    display: flex; justify-content: space-between; align-items: center; gap: 10px;
+}
+.result-item.json-output .json-controls { display: flex; gap: 8px; }
+.result-item.json-output .small-btn {
+    padding: 6px 10px; font-size: 0.85em; border-radius: 6px; background: none;
+    border: 1px solid var(--border-color); color: var(--label-color); cursor: pointer;
+}
+.result-item.json-output .small-btn:hover { border-color: var(--primary-color); color: var(--primary-color); }
+.result-item.json-output .json-pre {
+    background-color: var(--details-bg); padding: 12px; border-radius: 8px; margin-top: 8px;
+    font-size: 0.9em; white-space: pre; font-family: 'Courier New', monospace;
+}
+.result-item.json-output.collapsed .json-pre { display: none; }
+
+.result-item.json-output .label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.result-item.json-output .value {
+    background-color: var(--details-bg);
+    padding: 10px;
+    border-radius: 8px;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    white-space: pre-wrap;
+    word-break: break-all;
+    font-size: 0.9em;
+}
+
 .result-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; font-size: 1.1em; }
 .result-item .label { color: var(--label-color); }
 .result-item .value { font-family: 'Courier New', Courier, monospace; font-weight: bold; color: var(--result-color); }
@@ -194,3 +232,16 @@ input:checked + .slider:before { transform: translateX(20px); }
 html[data-theme='dark'] .extreme-notice {
     color: #81c784;
 }
+
+/* New: inline copy icon inside json wrapper */
+.json-wrapper { position: relative; }
+.json-copy-icon {
+    position: absolute; top: 8px; right: 8px; border: none; background: rgba(0,0,0,0.06);
+    padding: 6px; border-radius: 6px; cursor: pointer; font-size: 1em;
+}
+.json-copy-icon:hover { background: rgba(0,0,0,0.12); }
+
+/* Hide JSON pre when empty */
+.result-item.json-output .json-pre:empty { display: none; }
+.result-item.json-output .json-pre + .json-copy-icon { display: none; }
+.result-item.json-output .json-pre:not(:empty) + .json-copy-icon { display: inline-block; }
