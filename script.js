@@ -13,7 +13,7 @@ const translations = {
         faq_q2: "Q: 要穿特定造型後才能計算身高嗎？",
         faq_a2: "A: 沒有這回事，如果無法使用可能是我正在更新網站。",
         faq_q3: "Q: 身高計算結果與以前不同？",
-        faq_a3: "A: 因為 09/01 01:58 前修正了一個重大問題，現在的數值才是正確的。",
+        faq_a3: "A: 因為09/01 01:58修正了一個重大問題，現在的數值才是正確的。",
         input_label: "請在此貼上掃描到的完整網址：",
         placeholder: "將完整網址貼在這裡……",
         calculate_btn: "開始計算",
@@ -52,12 +52,10 @@ const translations = {
         align_left: "靠左",
         align_right: "靠右",
         show_range: "顯示身高範圍:",
-        disclaimer_free: "此工具永久免費且開放原始碼。請注意其他地方的收費服務可能存在風險。",
+        disclaimer_free: "此工具永久免費且開放原始碼，計算結果僅供參考。",
         disclaimer_privacy: "所有計算均在您的瀏覽器中完成，QR Code 資訊不會被上傳或儲存至任何伺服器。",
-        disclaimer_accuracy: "計算結果僅供參考。",
-        disclaimer_unofficial: "此為玩家粉絲開發的工具，與 thatgamecompany 官方無關。",
         sim_title: "重塑藥水模擬器",
-        sim_desc: "先用上方工具算出您目前的身高後，再點擊按鈕來模擬使用重塑藥水後的身高。",
+        sim_desc: "先用上方工具算出您目前的身高後，再點擊按鈕來模擬使用重塑藥水後的身高。本功能僅為娛樂用，不代表遊戲內實際機率。",
         sim_drink_btn: "喝一瓶重塑藥水！",
         sim_reset_btn: "重設",
         sim_result_label: "模擬新身高:",
@@ -86,7 +84,7 @@ const translations = {
         faq_q2: "Q: Do I need a specific outfit to calculate my height?",
         faq_a2: "A: Not at all. If it's not working, it's likely because I am in the middle of an update.",
         faq_q3: "Q: My height calculation is different than before.",
-        faq_a3: "A: A major bug was fixed before 2025/09/01 01:58. The current values are the correct ones.",
+        faq_a3: "A: A major bug was fixed on 09/01 at 01:58. The current values are the correct ones.",
         input_label: "Paste the full URL from the QR Code:",
         placeholder: "Paste the full URL here...",
         calculate_btn: "Calculate",
@@ -125,12 +123,10 @@ const translations = {
         align_left: "Left",
         align_right: "Right",
         show_range: "Show Height Range:",
-        disclaimer_free: "This tool is free & open source forever. Be cautious of similar tools that require payment.",
+        disclaimer_free: "This tool is free, open source, and the results are for reference only.",
         disclaimer_privacy: "All calculations are done in your browser. Your QR code data is not uploaded or stored.",
-        disclaimer_accuracy: "The results are for reference only.",
-        disclaimer_unofficial: "This is a fan-made tool and is not officially affiliated with thatgamecompany.",
         sim_title: "Resize Potion Simulator",
-        sim_desc: "First, calculate your current height above, then click the button to simulate your new random height after using a Resize Potion.",
+        sim_desc: "First, calculate your current height above, then click the button to simulate your new random height after using a Resize Potion. This feature is for entertainment purposes only and does not represent actual in-game probabilities.",
         sim_drink_btn: "Drink a Resize Potion!",
         sim_reset_btn: "Reset",
         sim_result_label: "Simulated New Height:",
@@ -163,7 +159,7 @@ function setLanguage(lang) {
             const translation = translations[lang][key];
             if (el.tagName === 'TEXTAREA' || el.tagName === 'INPUT') { el.placeholder = translation; }
             // Use innerHTML for keys that are expected to contain HTML tags
-            else if (key.startsWith('inst_') || key.startsWith('faq_') || key === 'status_error_general') { el.innerHTML = translation; }
+            else if (key.startsWith('inst_') || key.startsWith('faq_') || key === 'status_error_general' || key === 'sim_desc') { el.innerHTML = translation; }
             else { el.textContent = translation; }
         }
     });
