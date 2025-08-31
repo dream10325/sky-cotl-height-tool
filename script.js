@@ -39,38 +39,47 @@ function decodeAndCalculate(rawData) {
         const startMarker = "ImJvZHki";
         const startIndex = rawData.indexOf(startMarker);
         if (startIndex === -1) { return { error: t('status_error_general') }; }
-
+        
         let b64Str = rawData.substring(startIndex);
         b64Str = b64Str.replace(/-/g, '+').replace(/_/g, '/');
         const padding = b64Str.length % 4;
         if (padding) { b64Str += '='.repeat(4 - padding); }
-
+        
         const decodedText = atob(b64Str);
-
-        const heightRegex = /h?eigh.*?(-?\d+\.\d+)/;
-        const scaleRegex = /scale.*?(\d+\.\d+)/;
-
-        const heightMatch = heightRegex.exec(decodedText);
-        const scaleMatch = scaleRegex.exec(decodedText);
-
-        if (!heightMatch || !scaleMatch) {  
-            return { error: t('status_error_general') };  
+        const numberRegex = /-?\d*\.\d+/;
+        const heightKeyIndex = decodedText.search(/h?eigh/);
+        if (heightKeyIndex === -1) {
+            console.error("Height key not found");
+            return { error: t('status_error_general') };
         }
+        const heightSearchArea = decodedText.substring(heightKeyIndex + 4);
+        const heightMatch = heightSearchArea.match(numberRegex);
 
-        const height = parseFloat(heightMatch[1]);
-        const scale = parseFloat(scaleMatch[1]);
+        const scaleKeyIndex = decodedText.search(/scale/);
+        if (scaleKeyIndex === -1) {
+            console.error("Scale key not found");
+            return { error: t('status_error_general') };
+        }
+        const scaleSearchArea = decodedText.substring(scaleKeyIndex + 5);
+        const scaleMatch = scaleSearchArea.match(numberRegex);
+        if (!heightMatch || !scaleMatch) {
+            console.error("Failed to match height or scale value", { heightMatch, scaleMatch });
+            return { error: t('status_error_general') };
+        }
+        const height = parseFloat(heightMatch[0]);
+        const scale = parseFloat(scaleMatch[0]);
 
         const currentHeight = 7.6 - (8.3 * scale) - (3 * height);
         const shortestHeight = 7.6 - (8.3 * scale) - (3 * -2.0);
         const tallestHeight = 7.6 - (8.3 * scale) - (3 * 2.0);
 
-        return {  
-            current: currentHeight,  
-            tallest: tallestHeight,  
-            shortest: shortestHeight,  
-            scale: scale,  
-            timestamp: new Date().getTime(),  
-            note: ""  
+        return { 
+            current: currentHeight, 
+            tallest: tallestHeight, 
+            shortest: shortestHeight, 
+            scale: scale, 
+            timestamp: new Date().getTime(), 
+            note: "" 
         };
     } catch (e) {
         console.error("Calculation failed:", e);
@@ -482,4 +491,5 @@ document.addEventListener('DOMContentLoaded', () => {
     setLanguage(currentLang);
     updatePreview(); 
 });
+
 
