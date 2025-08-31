@@ -53,8 +53,11 @@
                 <details class="customization-details">
                     <summary data-lang-key="customize_image">自訂並生成分享圖</summary>
                     <div class="customization-options">
+                        <div class="preview-container">
+                            <canvas id="preview-canvas" width="500" height="250"></canvas>
+                        </div>
                         <div class="option-group">
-                            <label data-lang-key="player_name">玩家名稱 (選填):</label>
+                            <label for="player-name" data-lang-key="player_name">玩家名稱 (選填):</label>
                             <input type="text" id="player-name" data-lang-key="player_name_placeholder" placeholder="Your Name">
                         </div>
                         <div class="option-group">
@@ -77,6 +80,17 @@
                                 <button class="selectable-option text-color-option" data-color="black" data-lang-key="text_black">深色</button>
                             </div>
                         </div>
+                         <div class="option-group">
+                            <label data-lang-key="font_style">字體樣式:</label>
+                            <div id="font-selector" class="selector-group"></div>
+                        </div>
+                        <div class="option-group toggle-group">
+                            <label for="show-range-toggle" data-lang-key="show_range">顯示身高範圍:</label>
+                            <label class="switch">
+                                <input type="checkbox" id="show-range-toggle" checked>
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
                         <button id="image-btn" data-lang-key="image_btn">生成分享圖</button>
                     </div>
                 </details>
@@ -94,13 +108,20 @@
     </div>
 
     <footer class="footer">
-        <a href="https://github.com/dream10325/sky-cotl-height-tool" target="_blank" rel="noopener noreferrer" data-lang-key="github_link">
-            GitHub
-        </a>
-        <span class="footer-separator">|</span>
-        <div id="lang-switcher" class="footer-lang-switcher">
-            <span class="lang-option" data-lang="en">English</span>
-            <span class="lang-option active" data-lang="zh-Hant">繁體中文</span>
+        <div class="footer-links">
+            <a href="https://github.com/dream10325/sky-cotl-height-tool" target="_blank" rel="noopener noreferrer" data-lang-key="github_link">
+                GitHub
+            </a>
+            <span class="footer-separator">|</span>
+            <div id="lang-switcher" class="footer-lang-switcher">
+                <span class="lang-option" data-lang="en">English</span>
+                <span class="lang-option active" data-lang="zh-Hant">繁體中文</span>
+            </div>
+        </div>
+        <div class="footer-disclaimers">
+            <p data-lang-key="disclaimer_privacy">本工具所有計算均在您的瀏覽器中完成，您的 QR Code 資訊不會被上傳或儲存至任何伺服器，請安心使用。</p>
+            <p data-lang-key="disclaimer_accuracy">本工具計算結果僅供參考，身高判定仍以遊戲內實際表現為準。</p>
+            <p data-lang-key="disclaimer_unofficial">本網站為玩家粉絲開發的工具，與 thatgamecompany 官方無關。</p>
         </div>
     </footer>
 
