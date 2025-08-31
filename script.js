@@ -5,8 +5,9 @@ const UPDATE_NOTES = {
         title: `版本 ${APP_VERSION} 更新`,
         intro: '此工具已更新！主要變更如下：',
         notes: [
-            '<strong>新增：</strong>版本更新通知，讓您不會錯過新功能。',
-            '<strong>修復：</strong>解決了「生成分享圖」上的身高數值有時與頁面結果不符的問題。'
+            '<strong>新增：</strong>版本更新通知。',
+            '<strong>修復：</strong>嘗試解決了「生成分享圖」上的身高數值有時與頁面結果不符的問題。'
+            '<strong>修復：</strong>解決了有些人格式不同無法使用的問題。'
         ]
     },
     'en': {
@@ -545,3 +546,4 @@ document.addEventListener('DOMContentLoaded', () => {
     updatePreview(); 
     checkVersion(); // Check for updates on page load
 });
+
