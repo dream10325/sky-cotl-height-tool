@@ -26,12 +26,11 @@ body {
     margin-bottom: 20px;
 }
 .header-buttons { display: flex; align-items: center; gap: 10px; }
-h1, .simulator-container h2 {
+h1 {
     flex-grow: 1; text-align: center; margin: 0;
     color: var(--primary-color); font-size: 1.5em;
+    padding-left: 48px;
 }
-h1 { padding-left: 48px; }
-.simulator-container h2 { margin-bottom: 10px; }
 .icon-button {
     width: 38px; height: 38px; padding: 5px; border: 1px solid var(--border-color);
     border-radius: 8px; background: none; cursor: pointer;
@@ -65,12 +64,6 @@ button {
     font-weight: bold; cursor: pointer; transition: background-color 0.2s;
 }
 button:hover { background-color: #357abd; }
-button.secondary-btn {
-    background-color: transparent;
-    color: var(--label-color);
-    border: 1px solid var(--border-color);
-}
-button.secondary-btn:hover { background-color: var(--details-bg); }
 .results { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border-color); }
 .result-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; font-size: 1.1em; }
 .result-item .label { color: var(--label-color); }
@@ -155,16 +148,3 @@ input:checked + .slider { background-color: var(--primary-color); }
 input:checked + .slider:before { transform: translateX(20px); }
 .slider.round { border-radius: 34px; }
 .slider.round:before { border-radius: 50%; }
-.simulator-container { margin-top: 20px; }
-.sim-controls { display: flex; gap: 10px; }
-.sim-controls button { width: 50%; }
-.sim-results { margin-top: 15px; }
-.extreme-notice {
-    font-size: 0.9em;
-    color: var(--success-color);
-    margin-left: 10px;
-    font-weight: bold;
-}
-html[data-theme='dark'] .extreme-notice {
-    color: #81c784;
-}
