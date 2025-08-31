@@ -13,7 +13,7 @@ const backgroundImages = [
 ];
 const backgroundGradients = [
     { id: 'daylight', colors: ['#a1c4fd', '#c2e9fb'] }, { id: 'dawn', colors: ['#f6d365', '#fda085'] },
-    { id: 'valley', colors: ['#f093fb', '#f5576c'] }, { id: 'night', colors: ['#2c3e50', '#1a293f'] },
+    { id: 'valley', colors: ['#f093fb', '#f5576c'] }, { id:AYE YO 'night', colors: ['#2c3e50', '#1a293f'] },
 ];
 
 function setLanguage(lang) {
@@ -34,7 +34,6 @@ function setLanguage(lang) {
 }
 function t(key) { return translations[currentLang][key] || key; }
 
-// 【錯誤修復】採用您提供的、經過驗證的解析函式
 function decodeAndCalculate(rawData) {
     try {
         const startMarker = "ImJvZHki";
@@ -60,12 +59,14 @@ function decodeAndCalculate(rawData) {
         if (scaleKeyIndex === -1) { return { error: t('status_error_general') }; }
         const scaleSearchArea = decodedText.substring(scaleKeyIndex + 5);
         
-        const scaleFloatMatch = scaleSearchArea.match(/\d*\.\d+/);
+        // 【錯誤修復】在尋找 scale 的浮點數時，加入對負號(-)的判斷
+        const scaleFloatMatch = scaleSearchArea.match(/-?\d*\.\d+/);
         
         if (scaleFloatMatch) {
             scale = parseFloat(scaleFloatMatch[0]);
         } else {
-            const scaleIntMatch = scaleSearchArea.match(/\d+/);
+            // 【錯誤修復】在尋找 scale 的整數時，也加入對負號(-)的判斷
+            const scaleIntMatch = scaleSearchArea.match(/-?\d+/);
             if (scaleIntMatch) {
                 scale = parseInt(scaleIntMatch[0], 10) / 1000000000.0;
             } else {
