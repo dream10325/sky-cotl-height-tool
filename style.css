@@ -142,6 +142,8 @@ button.secondary-btn:hover { background-color: var(--details-bg); }
 .footer-lang-switcher .lang-option:not(.active):hover { color: var(--primary-color); }
 .footer-disclaimers { text-align: center; font-size: 0.75em; color: var(--label-color); max-width: 500px; }
 .footer-disclaimers p { margin: 5px 0; line-height: 1.5; }
+.free-notice { font-weight: bold; color: var(--success-color); }
+html[data-theme='dark'] .free-notice { color: #81c784; }
 .preview-container { margin-bottom: 15px; }
 #preview-canvas { width: 100%; height: auto; border-radius: 8px; background-color: var(--border-color); }
 .toggle-group { flex-direction: row; justify-content: space-between; align-items: center; }
