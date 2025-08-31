@@ -1,17 +1,14 @@
 const translations = {
     'zh-Hant': {
         title: "光遇身高查看工具", toggle_instructions: "點此展開/收合使用教學", inst_1: "1. 在遊戲中，點擊右上角齒輪進入設定，選擇「帳號」，再點選「帳號資訊」，最後點選「造型 QR code」。", inst_2: "（注意：這不是加好友的 QR Code！）", inst_3: "2. 掃描該 QR Code。", inst_4: "3. 掃描後會得到一串網址，例如：<br><code>https://sky.thatg.co/o=8RV7ImJv...</code>", inst_5: "<b>4. 請複製完整的網址</b>", inst_5_zh: "，然後直接貼到下方的輸入框中即可！", input_label: "請在此貼上掃描到的完整網址：", placeholder: "將完整網址貼在這裡……", calculate_btn: "開始計算", res_current: "當前身高:", res_tallest: "最高身高:", res_shortest: "最低身高:", copy_btn: "複製結果", image_btn: "生成分享圖", status_calculating: "計算中……", status_error_empty: "錯誤：輸入框是空的。", status_error_general: "無法識別您貼上的內容。<br>請檢查看看：<ul><li>是不是貼錯了？</li><li>是不是沒有複製完整？</li></ul>", status_success: "計算完成！", status_copy_success: "身高結果已複製到剪貼簿！", status_copy_fail: "複製失敗，您的瀏覽器可能不支援。", copy_btn_copied: "已複製！", history_title: "歷史紀錄", clear_history_btn: "清空紀錄", history_current_label: "身高", history_note_placeholder: "點此新增備註...", customize_image: "自訂並生成分享圖", player_name: "玩家名稱 (選填):", player_name_placeholder: "在圖片上顯示你的名字", bg_style_upload: "上傳我的圖片:", bg_style_image: "內建圖片背景:", bg_style_gradient: "純色背景:", text_color: "文字顏色:", text_white: "淺色", text_black: "深色", confirm_clear_history: "您確定要清空所有歷史紀錄嗎？", confirm_delete_item: "您確定要刪除這條紀錄嗎？", item_deleted: "紀錄已刪除。", github_link: "GitHub", report_issue_link: "問題回報", text_align: "文字對齊:", align_center: "置中", align_left: "靠左", align_right: "靠右", show_range: "顯示身高範圍:", disclaimer_free: "此工具永久免費且開放原始碼。請注意其他地方的收費服務可能存在風險。", disclaimer_privacy: "所有計算均在您的瀏覽器中完成，QR Code 資訊不會被上傳或儲存至任何伺服器。", disclaimer_accuracy: "計算結果僅供參考。", disclaimer_unofficial: "此為玩家粉絲開發的工具，與 thatgamecompany 官方無關。", sim_title: "重塑藥水模擬器", sim_desc: "先用上方工具算出您目前的身高後，再點擊按鈕來模擬使用重塑藥水後的身高。", sim_drink_btn: "喝一瓶重塑藥水！", sim_reset_btn: "重設", sim_result_label: "模擬新身高:", sim_count_label: "已使用藥水數量:", sim_error_no_calc: "請先使用上方的功能計算一次您目前的身高，才能開始模擬。", sim_extreme_tall: "（已達最高身高極限！）", sim_extreme_short: "（已達最矮身高極限！）",
-        /* NEW TRANSLATIONS */
         upload_instruction: "或拖曳、選擇含有 QR Code 的截圖", upload_btn: "選擇圖片", status_qr_reading: "正在讀取圖片...", status_qr_scanning: "正在掃描 QR Code...", status_qr_fail: "在圖片中找不到 QR Code。請確認截圖是否清晰且完整。", status_qr_success: "成功掃描 QR Code！正在計算..."
     },
     'en': {
         title: "Sky Height Tool", toggle_instructions: "Click to Expand/Collapse Instructions", inst_1: "1. In the game, go to Settings (top-right gear) > Account > Account Info > Outfit QR Code.", inst_2: "(Note: This is NOT the friend QR code!)", inst_3: "2. Scan the QR Code.", inst_4: "3. You will get a URL, for example:<br><code>https://sky.thatg.co/o=8RV7ImJv...</code>", inst_5: "<b>4. Copy the entire URL</b>", inst_5_zh: " and paste it into the input box below.", input_label: "Paste the full URL from the QR Code:", placeholder: "Paste the full URL here...", calculate_btn: "Calculate", res_current: "Current Height:", res_tallest: "Tallest Height:", res_shortest: "Shortest Height:", copy_btn: "Copy Results", image_btn: "Generate Image", status_calculating: "Calculating...", status_error_empty: "Error: Input box is empty.", status_error_general: "Couldn't recognize the content.<br>Please check if:<ul><li>You pasted the wrong text.</li><li>The text is incomplete.</li></ul>", status_success: "Calculation complete!", status_copy_success: "Results copied to clipboard!", status_copy_fail: "Copy failed. Your browser may not support this feature.", copy_btn_copied: "Copied!", history_title: "History", clear_history_btn: "Clear History", history_current_label: "Height", history_note_placeholder: "Click to add a note...", customize_image: "Customize & Generate Image", player_name: "Player Name (Optional):", player_name_placeholder: "Your name on the image", bg_style_upload: "Upload My Image:", bg_style_image: "Built-in Image Backgrounds:", bg_style_gradient: "Gradient Backgrounds:", text_color: "Text Color:", text_white: "Light", text_black: "Dark", confirm_clear_history: "Are you sure you want to clear all history?", confirm_delete_item: "Are you sure you want to delete this record?", item_deleted: "Record deleted.", github_link: "GitHub", report_issue_link: "Report an Issue", text_align: "Text Alignment:", align_center: "Center", align_left: "Left", align_right: "Right", show_range: "Show Height Range:", disclaimer_free: "This tool is free & open source forever. Be cautious of similar tools that require payment.", disclaimer_privacy: "All calculations are done in your browser. Your QR code data is not uploaded or stored.", disclaimer_accuracy: "The results are for reference only.", disclaimer_unofficial: "This is a fan-made tool and is not officially affiliated with thatgamecompany.", sim_title: "Resize Potion Simulator", sim_desc: "First, calculate your current height above, then click the button to simulate your new random height after using a Resize Potion.", sim_drink_btn: "Drink a Resize Potion!", sim_reset_btn: "Reset", sim_result_label: "Simulated New Height:", sim_count_label: "Potions Used:", sim_error_no_calc: "Please calculate your current height using the main tool above before starting the simulation.", sim_extreme_tall: "(Reached max height limit!)", sim_extreme_short: "(Reached min height limit!)",
-        /* NEW TRANSLATIONS */
         upload_instruction: "Or drag & drop / select a screenshot with a QR Code", upload_btn: "Select Image", status_qr_reading: "Reading image...", status_qr_scanning: "Scanning for QR Code...", status_qr_fail: "No QR Code found in the image. Please ensure the screenshot is clear and complete.", status_qr_success: "QR Code scanned successfully! Calculating..."
     }
 };
 let currentLang = 'zh-Hant';
-
 const backgroundImages = [
     { id: 'bg1', path: 'images/bg1.png' }, { id: 'bg2', path: 'images/bg2.png' }, { id: 'bg3', path: 'images/bg3.png' },
 ];
@@ -19,16 +16,15 @@ const backgroundGradients = [
     { id: 'daylight', colors: ['#a1c4fd', '#c2e9fb'] }, { id: 'dawn', colors: ['#f6d365', '#fda085'] },
     { id: 'valley', colors: ['#f093fb', '#f5576c'] }, { id: 'night', colors: ['#2c3e50', '#1a293f'] },
 ];
-
 function setLanguage(lang) {
     currentLang = lang; document.documentElement.lang = lang;
     document.querySelectorAll('[data-lang-key]').forEach(el => {
         const key = el.getAttribute('data-lang-key');
         if (translations[lang][key]) {
             const translation = translations[lang][key];
-            if (el.tagName === 'TEXTAREA' || el.tagName === 'INPUT') { el.placeholder = translation; } 
-            else if (key === 'inst_5_zh') { el.innerHTML = translation; } 
-            else if (key.startsWith('inst_')) { el.innerHTML = translation; } 
+            if (el.tagName === 'TEXTAREA' || el.tagName === 'INPUT') { el.placeholder = translation; }
+            else if (key === 'inst_5_zh') { el.innerHTML = translation; }
+            else if (key.startsWith('inst_')) { el.innerHTML = translation; }
             else { el.textContent = translation; }
         }
     });
@@ -37,34 +33,39 @@ function setLanguage(lang) {
     });
 }
 function t(key) { return translations[currentLang][key] || key; }
-
 function decodeAndCalculate(rawData) {
     try {
         const startMarker = "ImJvZHki";
         const startIndex = rawData.indexOf(startMarker);
         if (startIndex === -1) { return { error: t('status_error_general') }; }
-        
         let b64Str = rawData.substring(startIndex);
         b64Str = b64Str.replace(/-/g, '+').replace(/_/g, '/');
         const padding = b64Str.length % 4;
         if (padding) { b64Str += '='.repeat(4 - padding); }
-        
         const decodedText = atob(b64Str);
-
+        let height;
         const heightKeyIndex = decodedText.search(/h?eigh/);
         if (heightKeyIndex === -1) { return { error: t('status_error_general') }; }
-        const heightSearchArea = decodedText.substring(heightKeyIndex + 4);
-        const heightMatch = heightSearchArea.match(/-?\d*\.\d+/);
-        if (!heightMatch) { return { error: t('status_error_general') }; }
-        const height = parseFloat(heightMatch[0]);
-
+        
+        const heightKeywordMatch = decodedText.match(/h?eigh/);
+        const searchStart = heightKeyIndex + (heightKeywordMatch ? heightKeywordMatch[0].length : 4);
+        const heightSearchArea = decodedText.substring(searchStart);
+        const heightFloatMatch = heightSearchArea.match(/-?\d*\.\d+/);
+        if (heightFloatMatch) {
+            height = parseFloat(heightFloatMatch[0]);
+        } else {
+            const heightIntMatch = heightSearchArea.match(/-?\d+/);
+            if (heightIntMatch) {
+                height = parseInt(heightIntMatch[0], 10);
+            } else {
+                return { error: t('status_error_general') };
+            }
+        }
         let scale;
         const scaleKeyIndex = decodedText.search(/scale/);
         if (scaleKeyIndex === -1) { return { error: t('status_error_general') }; }
         const scaleSearchArea = decodedText.substring(scaleKeyIndex + 5);
-        
         const scaleFloatMatch = scaleSearchArea.match(/-?\d*\.\d+/);
-        
         if (scaleFloatMatch) {
             scale = parseFloat(scaleFloatMatch[0]);
         } else {
@@ -75,25 +76,23 @@ function decodeAndCalculate(rawData) {
                 return { error: t('status_error_general') };
             }
         }
-
         const currentHeight = 7.6 - (8.3 * scale) - (3 * height);
         const shortestHeight = 7.6 - (8.3 * scale) - (3 * -2.0);
         const tallestHeight = 7.6 - (8.3 * scale) - (3 * 2.0);
         
-        return { 
-            current: currentHeight, 
-            tallest: tallestHeight, 
-            shortest: shortestHeight, 
-            scale: scale, // 將 scale 值也回傳，給模擬器使用
-            timestamp: new Date().getTime(), 
-            note: "" 
+        return {
+            current: currentHeight,
+            tallest: tallestHeight,
+            shortest: shortestHeight,
+            scale: scale,
+            timestamp: new Date().getTime(),
+            note: ""
         };
     } catch (e) {
         console.error("Calculation failed:", e);
         return { error: t('status_error_general') };
     }
 }
-
 function animateValue(element, start, end, duration) {
     let startTimestamp = null;
     const step = (timestamp) => {
@@ -104,7 +103,6 @@ function animateValue(element, start, end, duration) {
     };
     window.requestAnimationFrame(step);
 }
-
 document.addEventListener('DOMContentLoaded', () => {
     const dom = {
         calculateBtn: document.getElementById('calculate-btn'), b64Input: document.getElementById('b64-input'),
@@ -130,18 +128,15 @@ document.addEventListener('DOMContentLoaded', () => {
         potionResult: document.getElementById('potion-result'),
         potionCount: document.getElementById('potion-count'),
         potionExtremeNotice: document.getElementById('potion-extreme-notice'),
-        /* NEW DOM ELEMENTS */
         qrUploadArea: document.getElementById('qr-upload-area'),
         qrFileInput: document.getElementById('qr-file-input'),
         qrCanvas: document.getElementById('qr-canvas')
     };
-
     let history = [];
     let uploadedImageUrl = null;
     let lastResult = null;
     let lastCalculatedScale = null;
     let potionCounter = 0;
-
     function saveHistory() { localStorage.setItem('skyHeightHistory', JSON.stringify(history)); }
     function loadHistory() {
         const savedHistory = localStorage.getItem('skyHeightHistory');
@@ -198,7 +193,6 @@ document.addEventListener('DOMContentLoaded', () => {
             dom.historyContainer.style.display = 'none';
         }
     });
-
     function applyTheme(theme) {
         dom.docHtml.setAttribute('data-theme', theme);
         localStorage.setItem('theme', theme);
@@ -243,25 +237,20 @@ document.addEventListener('DOMContentLoaded', () => {
             dom.gradientSelector.appendChild(gradEl);
         });
     }
-
     const drawCanvasContent = (ctx, canvas) => {
         if (!lastResult) {
             ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--details-bg');
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             return;
         }
-
         const playerName = dom.playerNameInput.value;
         const textColor = document.querySelector('.text-color-option.active').dataset.color;
         const textAlign = document.querySelector('.text-align-option.active').dataset.align;
-        const showRange = dom.showRangeToggle.checked;
-
         ctx.fillStyle = textColor === 'white' ? '#FFFFFF' : '#2c3e50';
         ctx.textAlign = textAlign;
         ctx.textBaseline = 'top';
         ctx.shadowColor = textColor === 'white' ? 'rgba(0,0,0,0.7)' : 'rgba(255,255,255,0.7)';
         ctx.shadowBlur = 5;
-
         let x;
         if (textAlign === 'left') {
             x = 25;
@@ -270,9 +259,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             x = canvas.width / 2;
         }
-
         const baseFont = '"PingFang TC", "Microsoft JhengHei", "Helvetica Neue", sans-serif';
-
         if (playerName) {
             ctx.font = `20px ${baseFont}`;
             ctx.fillText(playerName, x, 20);
@@ -283,7 +270,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.font = `bold 70px "Courier New", Courier, monospace`;
         ctx.fillText(lastResult.current.toFixed(4), x, 95);
         
-        if (showRange) {
+        if (dom.showRangeToggle.checked) {
             ctx.font = `20px ${baseFont}`;
             const rangeText = `${t('res_tallest')} ${lastResult.tallest.toFixed(4)} | ${t('res_shortest')} ${lastResult.shortest.toFixed(4)}`;
             ctx.fillText(rangeText, x, 180);
@@ -295,18 +282,15 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.fillText('Generated by sky-cotl-height-tool', canvas.width / 2, 220);
         ctx.globalAlpha = 1.0;
     };
-
     const updatePreview = () => {
         const ctx = dom.previewCanvas.getContext('2d');
         const activeBg = document.querySelector('.bg-selection.active');
         
         ctx.clearRect(0, 0, dom.previewCanvas.width, dom.previewCanvas.height);
-
         if (!activeBg) {
             drawCanvasContent(ctx, dom.previewCanvas);
             return;
         }
-
         if (activeBg.dataset.type === 'image' || activeBg.dataset.type === 'uploaded') {
             const bgImage = new Image();
             bgImage.crossOrigin = "Anonymous";
@@ -346,7 +330,6 @@ document.addEventListener('DOMContentLoaded', () => {
             updatePreview();
         }
     });
-
     dom.uploadBgInput.addEventListener('change', (e) => {
         const file = e.target.files[0];
         if (file && file.type.startsWith('image/')) {
@@ -362,10 +345,8 @@ document.addEventListener('DOMContentLoaded', () => {
             reader.readAsDataURL(file);
         }
     });
-
     dom.playerNameInput.addEventListener('input', updatePreview);
     dom.showRangeToggle.addEventListener('change', updatePreview);
-
     dom.calculateBtn.addEventListener('click', () => {
         dom.resCurrent.textContent = '...'; dom.resTallest.textContent = '...'; dom.resShortest.textContent = '...';
         dom.resultActions.style.display = 'none';
@@ -392,17 +373,14 @@ document.addEventListener('DOMContentLoaded', () => {
             lastCalculatedScale = results.scale;
             dom.simulatorContainer.style.display = 'block';
             dom.resetSimBtn.click();
-
             history.unshift(results);
             if (history.length > 10) history.pop();
             saveHistory();
             renderHistory();
             dom.historyContainer.style.display = 'block';
-
             setTimeout(updatePreview, 100);
         }
     });
-
     dom.copyBtn.addEventListener('click', () => {
         if (!lastResult) { 
             dom.statusEl.innerHTML = t('status_copy_empty'); 
@@ -427,7 +405,6 @@ document.addEventListener('DOMContentLoaded', () => {
         downloadCanvas.width = 500; downloadCanvas.height = 250;
         const ctx = downloadCanvas.getContext('2d');
         const activeBg = document.querySelector('.bg-selection.active');
-
         const triggerDownload = () => {
             const now = new Date();
             const pad = (num) => num.toString().padStart(2, '0');
@@ -466,21 +443,17 @@ document.addEventListener('DOMContentLoaded', () => {
             triggerDownload();
         }
     });
-
     dom.drinkPotionBtn.addEventListener('click', () => {
         if (lastCalculatedScale === null) {
             alert(t('sim_error_no_calc'));
             return;
         }
-
         dom.potionExtremeNotice.textContent = ''; 
-
         const newRandomHeight = Math.random() * 4.0 - 2.0;
         const newHeightNumber = 7.6 - (8.3 * lastCalculatedScale) - (3 * newRandomHeight);
         
         const currentResult = parseFloat(dom.potionResult.textContent) || newHeightNumber;
         animateValue(dom.potionResult, currentResult, newHeightNumber, 300);
-
         if (newRandomHeight >= 1.96) { 
             dom.potionExtremeNotice.textContent = t('sim_extreme_tall');
         } else if (newRandomHeight <= -1.96) {
@@ -490,47 +463,37 @@ document.addEventListener('DOMContentLoaded', () => {
         potionCounter++;
         dom.potionCount.textContent = potionCounter;
     });
-
     dom.resetSimBtn.addEventListener('click', () => {
         potionCounter = 0;
         dom.potionResult.textContent = '...';
         dom.potionCount.textContent = '0';
         dom.potionExtremeNotice.textContent = '';
     });
-
-    /* --- NEW QR CODE UPLOAD LOGIC --- */
-
     function handleQrUpload(file) {
         if (!file || !file.type.startsWith('image/')) {
             return;
         }
-
         const reader = new FileReader();
         reader.onload = (e) => {
             dom.statusEl.innerHTML = t('status_qr_reading');
             dom.statusEl.className = '';
-
             const image = new Image();
             image.onload = () => {
                 dom.statusEl.innerHTML = t('status_qr_scanning');
                 const canvas = dom.qrCanvas;
                 const ctx = canvas.getContext('2d');
-
                 canvas.width = image.width;
                 canvas.height = image.height;
                 ctx.drawImage(image, 0, 0, image.width, image.height);
-
                 const imageData = ctx.getImageData(0, 0, image.width, image.height);
-                // The 'jsQR' variable comes from the jsQR.min.js script loaded in index.html
                 const code = jsQR(imageData.data, imageData.width, imageData.height, {
                     inversionAttempts: "dontInvert",
                 });
-
                 if (code) {
                     dom.statusEl.innerHTML = t('status_qr_success');
                     dom.statusEl.className = 'status-success';
                     dom.b64Input.value = code.data;
-                    dom.calculateBtn.click(); // Automatically trigger calculation
+                    dom.calculateBtn.click();
                 } else {
                     dom.statusEl.innerHTML = t('status_qr_fail');
                     dom.statusEl.className = 'status-error';
@@ -540,30 +503,22 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         reader.readAsDataURL(file);
     }
-
-    // Event listener for clicking the upload area or button
     dom.qrUploadArea.addEventListener('click', () => dom.qrFileInput.click());
-    
-    // Event listener for when a file is chosen via the file dialog
     dom.qrFileInput.addEventListener('change', (e) => {
         if (e.target.files && e.target.files.length > 0) {
             handleQrUpload(e.target.files[0]);
         }
     });
-
-    // Drag and Drop event listeners
     dom.qrUploadArea.addEventListener('dragover', (e) => {
         e.preventDefault();
         e.stopPropagation();
         dom.qrUploadArea.classList.add('dragover');
     });
-
-    dom.qrUploadArea.addEventListener('dragleave', (e) => {
+    dom.qrUploadArea.addEventListener('draleave', (e) => {
         e.preventDefault();
         e.stopPropagation();
         dom.qrUploadArea.classList.remove('dragover');
     });
-
     dom.qrUploadArea.addEventListener('drop', (e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -573,9 +528,6 @@ document.addEventListener('DOMContentLoaded', () => {
             e.dataTransfer.clearData();
         }
     });
-    
-    /* --- END OF NEW LOGIC --- */
-
     populateBgSelectors();
     loadHistory();
     setLanguage(currentLang);
