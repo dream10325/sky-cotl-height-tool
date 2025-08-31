@@ -3,11 +3,13 @@
     --primary-color: #4a90e2; --border-color: #e1e8ed; --label-color: #5a738e;
     --result-color: #1a293f; --error-color: #e74c3c; --success-color: #2ecc71;
     --details-bg: #eff6ff; --shadow-color: rgba(0,0,0,0.08);
+    --lang-button-hover: #e0e0e0;
 }
 html[data-theme='dark'] {
     --bg-color: #1a1a1a; --font-color: #dcdcdc; --card-bg: #2a2a2a;
     --border-color: #3a3a3a; --label-color: #9e9e9e; --result-color: #ffffff;
     --details-bg: #2c3e50; --shadow-color: rgba(0,0,0,0.2);
+    --lang-button-hover: #444444;
 }
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -28,17 +30,28 @@ body {
 .header-buttons { display: flex; align-items: center; gap: 10px; }
 h1 {
     flex-grow: 1; text-align: center; margin: 0;
-    color: var(--primary-color); font-size: 1.5em; padding-left: 48px;
+    color: var(--primary-color); font-size: 1.5em; padding-left: 90px;
 }
 .icon-button {
     width: 38px; height: 38px; padding: 5px; border: 1px solid var(--border-color);
     border-radius: 8px; background: none; cursor: pointer;
     color: var(--label-color); display: flex; justify-content: center; align-items: center;
-    font-size: 0.9em; font-weight: bold;
-    transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+    transition: background-color 0.2s;
 }
 .icon-button svg { width: 20px; height: 20px; stroke: currentColor; }
 .icon-button:hover { background-color: var(--details-bg); }
+.lang-switcher {
+    display: flex; border: 1px solid var(--border-color); border-radius: 8px;
+    overflow: hidden;
+}
+.lang-switcher .lang-option {
+    padding: 8px 12px; margin: 0; border: none;
+    background: none; color: var(--label-color); font-size: 0.9em;
+    cursor: pointer; transition: background-color 0.2s, color 0.2s;
+}
+.lang-switcher .lang-option:first-child { border-right: 1px solid var(--border-color); }
+.lang-switcher .lang-option.active { background-color: var(--primary-color); color: white; font-weight: bold; }
+.lang-switcher .lang-option:hover:not(.active) { background-color: var(--lang-button-hover); }
 details {
     margin-bottom: 20px; border-radius: 8px; background-color: var(--details-bg);
     padding: 5px 15px; border: 1px solid var(--border-color); transition: background-color 0.3s;
@@ -123,30 +136,34 @@ button:hover { background-color: #357abd; }
 .status-error { color: var(--error-color); }
 .status-success { color: var(--success-color); }
 .footer {
-    margin-top: 20px;
-    text-align: center;
-    font-size: 0.9em;
-    color: var(--label-color);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 12px;
+    margin-top: 20px; text-align: center;
+    font-size: 0.9em; color: var(--label-color);
 }
 .footer a {
-    color: var(--label-color); text-decoration: none;
-    transition: color 0.2s;
-}
-.footer a:hover { color: var(--primary-color); }
-.footer-separator { color: var(--border-color); }
-.footer-lang-switcher { display: flex; align-items: center; gap: 8px; }
-.footer-lang-switcher .lang-option {
-    cursor: pointer;
-    transition: color 0.2s;
-}
-.footer-lang-switcher .lang-option.active {
-    font-weight: bold;
-    color: var(--font-color);
-}
-.footer-lang-switcher .lang-option:not(.active):hover {
     color: var(--primary-color);
+    text-decoration: none;
+}
+.footer a:hover { text-decoration: underline; }
+
+/* Modal Styles */
+.modal {
+    display: none; position: fixed; z-index: 1000;
+    left: 0; top: 0; width: 100%; height: 100%;
+    overflow: auto; background-color: rgba(0,0,0,0.6);
+    justify-content: center; align-items: center;
+}
+.modal.is-visible { display: flex; }
+.modal-content {
+    background-color: var(--card-bg); margin: auto; padding: 20px;
+    border: 1px solid var(--border-color); border-radius: 12px;
+    width: 90%; max-width: 540px; text-align: center;
+    position: relative;
+}
+.modal-close {
+    color: var(--label-color); position: absolute; top: 10px; right: 20px;
+    font-size: 28px; font-weight: bold; cursor: pointer;
+}
+#preview-image {
+    width: 100%; max-width: 500px; height: auto;
+    border-radius: 8px; margin-bottom: 15px;
 }
