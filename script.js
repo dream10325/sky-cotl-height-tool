@@ -1,21 +1,21 @@
 // ===== APP VERSION AND UPDATE NOTES =====
-const APP_VERSION = '1.1.0';
+const APP_VERSION = '1.2.0';
 const UPDATE_NOTES = {
     'zh-Hant': {
-        title: `版本 ${APP_VERSION} 更新`,
-        intro: '此工具已更新！主要變更如下：',
+        summary: `版本 ${APP_VERSION}`,
+        intro: '此版本主要更新內容：',
         notes: [
-            '<strong>新增：</strong>版本更新通知。',
             '<strong>修復：</strong>嘗試解決了「生成分享圖」上的身高數值有時與頁面結果不符的問題。'
             '<strong>修復：</strong>解決了有些人格式不同無法使用的問題。'
         ]
     },
     'en': {
-        title: `Update: Version ${APP_VERSION}`,
-        intro: 'This tool has been updated! Here are the main changes:',
+        summary: `Version ${APP_VERSION}`,
+        intro: 'Main changes in this version:',
         notes: [
-            '<strong>New:</strong> Added update notifications so you won\'t miss new features.',
-            '<strong>Fixed:</strong> Resolved an issue where the height values on the generated image sometimes did not match the latest result on the page.'
+            '<strong>Removed:</strong> Deleted the pop-up update window on first load.',
+            '<strong>Added:</strong> Moved version and update information to the footer. Click the version number to expand/collapse.',
+            '<strong>Fixed:</strong> Resolved an issue where the height values on the generated image did not match the latest result on the page.'
         ]
     }
 };
@@ -53,8 +53,20 @@ function setLanguage(lang) {
     document.querySelectorAll('.lang-option').forEach(span => {
         span.classList.toggle('active', span.dataset.lang === lang);
     });
+    displayVersionInfo(); // Update version info text on language change
 }
 function t(key) { return translations[currentLang][key] || key; }
+
+function displayVersionInfo() {
+    const versionData = UPDATE_NOTES[currentLang] || UPDATE_NOTES['en'];
+    const summaryEl = document.getElementById('version-summary');
+    const introEl = document.getElementById('version-intro');
+    const listEl = document.getElementById('version-list');
+
+    summaryEl.textContent = versionData.summary;
+    introEl.textContent = versionData.intro;
+    listEl.innerHTML = versionData.notes.map(note => `<li>${note}</li>`).join('');
+}
 
 function decodeAndCalculate(rawData) {
     try {
@@ -144,11 +156,6 @@ document.addEventListener('DOMContentLoaded', () => {
         potionResult: document.getElementById('potion-result'),
         potionCount: document.getElementById('potion-count'),
         potionExtremeNotice: document.getElementById('potion-extreme-notice'),
-        updateModalOverlay: document.getElementById('update-modal-overlay'),
-        closeModalBtn: document.getElementById('close-modal-btn'),
-        updateModalTitle: document.getElementById('update-modal-title'),
-        updateModalIntro: document.getElementById('update-modal-intro'),
-        updateModalList: document.getElementById('update-modal-list'),
     };
 
     let history = [];
@@ -513,37 +520,10 @@ document.addEventListener('DOMContentLoaded', () => {
         dom.potionExtremeNotice.textContent = '';
     });
 
-    // --- Update Modal Logic ---
-    function showUpdateModal() {
-        const notes = UPDATE_NOTES[currentLang] || UPDATE_NOTES['en'];
-        dom.updateModalTitle.textContent = notes.title;
-        dom.updateModalIntro.textContent = notes.intro;
-        dom.updateModalList.innerHTML = notes.notes.map(note => `<li>${note}</li>`).join('');
-        dom.updateModalOverlay.classList.remove('hidden');
-    }
-    function hideUpdateModal() {
-        dom.updateModalOverlay.classList.add('hidden');
-    }
-    dom.closeModalBtn.addEventListener('click', hideUpdateModal);
-    dom.updateModalOverlay.addEventListener('click', (e) => {
-        if (e.target === dom.updateModalOverlay) {
-            hideUpdateModal();
-        }
-    });
-
-    function checkVersion() {
-        const lastSeenVersion = localStorage.getItem('lastSeenVersion');
-        if (lastSeenVersion !== APP_VERSION) {
-            showUpdateModal();
-            localStorage.setItem('lastSeenVersion', APP_VERSION);
-        }
-    }
-
     // --- Initializations ---
     populateBgSelectors();
     loadHistory();
     setLanguage(currentLang);
-    updatePreview(); 
-    checkVersion(); // Check for updates on page load
+    updatePreview();
+    displayVersionInfo(); // Display version info on page load
 });
-
