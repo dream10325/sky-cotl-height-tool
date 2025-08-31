@@ -28,8 +28,8 @@ function setLanguage(lang) {
             else { el.textContent = translation; }
         }
     });
-    document.querySelectorAll('.lang-option').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.lang === lang);
+    document.querySelectorAll('.lang-option').forEach(span => {
+        span.classList.toggle('active', span.dataset.lang === lang);
     });
 }
 function t(key) { return translations[currentLang][key] || key; }
@@ -160,8 +160,9 @@ document.addEventListener('DOMContentLoaded', () => {
     dom.themeSwitcher.addEventListener('click', () => applyTheme(dom.docHtml.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'));
     
     dom.langSwitcher.addEventListener('click', (e) => {
-        if (e.target.classList.contains('lang-option')) {
-            setLanguage(e.target.dataset.lang);
+        const langToggle = e.target.closest('.lang-option');
+        if (langToggle) {
+            setLanguage(langToggle.dataset.lang);
             renderHistory();
         }
     });
@@ -190,18 +191,15 @@ document.addEventListener('DOMContentLoaded', () => {
     
     dom.customizationOptions.addEventListener('click', (e) => {
         const target = e.target;
-        const selectable = target.closest('.selectable-option');
-        if (!selectable) return;
-
-        if (selectable.classList.contains('bg-selection')) {
-            document.querySelectorAll('.bg-selection').forEach(el => el.classList.remove('active'));
-            selectable.classList.add('active');
-            if (!selectable.parentElement.id === 'uploaded-image-preview') {
-                 dom.uploadBgInput.value = '';
+        if (target.closest('.selectable-option')) {
+            const selectable = target.closest('.selectable-option');
+            if (selectable.parentElement.classList.contains('image-selector') || selectable.parentElement.classList.contains('gradient-selector')) {
+                document.querySelectorAll('.bg-selection').forEach(el => el.classList.remove('active'));
+                selectable.classList.add('active');
+            } else if (selectable.parentElement.id === 'text-color-selector') {
+                 document.querySelectorAll('.text-color-option').forEach(btn => btn.classList.remove('active'));
+                 selectable.classList.add('active');
             }
-        } else if (selectable.classList.contains('text-color-option')) {
-            document.querySelectorAll('.text-color-option').forEach(btn => btn.classList.remove('active'));
-            selectable.classList.add('active');
         }
     });
 
