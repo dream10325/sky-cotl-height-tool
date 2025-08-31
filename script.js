@@ -34,6 +34,7 @@ function setLanguage(lang) {
 }
 function t(key) { return translations[currentLang][key] || key; }
 
+// 【錯誤修復】採用您提供的、經過驗證的解析函式
 function decodeAndCalculate(rawData) {
     try {
         const startMarker = "ImJvZHki";
@@ -46,26 +47,36 @@ function decodeAndCalculate(rawData) {
         if (padding) { b64Str += '='.repeat(4 - padding); }
         
         const decodedText = atob(b64Str);
+
+        const heightKeyIndex = decodedText.search(/h?eigh/);
+        if (heightKeyIndex === -1) { return { error: t('status_error_general') }; }
+        const heightSearchArea = decodedText.substring(heightKeyIndex + 4);
+        const heightMatch = heightSearchArea.match(/-?\d*\.\d+/);
+        if (!heightMatch) { return { error: t('status_error_general') }; }
+        const height = parseFloat(heightMatch[0]);
+
+        let scale;
+        const scaleKeyIndex = decodedText.search(/scale/);
+        if (scaleKeyIndex === -1) { return { error: t('status_error_general') }; }
+        const scaleSearchArea = decodedText.substring(scaleKeyIndex + 5);
         
-        // 【錯誤修復】將 height 的正則表達式改為 h?eight，使其可以兼容 "height" 和 "eight" 兩種寫法
-        const heightRegex = /h?eight[^:=\d\-.eE]{0,5}[:=]\s*(-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)/;
-        const scaleRegex = /scale[^:=\d\-.eE]{0,5}[:=]\s*(-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)/;
-
-        const heightMatch = heightRegex.exec(decodedText);
-        const scaleMatch = scaleRegex.exec(decodedText);
-
-        if (!heightMatch || !scaleMatch) {
-            console.error("Failed to match height or scale with Regex", {decodedText});
-            return { error: t('status_error_general') };
+        const scaleFloatMatch = scaleSearchArea.match(/\d*\.\d+/);
+        
+        if (scaleFloatMatch) {
+            scale = parseFloat(scaleFloatMatch[0]);
+        } else {
+            const scaleIntMatch = scaleSearchArea.match(/\d+/);
+            if (scaleIntMatch) {
+                scale = parseInt(scaleIntMatch[0], 10) / 1000000000.0;
+            } else {
+                return { error: t('status_error_general') };
+            }
         }
-        
-        const height = parseFloat(heightMatch[1]);
-        const scale = parseFloat(scaleMatch[1]);
 
         const currentHeight = 7.6 - (8.3 * scale) - (3 * height);
         const shortestHeight = 7.6 - (8.3 * scale) - (3 * -2.0);
         const tallestHeight = 7.6 - (8.3 * scale) - (3 * 2.0);
-
+        
         return { 
             current: currentHeight, 
             tallest: tallestHeight, 
