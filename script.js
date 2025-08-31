@@ -47,8 +47,8 @@ function decodeAndCalculate(rawData) {
         
         const decodedText = atob(b64Str);
         
-        // 【錯誤修復】還原回最穩定、兼容性最好的 Regex 解析邏輯
-        const heightRegex = /height[^:=\d\-.eE]{0,5}[:=]\s*(-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)/;
+        // 【錯誤修復】將 height 的正則表達式改為 h?eight，使其可以兼容 "height" 和 "eight" 兩種寫法
+        const heightRegex = /h?eight[^:=\d\-.eE]{0,5}[:=]\s*(-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)/;
         const scaleRegex = /scale[^:=\d\-.eE]{0,5}[:=]\s*(-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)/;
 
         const heightMatch = heightRegex.exec(decodedText);
