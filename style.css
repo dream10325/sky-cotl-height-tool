@@ -59,6 +59,26 @@ textarea {
     border-radius: 8px; font-family: 'Courier New', Courier, monospace; font-size: 0.9em;
     box-sizing: border-box; resize: vertical; background-color: var(--card-bg); color: var(--font-color);
 }
+/* NEW: QR Upload Area Styles */
+.qr-upload-area {
+    margin-top: 15px;
+    border: 2px dashed var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background-color 0.2s;
+}
+.qr-upload-area.dragover {
+    border-color: var(--primary-color);
+    background-color: var(--details-bg);
+}
+.qr-upload-area p {
+    margin: 0 0 10px 0;
+    color: var(--label-color);
+    pointer-events: none; /* So it doesn't interfere with drop events */
+}
+
 button {
     width: 100%; padding: 12px; margin-top: 15px; border: none; border-radius: 8px;
     background-color: var(--primary-color); color: white; font-size: 1.1em;
@@ -69,6 +89,12 @@ button.secondary-btn {
     background-color: transparent;
     color: var(--label-color);
     border: 1px solid var(--border-color);
+}
+#qr-upload-btn {
+    width: auto;
+    padding: 10px 20px;
+    font-size: 0.9em;
+    margin-top: 0;
 }
 button.secondary-btn:hover { background-color: var(--details-bg); }
 .results { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border-color); }
