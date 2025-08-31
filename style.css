@@ -30,7 +30,7 @@ h1, .simulator-container h2 {
     flex-grow: 1; text-align: center; margin: 0;
     color: var(--primary-color); font-size: 1.5em;
 }
-h1 { padding-left: 48px; }
+h1 { padding-left: 48px; min-height: 1.2em; }
 .simulator-container h2 { margin-bottom: 10px; }
 .icon-button {
     width: 38px; height: 38px; padding: 5px; border: 1px solid var(--border-color);
@@ -183,17 +183,31 @@ html[data-theme='dark'] .extreme-notice {
     text-align: left;
 }
 .version-info summary {
-    display: inline-block; /* Allows it to be centered */
+    display: inline-block;
     padding: 5px 10px;
     color: var(--label-color);
     font-weight: normal;
     font-size: 0.85em;
     border-radius: 8px;
     transition: background-color 0.2s;
+    list-style: none; /* Hide default marker */
+}
+.version-info summary::-webkit-details-marker {
+    display: none; /* Hide default marker for Chrome/Safari */
 }
 .version-info summary:hover {
     background-color: var(--details-bg);
     color: var(--primary-color);
+}
+.version-info summary::before {
+    content: '►';
+    display: inline-block;
+    margin-right: 8px;
+    font-size: 0.7em;
+    transition: transform 0.2s;
+}
+.version-info details[open] > summary::before {
+    transform: rotate(90deg);
 }
 .version-notes {
     margin: 10px auto 0;
