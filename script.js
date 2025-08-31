@@ -389,13 +389,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const activeBg = document.querySelector('.bg-selection.active');
 
         const triggerDownload = () => {
-            // --- 新的檔名邏輯開始 ---
             const now = new Date();
             const pad = (num) => num.toString().padStart(2, '0');
             const timestamp = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}_${pad(now.getHours())}-${pad(now.getMinutes())}-${pad(now.getSeconds())}`;
             const link = document.createElement('a');
             link.download = `sky-height-card_${timestamp}.png`;
-            // --- 新的檔名邏輯結束 ---
             link.href = downloadCanvas.toDataURL('image/png');
             link.click();
         };
@@ -429,7 +427,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- Simulator Logic ---
     dom.drinkPotionBtn.addEventListener('click', () => {
         if (lastCalculatedScale === null) {
             alert(t('sim_error_no_calc'));
@@ -444,7 +441,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const currentResult = parseFloat(dom.potionResult.textContent) || newHeightNumber;
         animateValue(dom.potionResult, currentResult, newHeightNumber, 300);
 
-        // 檢查是否達到極限 (例如，隨機值落在整個範圍的前後 1%)
         if (newRandomHeight >= 1.96) { 
             dom.potionExtremeNotice.textContent = t('sim_extreme_tall');
         } else if (newRandomHeight <= -1.96) {
@@ -467,3 +463,4 @@ document.addEventListener('DOMContentLoaded', () => {
     setLanguage(currentLang);
     updatePreview(); 
 });
+
