@@ -1,454 +1,139 @@
-const translations = {
-    'zh-Hant': {
-        title: "光遇身高查看工具", toggle_instructions: "點此展開/收合使用教學", inst_1: "1. 在遊戲中，點擊右上角齒輪進入設定，選擇「帳號」，再點選「帳號資訊」，最後點選「造型 QR code」。", inst_2: "（注意：這不是加好友的 QR Code！）", inst_3: "2. 掃描該 QR Code。", inst_4: "3. 掃描後會得到一串網址，例如：<br><code>https://sky.thatg.co/o=8RV7ImJv...</code>", inst_5: "<b>4. 請複製完整的網址</b>", inst_5_zh: "，然後直接貼到下方的輸入框中即可！", input_label: "請在此貼上掃描到的完整網址：", placeholder: "將完整網址貼在這裡……", calculate_btn: "開始計算", res_current: "當前身高:", res_tallest: "最高身高:", res_shortest: "最低身高:", copy_btn: "複製結果", image_btn: "生成分享圖", status_calculating: "計算中……", status_error_empty: "錯誤：輸入框是空的。", status_error_general: "無法識別您貼上的內容。<br>請檢查看看：<ul><li>是不是貼錯了？</li><li>是不是沒有複製完整？</li></ul>", status_success: "計算完成！", status_copy_success: "身高結果已複製到剪貼簿！", status_copy_fail: "複製失敗，您的瀏覽器可能不支援。", copy_btn_copied: "已複製！", history_title: "歷史紀錄", clear_history_btn: "清空紀錄", history_current_label: "身高", history_note_placeholder: "點此新增備註...", customize_image: "自訂並生成分享圖", player_name: "玩家名稱 (選填):", player_name_placeholder: "在圖片上顯示你的名字", bg_style_upload: "上傳我的圖片:", bg_style_image: "內建圖片背景:", bg_style_gradient: "純色背景:", text_color: "文字顏色:", text_white: "淺色", text_black: "深色", confirm_clear_history: "您確定要清空所有歷史紀錄嗎？", confirm_delete_item: "您確定要刪除這條紀錄嗎？", item_deleted: "紀錄已刪除。", github_link: "GitHub", report_issue_link: "問題回報", text_align: "文字對齊:", align_center: "置中", align_left: "靠左", align_right: "靠右", show_range: "顯示身高範圍:", disclaimer_free: "此工具永久免費且開放原始碼。請注意其他地方的收費服務可能存在風險。", disclaimer_privacy: "所有計算均在您的瀏覽器中完成，QR Code 資訊不會被上傳或儲存至任何伺服器。", disclaimer_accuracy: "計算結果僅供參考。", disclaimer_unofficial: "此為玩家粉絲開發的工具，與 thatgamecompany 官方無關。"
-    },
-    'en': {
-        title: "Sky Height Tool", toggle_instructions: "Click to Expand/Collapse Instructions", inst_1: "1. In the game, go to Settings (top-right gear) > Account > Account Info > Outfit QR Code.", inst_2: "(Note: This is NOT the friend QR code!)", inst_3: "2. Scan the QR Code.", inst_4: "3. You will get a URL, for example:<br><code>https://sky.thatg.co/o=8RV7ImJv...</code>", inst_5: "<b>4. Copy the entire URL</b>", inst_5_zh: " and paste it into the input box below.", input_label: "Paste the full URL from the QR Code:", placeholder: "Paste the full URL here...", calculate_btn: "Calculate", res_current: "Current Height:", res_tallest: "Tallest Height:", res_shortest: "Shortest Height:", copy_btn: "Copy Results", image_btn: "Generate Image", status_calculating: "Calculating...", status_error_empty: "Error: Input box is empty.", status_error_general: "Couldn't recognize the content.<br>Please check if:<ul><li>You pasted the wrong text.</li><li>The text is incomplete.</li></ul>", status_success: "Calculation complete!", status_copy_success: "Results copied to clipboard!", status_copy_fail: "Copy failed. Your browser may not support this feature.", copy_btn_copied: "Copied!", history_title: "History", clear_history_btn: "Clear History", history_current_label: "Height", history_note_placeholder: "Click to add a note...", customize_image: "Customize & Generate Image", player_name: "Player Name (Optional):", player_name_placeholder: "Your name on the image", bg_style_upload: "Upload My Image:", bg_style_image: "Built-in Image Backgrounds:", bg_style_gradient: "Gradient Backgrounds:", text_color: "Text Color:", text_white: "Light", text_black: "Dark", confirm_clear_history: "Are you sure you want to clear all history?", confirm_delete_item: "Are you sure you want to delete this record?", item_deleted: "Record deleted.", github_link: "GitHub", report_issue_link: "Report an Issue", text_align: "Text Alignment:", align_center: "Center", align_left: "Left", align_right: "Right", show_range: "Show Height Range:", disclaimer_free: "This tool is free & open source forever. Be cautious of similar tools that require payment.", disclaimer_privacy: "All calculations are done in your browser. Your QR code data is not uploaded or stored.", disclaimer_accuracy: "The results are for reference only.", disclaimer_unofficial: "This is a fan-made tool and is not officially affiliated with thatgamecompany."
-    }
-};
-let currentLang = 'zh-Hant';
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>光遇身高查看工具</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-const backgroundImages = [
-    { id: 'bg1', path: 'images/bg1.png' }, { id: 'bg2', path: 'images/bg2.png' }, { id: 'bg3', path: 'images/bg3.png' },
-];
-const backgroundGradients = [
-    { id: 'daylight', colors: ['#a1c4fd', '#c2e9fb'] }, { id: 'dawn', colors: ['#f6d365', '#fda085'] },
-    { id: 'valley', colors: ['#f093fb', '#f5576c'] }, { id:AYE YO 'night', colors: ['#2c3e50', '#1a293f'] },
-];
-
-function setLanguage(lang) {
-    currentLang = lang; document.documentElement.lang = lang;
-    document.querySelectorAll('[data-lang-key]').forEach(el => {
-        const key = el.getAttribute('data-lang-key');
-        if (translations[lang][key]) {
-            const translation = translations[lang][key];
-            if (el.tagName === 'TEXTAREA' || el.tagName === 'INPUT') { el.placeholder = translation; } 
-            else if (key === 'inst_5_zh') { el.innerHTML = translation; } 
-            else if (key.startsWith('inst_')) { el.innerHTML = translation; } 
-            else { el.textContent = translation; }
-        }
-    });
-    document.querySelectorAll('.lang-option').forEach(span => {
-        span.classList.toggle('active', span.dataset.lang === lang);
-    });
-}
-function t(key) { return translations[currentLang][key] || key; }
-
-function decodeAndCalculate(rawData) {
-    try {
-        const startMarker = "ImJvZHki";
-        const startIndex = rawData.indexOf(startMarker);
-        if (startIndex === -1) { return { error: t('status_error_general') }; }
+    <div class="container">
+        <div class="header">
+            <h1 data-lang-key="title">光遇身高查看工具</h1>
+            <div class="header-buttons">
+                <button id="theme-switcher" class="icon-button" aria-label="Toggle theme">
+                    <svg id="theme-icon-light" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                    <svg id="theme-icon-dark" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="display:none;"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+                </button>
+            </div>
+        </div>
         
-        let b64Str = rawData.substring(startIndex);
-        b64Str = b64Str.replace(/-/g, '+').replace(/_/g, '/');
-        const padding = b64Str.length % 4;
-        if (padding) { b64Str += '='.repeat(4 - padding); }
+        <details>
+            <summary data-lang-key="toggle_instructions">點此展開/收合使用教學</summary>
+            <div class="instructions">
+                <p data-lang-key="inst_1">1. 在遊戲中，點擊右上角齒輪進入設定，選擇「帳號」，再點選「帳號資訊」，最後點選「造型 QR code」。</p>
+                <p><b data-lang-key="inst_2">（注意：這不是加好友的 QR Code！）</b></p>
+                <p data-lang-key="inst_3">2. 掃描該 QR Code。</p>
+                <p data-lang-key="inst_4">3. 掃描後會得到一串網址，例如：<br><code>https://sky.thatg.co/o=8RV7ImJv...</code></p>
+                <p><b data-lang-key="inst_5" style="display: inline;">4. 請複製完整的網址</b><span data-lang-key="inst_5_zh">，然後直接貼到下方的輸入框中即可！</span></p>
+            </div>
+        </details>
         
-        const decodedText = atob(b64Str);
-
-        const heightKeyIndex = decodedText.search(/h?eigh/);
-        if (heightKeyIndex === -1) { return { error: t('status_error_general') }; }
-        const heightSearchArea = decodedText.substring(heightKeyIndex + 4);
-        const heightMatch = heightSearchArea.match(/-?\d*\.\d+/);
-        if (!heightMatch) { return { error: t('status_error_general') }; }
-        const height = parseFloat(heightMatch[0]);
-
-        let scale;
-        const scaleKeyIndex = decodedText.search(/scale/);
-        if (scaleKeyIndex === -1) { return { error: t('status_error_general') }; }
-        const scaleSearchArea = decodedText.substring(scaleKeyIndex + 5);
+        <label for="b64-input" data-lang-key="input_label">請在此貼上掃描到的完整網址：</label>
+        <textarea id="b64-input" data-lang-key="placeholder" placeholder="將完整網址貼在這裡……"></textarea>
         
-        // 【錯誤修復】在尋找 scale 的浮點數時，加入對負號(-)的判斷
-        const scaleFloatMatch = scaleSearchArea.match(/-?\d*\.\d+/);
-        
-        if (scaleFloatMatch) {
-            scale = parseFloat(scaleFloatMatch[0]);
-        } else {
-            // 【錯誤修復】在尋找 scale 的整數時，也加入對負號(-)的判斷
-            const scaleIntMatch = scaleSearchArea.match(/-?\d+/);
-            if (scaleIntMatch) {
-                scale = parseInt(scaleIntMatch[0], 10) / 1000000000.0;
-            } else {
-                return { error: t('status_error_general') };
-            }
-        }
+        <button id="calculate-btn" data-lang-key="calculate_btn">開始計算</button>
 
-        const currentHeight = 7.6 - (8.3 * scale) - (3 * height);
-        const shortestHeight = 7.6 - (8.3 * scale) - (3 * -2.0);
-        const tallestHeight = 7.6 - (8.3 * scale) - (3 * 2.0);
-        
-        return { 
-            current: currentHeight, 
-            tallest: tallestHeight, 
-            shortest: shortestHeight, 
-            timestamp: new Date().getTime(), 
-            note: "" 
-        };
-    } catch (e) {
-        console.error("Calculation failed:", e);
-        return { error: t('status_error_general') };
-    }
-}
+        <div class="results">
+            <div class="result-item important">
+                <span class="label" data-lang-key="res_current">當前身高:</span>
+                <span class="value" id="res-current">...</span>
+            </div>
+            <div class="result-item">
+                <span class="label" data-lang-key="res_tallest">最高身高:</span>
+                <span class="value" id="res-tallest">...</span>
+            </div>
+            <div class="result-item">
+                <span class="label" data-lang-key="res_shortest">最低身高:</span>
+                <span class="value" id="res-shortest">...</span>
+            </div>
+            <div class="result-actions" id="result-actions" style="display: none;">
+                <button id="copy-btn" data-lang-key="copy_btn">複製結果</button>
+                <details class="customization-details">
+                    <summary data-lang-key="customize_image">自訂並生成分享圖</summary>
+                    <div class="customization-options">
+                        <div class="preview-container">
+                            <canvas id="preview-canvas" width="500" height="250"></canvas>
+                        </div>
+                        <div class="option-group">
+                            <label for="player-name" data-lang-key="player_name">玩家名稱 (選填):</label>
+                            <input type="text" id="player-name" data-lang-key="player_name_placeholder" placeholder="Your Name">
+                        </div>
+                        <div class="option-group">
+                            <label data-lang-key="bg_style_upload">上傳我的圖片:</label>
+                            <input type="file" id="upload-bg" accept="image/*">
+                            <div id="uploaded-image-preview" class="selector-group image-selector"></div>
+                        </div>
+                        <div class="option-group">
+                            <label data-lang-key="bg_style_image">內建圖片背景:</label>
+                            <div id="bg-selector" class="selector-group image-selector"></div>
+                        </div>
+                        <div class="option-group">
+                            <label data-lang-key="bg_style_gradient">純色背景:</label>
+                            <div id="gradient-selector" class="selector-group"></div>
+                        </div>
+                        <div class="option-group">
+                            <label data-lang-key="text_color">文字顏色:</label>
+                            <div id="text-color-selector" class="selector-group">
+                                <button class="selectable-option text-color-option active" data-color="white" data-lang-key="text_white">淺色</button>
+                                <button class="selectable-option text-color-option" data-color="black" data-lang-key="text_black">深色</button>
+                            </div>
+                        </div>
+                         <div class="option-group">
+                            <label data-lang-key="text_align">文字對齊:</label>
+                            <div id="text-align-selector" class="selector-group">
+                                <button class="selectable-option text-align-option active" data-align="center" data-lang-key="align_center">置中</button>
+                                <button class="selectable-option text-align-option" data-align="left" data-lang-key="align_left">靠左</button>
+                                <button class="selectable-option text-align-option" data-align="right" data-lang-key="align_right">靠右</button>
+                            </div>
+                        </div>
+                        <div class="option-group toggle-group">
+                            <label for="show-range-toggle" data-lang-key="show_range">顯示身高範圍:</label>
+                            <label class="switch">
+                                <input type="checkbox" id="show-range-toggle" checked>
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                        <button id="image-btn" data-lang-key="image_btn">生成分享圖</button>
+                    </div>
+                </details>
+            </div>
+        </div>
+        <div id="status"></div>
 
-function animateValue(element, start, end, duration) {
-    let startTimestamp = null;
-    const step = (timestamp) => {
-        if (!startTimestamp) startTimestamp = timestamp;
-        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-        element.textContent = (progress * (end - start) + start).toFixed(4);
-        if (progress < 1) { window.requestAnimationFrame(step); }
-    };
-    window.requestAnimationFrame(step);
-}
+        <div id="history" class="history-container" style="display: none;">
+            <div class="history-header">
+                <h2 data-lang-key="history_title">歷史紀錄</h2>
+                <button id="clear-history-btn" data-lang-key="clear_history_btn">清空紀錄</button>
+            </div>
+            <ul id="history-list"></ul>
+        </div>
+    </div>
 
-document.addEventListener('DOMContentLoaded', () => {
-    const dom = {
-        calculateBtn: document.getElementById('calculate-btn'), b64Input: document.getElementById('b64-input'),
-        resCurrent: document.getElementById('res-current'), resTallest: document.getElementById('res-tallest'),
-        resShortest: document.getElementById('res-shortest'), 
-        statusEl: document.getElementById('status'),
-        copyBtn: document.getElementById('copy-btn'), imageBtn: document.getElementById('image-btn'),
-        resultActions: document.getElementById('result-actions'), langSwitcher: document.getElementById('lang-switcher'),
-        themeSwitcher: document.getElementById('theme-switcher'), themeIconLight: document.getElementById('theme-icon-light'),
-        themeIconDark: document.getElementById('theme-icon-dark'), historyContainer: document.getElementById('history'),
-        historyList: document.getElementById('history-list'), clearHistoryBtn: document.getElementById('clear-history-btn'),
-        docHtml: document.documentElement, bgSelector: document.getElementById('bg-selector'),
-        gradientSelector: document.getElementById('gradient-selector'),
-        textColorSelector: document.getElementById('text-color-selector'), playerNameInput: document.getElementById('player-name'),
-        customizationOptions: document.querySelector('.customization-options'),
-        uploadBgInput: document.getElementById('upload-bg'), uploadedImagePreview: document.getElementById('uploaded-image-preview'),
-        previewCanvas: document.getElementById('preview-canvas'),
-        textAlignSelector: document.getElementById('text-align-selector'),
-        showRangeToggle: document.getElementById('show-range-toggle'),
-    };
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="https://github.com/dream10325/sky-cotl-height-tool" target="_blank" rel="noopener noreferrer" data-lang-key="github_link">
+                GitHub
+            </a>
+            <span class="footer-separator">|</span>
+            <a href="https://docs.google.com/document/d/12n4ORzMX1gdsMwzRzOkU1_Kso6ZaqhrvLdOecXF_9Oo/edit?usp=sharing" target="_blank" rel="noopener noreferrer" data-lang-key="report_issue_link">
+                問題回報
+            </a>
+            <span class="footer-separator">|</span>
+            <div id="lang-switcher" class="footer-lang-switcher">
+                <span class="lang-option" data-lang="en">English</span>
+                <span class="lang-option active" data-lang="zh-Hant">繁體中文</span>
+            </div>
+        </div>
+        <div class="footer-disclaimers">
+            <p data-lang-key="disclaimer_free" class="free-notice"></p>
+            <p data-lang-key="disclaimer_privacy"></p>
+            <p data-lang-key="disclaimer_accuracy"></p>
+            <p data-lang-key="disclaimer_unofficial"></p>
+        </div>
+    </footer>
 
-    let history = [];
-    let uploadedImageUrl = null;
-    let lastResult = null;
-
-    function saveHistory() { localStorage.setItem('skyHeightHistory', JSON.stringify(history)); }
-    function loadHistory() {
-        const savedHistory = localStorage.getItem('skyHeightHistory');
-        history = savedHistory ? JSON.parse(savedHistory) : [];
-        if (history.length > 0) {
-            dom.historyContainer.style.display = 'block';
-            renderHistory();
-        }
-    }
-    function renderHistory() {
-        dom.historyList.innerHTML = '';
-        history.forEach((item, index) => {
-            const li = document.createElement('li');
-            const date = new Date(item.timestamp).toLocaleString();
-            li.innerHTML = `
-                <button class="delete-history-item" data-index="${index}" title="${t('confirm_delete_item')}">×</button>
-                <div class="history-item-main">
-                    <span class="history-value">${t('history_current_label')}: ${item.current.toFixed(4)}</span>
-                    <span class="timestamp">${date}</span>
-                </div>
-                <button class="history-note" data-index="${index}">${item.note || t('history_note_placeholder')}</button>
-            `;
-            dom.historyList.appendChild(li);
-        });
-    }
-    dom.historyList.addEventListener('click', (e) => {
-        if (e.target && e.target.classList.contains('history-note')) {
-            const index = e.target.dataset.index;
-            const currentNote = history[index].note || "";
-            const newNote = prompt(t('history_note_placeholder'), currentNote);
-            if (newNote !== null) {
-                history[index].note = newNote.trim();
-                saveHistory();
-                renderHistory();
-            }
-        }
-        if (e.target && e.target.classList.contains('delete-history-item')) {
-            const index = parseInt(e.target.dataset.index, 10);
-            if (confirm(t('confirm_delete_item'))) {
-                history.splice(index, 1);
-                saveHistory();
-                renderHistory();
-                dom.statusEl.innerHTML = t('item_deleted');
-                if(history.length === 0){
-                    dom.historyContainer.style.display = 'none';
-                }
-            }
-        }
-    });
-    dom.clearHistoryBtn.addEventListener('click', () => {
-        if (confirm(t('confirm_clear_history'))) {
-            history = [];
-            saveHistory();
-            dom.historyContainer.style.display = 'none';
-        }
-    });
-
-    function applyTheme(theme) {
-        dom.docHtml.setAttribute('data-theme', theme);
-        localStorage.setItem('theme', theme);
-        dom.themeIconLight.style.display = theme === 'dark' ? 'none' : 'block';
-        dom.themeIconDark.style.display = theme === 'dark' ? 'block' : 'none';
-    }
-    const savedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    applyTheme(savedTheme || (prefersDark ? 'dark' : 'light'));
-    dom.themeSwitcher.addEventListener('click', () => {
-        applyTheme(dom.docHtml.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
-        updatePreview();
-    });
-    
-    dom.langSwitcher.addEventListener('click', (e) => {
-        const langToggle = e.target.closest('.lang-option');
-        if (langToggle) {
-            setLanguage(langToggle.dataset.lang);
-            renderHistory();
-            updatePreview();
-        }
-    });
-    
-    function populateBgSelectors() {
-        dom.bgSelector.innerHTML = '';
-        backgroundImages.forEach((img, index) => {
-            const imgEl = document.createElement('img');
-            imgEl.src = img.path;
-            imgEl.classList.add('selectable-option', 'bg-selection');
-            imgEl.dataset.type = 'image';
-            imgEl.dataset.source = img.path;
-            if (index === 0) imgEl.classList.add('active'); 
-            dom.bgSelector.appendChild(imgEl);
-        });
-        dom.gradientSelector.innerHTML = '';
-        backgroundGradients.forEach((grad) => {
-            const gradEl = document.createElement('div');
-            gradEl.classList.add('selectable-option', 'bg-selection', 'gradient-option');
-            gradEl.style.background = `linear-gradient(to bottom right, ${grad.colors[0]}, ${grad.colors[1]})`;
-            gradEl.dataset.type = 'gradient';
-            gradEl.dataset.colors = grad.colors.join(',');
-            dom.gradientSelector.appendChild(gradEl);
-        });
-    }
-
-    const drawCanvasContent = (ctx, canvas) => {
-        if (!lastResult) {
-            ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--details-bg');
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            return;
-        }
-
-        const playerName = dom.playerNameInput.value;
-        const textColor = document.querySelector('.text-color-option.active').dataset.color;
-        const textAlign = document.querySelector('.text-align-option.active').dataset.align;
-        const showRange = dom.showRangeToggle.checked;
-
-        ctx.fillStyle = textColor === 'white' ? '#FFFFFF' : '#2c3e50';
-        ctx.textAlign = textAlign;
-        ctx.textBaseline = 'top';
-        ctx.shadowColor = textColor === 'white' ? 'rgba(0,0,0,0.7)' : 'rgba(255,255,255,0.7)';
-        ctx.shadowBlur = 5;
-
-        let x;
-        if (textAlign === 'left') {
-            x = 25;
-        } else if (textAlign === 'right') {
-            x = canvas.width - 25;
-        } else {
-            x = canvas.width / 2;
-        }
-
-        const baseFont = '"PingFang TC", "Microsoft JhengHei", "Helvetica Neue", sans-serif';
-
-        if (playerName) {
-            ctx.font = `20px ${baseFont}`;
-            ctx.fillText(playerName, x, 20);
-        }
-        ctx.font = `bold 30px ${baseFont}`;
-        ctx.fillText(t('res_current'), x, playerName ? 60 : 50);
-        
-        ctx.font = `bold 70px "Courier New", Courier, monospace`;
-        ctx.fillText(lastResult.current.toFixed(4), x, 95);
-        
-        if (showRange) {
-            ctx.font = `20px ${baseFont}`;
-            const rangeText = `${t('res_tallest')} ${lastResult.tallest.toFixed(4)} | ${t('res_shortest')} ${lastResult.shortest.toFixed(4)}`;
-            ctx.fillText(rangeText, x, 180);
-        }
-        
-        ctx.font = `12px "Arial", sans-serif`;
-        ctx.globalAlpha = 0.8;
-        ctx.textAlign = 'center';
-        ctx.fillText('Generated by sky-cotl-height-tool', canvas.width / 2, 220);
-        ctx.globalAlpha = 1.0;
-    };
-
-    const updatePreview = () => {
-        const ctx = dom.previewCanvas.getContext('2d');
-        const activeBg = document.querySelector('.bg-selection.active');
-        
-        ctx.clearRect(0, 0, dom.previewCanvas.width, dom.previewCanvas.height);
-
-        if (!activeBg) {
-            drawCanvasContent(ctx, dom.previewCanvas);
-            return;
-        }
-
-        if (activeBg.dataset.type === 'image' || activeBg.dataset.type === 'uploaded') {
-            const bgImage = new Image();
-            bgImage.crossOrigin = "Anonymous";
-            bgImage.src = activeBg.dataset.source;
-            bgImage.onload = () => {
-                ctx.drawImage(bgImage, 0, 0, dom.previewCanvas.width, dom.previewCanvas.height);
-                ctx.fillStyle = "rgba(0, 0, 0, 0.3)";
-                ctx.fillRect(0, 0, dom.previewCanvas.width, dom.previewCanvas.height);
-                drawCanvasContent(ctx, dom.previewCanvas);
-            };
-            bgImage.onerror = () => {
-                ctx.fillStyle = 'red';
-                ctx.fillRect(0, 0, dom.previewCanvas.width, dom.previewCanvas.height);
-                 drawCanvasContent(ctx, dom.previewCanvas);
-            };
-        } else { 
-            const colors = activeBg.dataset.colors.split(',');
-            const gradient = ctx.createLinearGradient(0, 0, dom.previewCanvas.width, dom.previewCanvas.height);
-            gradient.addColorStop(0, colors[0]);
-            gradient.addColorStop(1, colors[1]);
-            ctx.fillStyle = gradient;
-            ctx.fillRect(0, 0, dom.previewCanvas.width, dom.previewCanvas.height);
-            drawCanvasContent(ctx, dom.previewCanvas);
-        }
-    };
-    
-    dom.customizationOptions.addEventListener('click', (e) => {
-        const target = e.target.closest('.selectable-option');
-        if (target) {
-            const parent = target.parentElement;
-            if (parent.classList.contains('image-selector') || parent.id === 'gradient-selector') {
-                 document.querySelectorAll('.bg-selection').forEach(btn => btn.classList.remove('active'));
-            } else if (parent.id === 'text-color-selector' || parent.id === 'text-align-selector') {
-                 parent.querySelectorAll('.selectable-option').forEach(btn => btn.classList.remove('active'));
-            }
-            target.classList.add('active');
-            updatePreview();
-        }
-    });
-
-    dom.uploadBgInput.addEventListener('change', (e) => {
-        const file = e.target.files[0];
-        if (file && file.type.startsWith('image/')) {
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                uploadedImageUrl = event.target.result;
-                dom.uploadedImagePreview.innerHTML = `<img src="${uploadedImageUrl}" class="selectable-option bg-selection" data-type="uploaded" data-source="${uploadedImageUrl}">`;
-                document.querySelectorAll('.bg-selection').forEach(el => el.classList.remove('active'));
-                const newImg = dom.uploadedImagePreview.querySelector('img');
-                newImg.classList.add('active');
-                updatePreview();
-            };
-            reader.readAsDataURL(file);
-        }
-    });
-
-    dom.playerNameInput.addEventListener('input', updatePreview);
-    dom.showRangeToggle.addEventListener('change', updatePreview);
-
-    dom.calculateBtn.addEventListener('click', () => {
-        dom.resCurrent.textContent = '...'; dom.resTallest.textContent = '...'; dom.resShortest.textContent = '...';
-        dom.resultActions.style.display = 'none';
-        lastResult = null; 
-        dom.statusEl.innerHTML = t('status_calculating'); dom.statusEl.className = '';
-        const rawData = dom.b64Input.value.trim();
-        if (!rawData) {
-            dom.statusEl.innerHTML = t('status_error_empty'); dom.statusEl.className = 'status-error';
-            return;
-        }
-        const results = decodeAndCalculate(rawData);
-        if (results.error) {
-            dom.statusEl.innerHTML = results.error; dom.statusEl.className = 'status-error';
-        } else {
-            lastResult = results;
-            animateValue(dom.resCurrent, parseFloat(dom.resCurrent.textContent) || 0, results.current, 500);
-            animateValue(dom.resTallest, parseFloat(dom.resTallest.textContent) || 0, results.tallest, 500);
-            animateValue(dom.resShortest, parseFloat(dom.resShortest.textContent) || 0, results.shortest, 500);
-            
-            dom.statusEl.innerHTML = t('status_success'); dom.statusEl.className = 'status-success';
-            dom.resultActions.style.display = 'block';
-            
-            history.unshift(results);
-            if (history.length > 10) history.pop();
-            saveHistory();
-            renderHistory();
-            dom.historyContainer.style.display = 'block';
-
-            setTimeout(updatePreview, 100);
-        }
-    });
-
-    dom.copyBtn.addEventListener('click', () => {
-        if (!lastResult) { 
-            dom.statusEl.innerHTML = t('status_copy_empty'); 
-            dom.statusEl.className = 'status-error'; 
-            return; 
-        }
-        const copyText = `${t('res_current')} ${lastResult.current.toFixed(4)}\n${t('res_tallest')} ${lastResult.tallest.toFixed(4)}\n${t('res_shortest')} ${lastResult.shortest.toFixed(4)}`;
-        navigator.clipboard.writeText(copyText).then(() => {
-            dom.statusEl.innerHTML = t('status_copy_success'); dom.statusEl.className = 'status-success';
-            const originalText = t('copy_btn');
-            dom.copyBtn.textContent = t('copy_btn_copied');
-            setTimeout(() => { dom.copyBtn.textContent = originalText; }, 2000);
-        }).catch(err => {
-            dom.statusEl.innerHTML = t('status_copy_fail'); dom.statusEl.className = 'status-error';
-        });
-    });
-    
-    dom.imageBtn.addEventListener('click', () => {
-        if (!lastResult) return;
-        
-        const downloadCanvas = document.createElement('canvas');
-        downloadCanvas.width = 500; downloadCanvas.height = 250;
-        const ctx = downloadCanvas.getContext('2d');
-        const activeBg = document.querySelector('.bg-selection.active');
-
-        const triggerDownload = () => {
-            const now = new Date();
-            const pad = (num) => num.toString().padStart(2, '0');
-            const timestamp = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}_${pad(now.getHours())}-${pad(now.getMinutes())}-${pad(now.getSeconds())}`;
-            const link = document.createElement('a');
-            link.download = `sky-height-card_${timestamp}.png`;
-            link.href = downloadCanvas.toDataURL('image/png');
-            link.click();
-        };
-        
-        if (activeBg && (activeBg.dataset.type === 'image' || activeBg.dataset.type === 'uploaded')) {
-            const bgImage = new Image();
-            bgImage.crossOrigin = "Anonymous";
-            bgImage.src = activeBg.dataset.source;
-            bgImage.onload = () => {
-                ctx.drawImage(bgImage, 0, 0, downloadCanvas.width, downloadCanvas.height);
-                ctx.fillStyle = "rgba(0, 0, 0, 0.3)";
-                ctx.fillRect(0, 0, downloadCanvas.width, downloadCanvas.height);
-                drawCanvasContent(ctx, downloadCanvas);
-                triggerDownload();
-            };
-            bgImage.onerror = () => { alert('背景圖片載入失敗！'); };
-        } else if (activeBg && activeBg.dataset.type === 'gradient') { 
-            const colors = activeBg.dataset.colors.split(',');
-            const gradient = ctx.createLinearGradient(0, 0, downloadCanvas.width, downloadCanvas.height);
-            gradient.addColorStop(0, colors[0]);
-            gradient.addColorStop(1, colors[1]);
-            ctx.fillStyle = gradient;
-            ctx.fillRect(0, 0, downloadCanvas.width, downloadCanvas.height);
-            drawCanvasContent(ctx, downloadCanvas);
-            triggerDownload();
-        } else {
-            ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--details-bg');
-            ctx.fillRect(0, 0, downloadCanvas.width, downloadCanvas.height);
-            drawCanvasContent(ctx, downloadCanvas);
-            triggerDownload();
-        }
-    });
-
-    populateBgSelectors();
-    loadHistory();
-    setLanguage(currentLang);
-    updatePreview(); 
-});
+    <script src="script.js"></script>
+</body>
+</html>
