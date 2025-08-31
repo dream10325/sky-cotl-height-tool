@@ -94,6 +94,12 @@
     </div>
 
     <footer class="footer">
+        <button id="feedback-btn" class="icon-button" aria-label="Report issue" data-lang-key="feedback_btn_label" title="問題回報">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width: 20px; height: 20px;">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+            </svg>
+        </button>
+        <span class="footer-separator">|</span>
         <a href="https://github.com/dream10325/sky-cotl-height-tool" target="_blank" rel="noopener noreferrer" data-lang-key="github_link">
             GitHub
         </a>
@@ -103,6 +109,16 @@
             <span class="lang-option active" data-lang="zh-Hant">繁體中文</span>
         </div>
     </footer>
+
+    <div id="feedback-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="close-feedback-modal">&times;</span>
+            <h2 data-lang-key="feedback_title">問題回報 / 功能建議</h2>
+            <p data-lang-key="feedback_desc">感謝您的回饋！請詳細描述您遇到的問題或建議。</p>
+            <textarea id="feedback-text" data-lang-key="feedback_placeholder" placeholder="請在此輸入內容..."></textarea>
+            <button id="submit-feedback-btn" data-lang-key="feedback_submit_btn">送出</button>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
