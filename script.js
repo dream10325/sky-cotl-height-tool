@@ -39,23 +39,41 @@ function decodeAndCalculate(rawData) {
         const startMarker = "ImJvZHki";
         const startIndex = rawData.indexOf(startMarker);
         if (startIndex === -1) { return { error: t('status_error_general') }; }
+
         let b64Str = rawData.substring(startIndex);
         b64Str = b64Str.replace(/-/g, '+').replace(/_/g, '/');
         const padding = b64Str.length % 4;
         if (padding) { b64Str += '='.repeat(4 - padding); }
+
         const decodedText = atob(b64Str);
-        const heightRegex = /eight[^:=\d\-.eE]{0,5}[:=]\s*(-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)/;
-        const scaleRegex = /cale[^:=\d\-.eE]{0,5}[:=]\s*(-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)/;
+
+        const heightRegex = /h?eigh.*?(-?\d+\.\d+)/;
+        const scaleRegex = /scale.*?(\d+\.\d+)/;
+
         const heightMatch = heightRegex.exec(decodedText);
         const scaleMatch = scaleRegex.exec(decodedText);
-        if (!heightMatch || !scaleMatch) { return { error: t('status_error_general') }; }
+
+        if (!heightMatch || !scaleMatch) {  
+            return { error: t('status_error_general') };  
+        }
+
         const height = parseFloat(heightMatch[1]);
         const scale = parseFloat(scaleMatch[1]);
+
         const currentHeight = 7.6 - (8.3 * scale) - (3 * height);
         const shortestHeight = 7.6 - (8.3 * scale) - (3 * -2.0);
         const tallestHeight = 7.6 - (8.3 * scale) - (3 * 2.0);
-        return { current: currentHeight, tallest: tallestHeight, shortest: shortestHeight, scale: scale, timestamp: new Date().getTime(), note: "" };
+
+        return {  
+            current: currentHeight,  
+            tallest: tallestHeight,  
+            shortest: shortestHeight,  
+            scale: scale,  
+            timestamp: new Date().getTime(),  
+            note: ""  
+        };
     } catch (e) {
+        console.error("Calculation failed:", e);
         return { error: t('status_error_general') };
     }
 }
@@ -464,3 +482,4 @@ document.addEventListener('DOMContentLoaded', () => {
     setLanguage(currentLang);
     updatePreview(); 
 });
+
