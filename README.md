@@ -13,15 +13,29 @@ All calculations are done in your browser. No data is uploaded, so you can use i
 ## 如何使用
 
 1.  在遊戲中，前往 **設定 > 帳號 > 帳號資訊 > 造型 QR code**。
-2.  想辦法讀取這個 QR Code 內容，來取得一串以 `https://sky.thatg.co/o=` 開頭的網址。
-    * 您可以使用**另一部手機**的相機掃描。
-    * 您也可以**截圖後**，使用電腦或線上的 QR Code 掃碼工具來讀取。
-3.  **複製整個網址**並貼到本工具的輸入框，點擊計算即可。
+2.  將該 QR Code 畫面**截圖**。
+3.  接下來，你有兩種方式可以使用本工具：
+
+    **方法一 (推薦)：直接上傳截圖**
+    * 回到本工具網頁，點擊「選擇圖片」按鈕，或直接將截圖檔案拖曳至上傳區域。
+    * 工具會自動辨識並完成計算，無需複製貼上。
+
+    **方法二：貼上網址**
+    * 使用**另一部手機**或網頁掃碼工具讀取你的截圖。
+    * 掃描後會得到一串以 `https://sky.thatg.co/o=` 開頭的網址。
+    * **複製整個網址**並貼到本工具的輸入框，點擊計算即可。
 
 ## How to Use
 
 1.  In the game, go to **Settings > Account > Account Info > Outfit QR Code**.
-2.  Read the QR Code to get a URL that starts with `https://sky.thatg.co/o=`.
-    * You can scan it with **another phone's camera**.
-    * Alternatively, you can **take a screenshot** and use a desktop or online QR code scanner.
-3.  **Copy the entire URL**, paste it into the tool, and click calculate.
+2.  **Take a screenshot** of the QR Code screen.
+3.  You now have two ways to use this tool:
+
+    **Method 1 (Recommended): Upload the Screenshot**
+    * Return to this web tool and click "Select Image" or drag and drop your screenshot file into the upload area.
+    * The tool will automatically scan the image and calculate your height. No copy-pasting needed.
+
+    **Method 2: Paste the URL**
+    * Use **another phone's camera** or a web QR code scanner to read your screenshot.
+    * This will give you a URL that starts with `https://sky.thatg.co/o=`.
+    * **Copy the entire URL**, paste it into the tool's input box, and click calculate.
