@@ -166,5 +166,5 @@ input:checked + .slider:before { transform: translateX(20px); }
     font-weight: bold;
 }
 html[data-theme='dark'] .extreme-notice {
-    color: #81c784; /* A slightly lighter green for dark mode */
+    color: #81c784;
 }
