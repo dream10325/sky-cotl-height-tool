@@ -34,7 +34,6 @@ function setLanguage(lang) {
 }
 function t(key) { return translations[currentLang][key] || key; }
 
-// 【錯誤修復】採用您提供的、經過驗證的解析函式
 function decodeAndCalculate(rawData) {
     try {
         const startMarker = "ImJvZHki";
@@ -60,12 +59,12 @@ function decodeAndCalculate(rawData) {
         if (scaleKeyIndex === -1) { return { error: t('status_error_general') }; }
         const scaleSearchArea = decodedText.substring(scaleKeyIndex + 5);
         
-        const scaleFloatMatch = scaleSearchArea.match(/\d*\.\d+/);
+        const scaleFloatMatch = scaleSearchArea.match(/-?\d*\.\d+/);
         
         if (scaleFloatMatch) {
             scale = parseFloat(scaleFloatMatch[0]);
         } else {
-            const scaleIntMatch = scaleSearchArea.match(/\d+/);
+            const scaleIntMatch = scaleSearchArea.match(/-?\d+/);
             if (scaleIntMatch) {
                 scale = parseInt(scaleIntMatch[0], 10) / 1000000000.0;
             } else {
