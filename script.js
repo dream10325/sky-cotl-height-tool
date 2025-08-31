@@ -1,9 +1,9 @@
 const translations = {
     'zh-Hant': {
-        title: "光遇身高查看工具", toggle_instructions: "點此展開/收合使用教學", inst_1: "1. 在遊戲中，點擊右上角齒輪進入設定，選擇「帳號」，再點選「帳號資訊」，最後點選「造型 QR code」。", inst_2: "（注意：這不是加好友的 QR Code！）", inst_3: "2. 掃描該 QR Code。", inst_4: "3. 掃描後會得到一串網址，例如：<br><code>https://sky.thatg.co/o=8RV7ImJv...</code>", inst_5: "<b>4. 請複製完整的網址</b>", inst_5_zh: "，然後直接貼到下方的輸入框中即可！", input_label: "請在此貼上掃描到的完整網址：", placeholder: "將完整網址貼在這裡……", calculate_btn: "開始計算", res_current: "當前身高:", res_tallest: "最高身高:", res_shortest: "最低身高:", copy_btn: "複製結果", image_btn: "預覽分享圖", status_calculating: "計算中……", status_error_empty: "錯誤：輸入框是空的。", status_error_general: "無法識別您貼上的內容。<br>請檢查看看：<ul><li>是不是貼錯了？</li><li>是不是沒有複製完整？</li></ul>", status_success: "計算完成！", status_copy_success: "身高結果已複製到剪貼簿！", status_copy_fail: "複製失敗，您的瀏覽器可能不支援。", copy_btn_copied: "已複製！", history_title: "歷史紀錄", clear_history_btn: "清空紀錄", history_current_label: "身高", history_note_placeholder: "點此新增備註...", customize_image: "自訂並預覽分享圖", player_name: "玩家名稱 (選填):", player_name_placeholder: "在圖片上顯示你的名字", bg_style_upload: "上傳我的圖片:", bg_style_image: "內建圖片背景:", bg_style_gradient: "純色背景:", text_color: "文字顏色:", text_white: "淺色", text_black: "深色", confirm_clear_history: "您確定要清空所有歷史紀錄嗎？", confirm_delete_item: "您確定要刪除這條紀錄嗎？", item_deleted: "紀錄已刪除。", github_link: "GitHub", preview_btn: "預覽分享圖", download_btn: "下載圖片", close_preview_btn: "關閉預覽"
+        title: "光遇身高查看工具", toggle_instructions: "點此展開/收合使用教學", inst_1: "1. 在遊戲中，點擊右上角齒輪進入設定，選擇「帳號」，再點選「帳號資訊」，最後點選「造型 QR code」。", inst_2: "（注意：這不是加好友的 QR Code！）", inst_3: "2. 掃描該 QR Code。", inst_4: "3. 掃描後會得到一串網址，例如：<br><code>https://sky.thatg.co/o=8RV7ImJv...</code>", inst_5: "<b>4. 請複製完整的網址</b>", inst_5_zh: "，然後直接貼到下方的輸入框中即可！", input_label: "請在此貼上掃描到的完整網址：", placeholder: "將完整網址貼在這裡……", calculate_btn: "開始計算", res_current: "當前身高:", res_tallest: "最高身高:", res_shortest: "最低身高:", copy_btn: "複製結果", image_btn: "生成分享圖", status_calculating: "計算中……", status_error_empty: "錯誤：輸入框是空的。", status_error_general: "無法識別您貼上的內容。<br>請檢查看看：<ul><li>是不是貼錯了？</li><li>是不是沒有複製完整？</li></ul>", status_success: "計算完成！", status_copy_success: "身高結果已複製到剪貼簿！", status_copy_fail: "複製失敗，您的瀏覽器可能不支援。", copy_btn_copied: "已複製！", history_title: "歷史紀錄", clear_history_btn: "清空紀錄", history_current_label: "身高", history_note_placeholder: "點此新增備註...", customize_image: "自訂並生成分享圖", player_name: "玩家名稱 (選填):", player_name_placeholder: "在圖片上顯示你的名字", bg_style_upload: "上傳我的圖片:", bg_style_image: "內建圖片背景:", bg_style_gradient: "純色背景:", text_color: "文字顏色:", text_white: "淺色", text_black: "深色", confirm_clear_history: "您確定要清空所有歷史紀錄嗎？", confirm_delete_item: "您確定要刪除這條紀錄嗎？", item_deleted: "紀錄已刪除。", github_link: "GitHub"
     },
     'en': {
-        title: "Sky Height Tool", toggle_instructions: "Click to Expand/Collapse Instructions", inst_1: "1. In the game, go to Settings (top-right gear) > Account > Account Info > Outfit QR Code.", inst_2: "(Note: This is NOT the friend QR code!)", inst_3: "2. Scan the QR Code.", inst_4: "3. You will get a URL, for example:<br><code>https://sky.thatg.co/o=8RV7ImJv...</code>", inst_5: "<b>4. Copy the entire URL</b>", inst_5_zh: " and paste it into the input box below.", input_label: "Paste the full URL from the QR Code:", placeholder: "Paste the full URL here...", calculate_btn: "Calculate", res_current: "Current Height:", res_tallest: "Tallest Height:", res_shortest: "Shortest Height:", copy_btn: "Copy Results", image_btn: "Preview Share Image", status_calculating: "Calculating...", status_error_empty: "Error: Input box is empty.", status_error_general: "Couldn't recognize the content.<br>Please check if:<ul><li>You pasted the wrong text.</li><li>The text is incomplete.</li></ul>", status_success: "Calculation complete!", status_copy_success: "Results copied to clipboard!", status_copy_fail: "Copy failed. Your browser may not support this feature.", copy_btn_copied: "Copied!", history_title: "History", clear_history_btn: "Clear History", history_current_label: "Height", history_note_placeholder: "Click to add a note...", customize_image: "Customize & Preview Image", player_name: "Player Name (Optional):", player_name_placeholder: "Your name on the image", bg_style_upload: "Upload My Image:", bg_style_image: "Built-in Image Backgrounds:", bg_style_gradient: "Gradient Backgrounds:", text_color: "Text Color:", text_white: "Light", text_black: "Dark", confirm_clear_history: "Are you sure you want to clear all history?", confirm_delete_item: "Are you sure you want to delete this record?", item_deleted: "Record deleted.", github_link: "GitHub", preview_btn: "Preview Share Image", download_btn: "Download Image", close_preview_btn: "Close Preview"
+        title: "Sky Height Tool", toggle_instructions: "Click to Expand/Collapse Instructions", inst_1: "1. In the game, go to Settings (top-right gear) > Account > Account Info > Outfit QR Code.", inst_2: "(Note: This is NOT the friend QR code!)", inst_3: "2. Scan the QR Code.", inst_4: "3. You will get a URL, for example:<br><code>https://sky.thatg.co/o=8RV7ImJv...</code>", inst_5: "<b>4. Copy the entire URL</b>", inst_5_zh: " and paste it into the input box below.", input_label: "Paste the full URL from the QR Code:", placeholder: "Paste the full URL here...", calculate_btn: "Calculate", res_current: "Current Height:", res_tallest: "Tallest Height:", res_shortest: "Shortest Height:", copy_btn: "Copy Results", image_btn: "Generate Image", status_calculating: "Calculating...", status_error_empty: "Error: Input box is empty.", status_error_general: "Couldn't recognize the content.<br>Please check if:<ul><li>You pasted the wrong text.</li><li>The text is incomplete.</li></ul>", status_success: "Calculation complete!", status_copy_success: "Results copied to clipboard!", status_copy_fail: "Copy failed. Your browser may not support this feature.", copy_btn_copied: "Copied!", history_title: "History", clear_history_btn: "Clear History", history_current_label: "Height", history_note_placeholder: "Click to add a note...", customize_image: "Customize & Generate Image", player_name: "Player Name (Optional):", player_name_placeholder: "Your name on the image", bg_style_upload: "Upload My Image:", bg_style_image: "Built-in Image Backgrounds:", bg_style_gradient: "Gradient Backgrounds:", text_color: "Text Color:", text_white: "Light", text_black: "Dark", confirm_clear_history: "Are you sure you want to clear all history?", confirm_delete_item: "Are you sure you want to delete this record?", item_deleted: "Record deleted.", github_link: "GitHub"
     }
 };
 let currentLang = 'zh-Hant';
@@ -44,8 +44,8 @@ function decodeAndCalculate(rawData) {
         const padding = b64Str.length % 4;
         if (padding) { b64Str += '='.repeat(4 - padding); }
         const decodedText = atob(b64Str);
-        const heightRegex = /eight[^:=\d\-.eE]{0,5}[:=]\s*(-?\d+(?:\.\d+)?(?:[eE][+-]?d+)?)/;
-        const scaleRegex = /cale[^:=\d\-.eE]{0,5}[:=]\s*(-?\d+(?:\.\d+)?(?:[eE][+-]?d+)?)/;
+        const heightRegex = /eight[^:=\d\-.eE]{0,5}[:=]\s*(-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)/;
+        const scaleRegex = /cale[^:=\d\-.eE]{0,5}[:=]\s*(-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)/;
         const heightMatch = heightRegex.exec(decodedText);
         const scaleMatch = scaleRegex.exec(decodedText);
         if (!heightMatch || !scaleMatch) { return { error: t('status_error_general') }; }
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
         calculateBtn: document.getElementById('calculate-btn'), b64Input: document.getElementById('b64-input'),
         resCurrent: document.getElementById('res-current'), resTallest: document.getElementById('res-tallest'),
         resShortest: document.getElementById('res-shortest'), statusEl: document.getElementById('status'),
-        copyBtn: document.getElementById('copy-btn'), imageBtn: document.getElementById('preview-btn'),
+        copyBtn: document.getElementById('copy-btn'), imageBtn: document.getElementById('image-btn'),
         resultActions: document.getElementById('result-actions'), langSwitcher: document.getElementById('lang-switcher'),
         themeSwitcher: document.getElementById('theme-switcher'), themeIconLight: document.getElementById('theme-icon-light'),
         themeIconDark: document.getElementById('theme-icon-dark'), historyContainer: document.getElementById('history'),
@@ -85,11 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
         gradientSelector: document.getElementById('gradient-selector'),
         textColorSelector: document.getElementById('text-color-selector'), playerNameInput: document.getElementById('player-name'),
         customizationOptions: document.querySelector('.customization-options'),
-        uploadBgInput: document.getElementById('upload-bg'), uploadedImagePreview: document.getElementById('uploaded-image-preview'),
-        imagePreviewContainer: document.getElementById('image-preview-container'),
-        previewImage: document.getElementById('preview-image'),
-        downloadBtn: document.getElementById('download-btn'),
-        closePreviewBtn: document.getElementById('close-preview-btn')
+        uploadBgInput: document.getElementById('upload-bg'), uploadedImagePreview: document.getElementById('uploaded-image-preview')
     };
 
     let history = [];
@@ -194,15 +190,18 @@ document.addEventListener('DOMContentLoaded', () => {
     
     dom.customizationOptions.addEventListener('click', (e) => {
         const target = e.target;
-        if (target.closest('.selectable-option')) {
-            const selectable = target.closest('.selectable-option');
-            if (selectable.parentElement.classList.contains('image-selector') || selectable.parentElement.classList.contains('gradient-selector')) {
-                document.querySelectorAll('.bg-selection').forEach(el => el.classList.remove('active'));
-                selectable.classList.add('active');
-            } else if (selectable.parentElement.id === 'text-color-selector') {
-                 document.querySelectorAll('.text-color-option').forEach(btn => btn.classList.remove('active'));
-                 selectable.classList.add('active');
+        const selectable = target.closest('.selectable-option');
+        if (!selectable) return;
+
+        if (selectable.classList.contains('bg-selection')) {
+            document.querySelectorAll('.bg-selection').forEach(el => el.classList.remove('active'));
+            selectable.classList.add('active');
+            if (!selectable.parentElement.id === 'uploaded-image-preview') {
+                 dom.uploadBgInput.value = '';
             }
+        } else if (selectable.classList.contains('text-color-option')) {
+            document.querySelectorAll('.text-color-option').forEach(btn => btn.classList.remove('active'));
+            selectable.classList.add('active');
         }
     });
 
@@ -223,7 +222,6 @@ document.addEventListener('DOMContentLoaded', () => {
     dom.calculateBtn.addEventListener('click', () => {
         dom.resCurrent.textContent = '...'; dom.resTallest.textContent = '...'; dom.resShortest.textContent = '...';
         dom.resultActions.style.display = 'none';
-        dom.imagePreviewContainer.style.display = 'none';
         dom.statusEl.innerHTML = t('status_calculating'); dom.statusEl.className = '';
         const rawData = dom.b64Input.value.trim();
         if (!rawData) {
@@ -262,9 +260,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
     
-    function generateImage() {
+    dom.imageBtn.addEventListener('click', () => {
         const current = dom.resCurrent.textContent;
-        if (current === '...') return null;
+        if (current === '...') return;
         
         const canvas = document.createElement('canvas');
         canvas.width = 500; canvas.height = 250;
@@ -292,57 +290,33 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.fillText(rangeText, canvas.width / 2, 180);
             ctx.font = '12px "Arial", sans-serif'; ctx.globalAlpha = 0.8;
             ctx.fillText('Generated by sky-cotl-height-tool', canvas.width / 2, 220);
-            return canvas.toDataURL('image/png');
+
+            const link = document.createElement('a');
+            link.download = `sky-height-${current}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
         };
 
-        return new Promise((resolve, reject) => {
-            if (activeBg.dataset.type === 'image' || activeBg.dataset.type === 'uploaded') {
-                const bgImage = new Image();
-                bgImage.crossOrigin = "Anonymous";
-                bgImage.src = activeBg.dataset.source;
-                bgImage.onload = () => {
-                    ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
-                    ctx.fillStyle = "rgba(0, 0, 0, 0.3)";
-                    ctx.fillRect(0, 0, canvas.width, canvas.height);
-                    resolve(drawText());
-                };
-                bgImage.onerror = () => reject('背景圖片載入失敗！');
-            } else {
-                const colors = activeBg.dataset.colors.split(',');
-                const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-                gradient.addColorStop(0, colors[0]);
-                gradient.addColorStop(1, colors[1]);
-                ctx.fillStyle = gradient;
+        if (activeBg.dataset.type === 'image' || activeBg.dataset.type === 'uploaded') {
+            const bgImage = new Image();
+            bgImage.crossOrigin = "Anonymous";
+            bgImage.src = activeBg.dataset.source;
+            bgImage.onload = () => {
+                ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = "rgba(0, 0, 0, 0.3)";
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
-                resolve(drawText());
-            }
-        });
-    }
-
-    dom.imageBtn.addEventListener('click', async () => {
-        dom.statusEl.innerHTML = '正在生成預覽圖...';
-        try {
-            const imageUrl = await generateImage();
-            if(imageUrl) {
-                dom.previewImage.src = imageUrl;
-                dom.imagePreviewContainer.style.display = 'block';
-                dom.statusEl.innerHTML = '預覽圖生成成功！';
-            }
-        } catch (error) {
-            dom.statusEl.innerHTML = `錯誤: ${error}`;
-            dom.statusEl.className = 'status-error';
+                drawText();
+            };
+            bgImage.onerror = () => { alert('背景圖片載入失敗！'); };
+        } else {
+            const colors = activeBg.dataset.colors.split(',');
+            const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+            gradient.addColorStop(0, colors[0]);
+            gradient.addColorStop(1, colors[1]);
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            drawText();
         }
-    });
-
-    dom.closePreviewBtn.addEventListener('click', () => {
-        dom.imagePreviewContainer.style.display = 'none';
-    });
-
-    dom.downloadBtn.addEventListener('click', () => {
-        const link = document.createElement('a');
-        link.download = `sky-height-${dom.resCurrent.textContent}.png`;
-        link.href = dom.previewImage.src;
-        link.click();
     });
 
     populateBgSelectors();
