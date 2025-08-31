@@ -33,6 +33,13 @@
         <label for="b64-input" data-lang-key="input_label">請在此貼上掃描到的完整網址：</label>
         <textarea id="b64-input" data-lang-key="placeholder" placeholder="將完整網址貼在這裡……"></textarea>
         
+        <div id="qr-upload-area" class="qr-upload-area">
+            <p data-lang-key="upload_instruction">或拖曳、選擇含有 QR Code 的截圖</p>
+            <button id="qr-upload-btn" class="secondary-btn" data-lang-key="upload_btn">選擇圖片</button>
+            <input type="file" id="qr-file-input" accept="image/*" style="display: none;">
+        </div>
+        <canvas id="qr-canvas" style="display: none;"></canvas>
+
         <button id="calculate-btn" data-lang-key="calculate_btn">開始計算</button>
 
         <div class="results">
@@ -156,6 +163,7 @@
         </div>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
