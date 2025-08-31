@@ -42,16 +42,22 @@ h1 {
 .icon-button:hover { background-color: var(--details-bg); }
 .lang-switcher {
     display: flex; border: 1px solid var(--border-color); border-radius: 8px;
-    overflow: hidden;
+    overflow: hidden; height: 38px;
 }
 .lang-switcher .lang-option {
     padding: 8px 12px; margin: 0; border: none;
     background: none; color: var(--label-color); font-size: 0.9em;
     cursor: pointer; transition: background-color 0.2s, color 0.2s;
 }
-.lang-switcher .lang-option:first-child { border-right: 1px solid var(--border-color); }
-.lang-switcher .lang-option.active { background-color: var(--primary-color); color: white; font-weight: bold; }
-.lang-switcher .lang-option:hover:not(.active) { background-color: var(--lang-button-hover); }
+.lang-switcher .lang-option:first-child {
+    border-right: 1px solid var(--border-color);
+}
+.lang-switcher .lang-option.active {
+    background-color: var(--primary-color); color: white; font-weight: bold;
+}
+.lang-switcher .lang-option:hover:not(.active) {
+    background-color: var(--lang-button-hover);
+}
 details {
     margin-bottom: 20px; border-radius: 8px; background-color: var(--details-bg);
     padding: 5px 15px; border: 1px solid var(--border-color); transition: background-color 0.3s;
@@ -103,6 +109,10 @@ button:hover { background-color: #357abd; }
 .image-selector .selectable-option { height: 40px; object-fit: cover; }
 .gradient-selector .selectable-option { height: 40px; }
 #uploaded-image-preview img { height: 40px; object-fit: cover; flex-grow: 1; }
+.image-preview-container { margin-top: 15px; padding: 10px; border: 1px solid var(--border-color); border-radius: 8px; }
+.image-preview-container img { width: 100%; border-radius: 6px; }
+.preview-actions { display: flex; gap: 10px; margin-top: 10px; }
+.preview-actions button { flex: 1; margin-top: 0; }
 .history-container { margin-top: 25px; border-top: 1px solid var(--border-color); padding-top: 15px;}
 .history-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
 .history-header h2 { margin: 0; font-size: 1.2em; color: var(--label-color); }
@@ -136,34 +146,13 @@ button:hover { background-color: #357abd; }
 .status-error { color: var(--error-color); }
 .status-success { color: var(--success-color); }
 .footer {
-    margin-top: 20px; text-align: center;
-    font-size: 0.9em; color: var(--label-color);
+    margin-top: 20px;
+    text-align: center;
+    font-size: 0.9em;
+    color: var(--label-color);
 }
 .footer a {
-    color: var(--primary-color);
-    text-decoration: none;
+    color: var(--label-color); text-decoration: none;
+    transition: color 0.2s;
 }
-.footer a:hover { text-decoration: underline; }
-
-/* Modal Styles */
-.modal {
-    display: none; position: fixed; z-index: 1000;
-    left: 0; top: 0; width: 100%; height: 100%;
-    overflow: auto; background-color: rgba(0,0,0,0.6);
-    justify-content: center; align-items: center;
-}
-.modal.is-visible { display: flex; }
-.modal-content {
-    background-color: var(--card-bg); margin: auto; padding: 20px;
-    border: 1px solid var(--border-color); border-radius: 12px;
-    width: 90%; max-width: 540px; text-align: center;
-    position: relative;
-}
-.modal-close {
-    color: var(--label-color); position: absolute; top: 10px; right: 20px;
-    font-size: 28px; font-weight: bold; cursor: pointer;
-}
-#preview-image {
-    width: 100%; max-width: 500px; height: auto;
-    border-radius: 8px; margin-bottom: 15px;
-}
+.footer a:hover { color: var(--primary-color); }
