@@ -1,3 +1,24 @@
+// ===== APP VERSION AND UPDATE NOTES =====
+const APP_VERSION = '1.1.0';
+const UPDATE_NOTES = {
+    'zh-Hant': {
+        title: `版本 ${APP_VERSION} 更新`,
+        intro: '此工具已更新！主要變更如下：',
+        notes: [
+            '<strong>新增：</strong>版本更新通知，讓您不會錯過新功能。',
+            '<strong>修復：</strong>解決了「生成分享圖」上的身高數值有時與頁面結果不符的問題。'
+        ]
+    },
+    'en': {
+        title: `Update: Version ${APP_VERSION}`,
+        intro: 'This tool has been updated! Here are the main changes:',
+        notes: [
+            '<strong>New:</strong> Added update notifications so you won\'t miss new features.',
+            '<strong>Fixed:</strong> Resolved an issue where the height values on the generated image sometimes did not match the latest result on the page.'
+        ]
+    }
+};
+
 const translations = {
     'zh-Hant': {
         title: "光遇身高查看工具", toggle_instructions: "點此展開/收合使用教學", inst_1: "1. 在遊戲中，點擊右上角齒輪進入設定，選擇「帳號」，再點選「帳號資訊」，最後點選「造型 QR code」。", inst_2: "（注意：這不是加好友的 QR Code！）", inst_3: "2. 掃描該 QR Code。", inst_4: "3. 掃描後會得到一串網址，例如：<br><code>https://sky.thatg.co/o=8RV7ImJv...</code>", inst_5: "<b>4. 請複製完整的網址</b>", inst_5_zh: "，然後直接貼到下方的輸入框中即可！", input_label: "請在此貼上掃描到的完整網址：", placeholder: "將完整網址貼在這裡……", calculate_btn: "開始計算", res_current: "當前身高:", res_tallest: "最高身高:", res_shortest: "最低身高:", copy_btn: "複製結果", image_btn: "生成分享圖", status_calculating: "計算中……", status_error_empty: "錯誤：輸入框是空的。", status_error_general: "無法識別您貼上的內容。<br>請檢查看看：<ul><li>是不是貼錯了？</li><li>是不是沒有複製完整？</li></ul>", status_success: "計算完成！", status_copy_success: "身高結果已複製到剪貼簿！", status_copy_fail: "複製失敗，您的瀏覽器可能不支援。", copy_btn_copied: "已複製！", history_title: "歷史紀錄", clear_history_btn: "清空紀錄", history_current_label: "身高", history_note_placeholder: "點此新增備註...", customize_image: "自訂並生成分享圖", player_name: "玩家名稱 (選填):", player_name_placeholder: "在圖片上顯示你的名字", bg_style_upload: "上傳我的圖片:", bg_style_image: "內建圖片背景:", bg_style_gradient: "純色背景:", text_color: "文字顏色:", text_white: "淺色", text_black: "深色", confirm_clear_history: "您確定要清空所有歷史紀錄嗎？", confirm_delete_item: "您確定要刪除這條紀錄嗎？", item_deleted: "紀錄已刪除。", github_link: "GitHub", text_align: "文字對齊:", align_center: "置中", align_left: "靠左", align_right: "靠右", show_range: "顯示身高範圍:", disclaimer_free: "此工具永久免費且開放原始碼。請注意其他地方的收費服務可能存在風險。", disclaimer_privacy: "所有計算均在您的瀏覽器中完成，QR Code 資訊不會被上傳或儲存至任何伺服器。", disclaimer_accuracy: "計算結果僅供參考。", disclaimer_unofficial: "此為玩家粉絲開發的工具，與 thatgamecompany 官方無關。", sim_title: "重塑藥水模擬器", sim_desc: "先用上方工具算出您目前的身高後，再點擊按鈕來模擬使用重塑藥水後的身高。", sim_drink_btn: "喝一瓶重塑藥水！", sim_reset_btn: "重設", sim_result_label: "模擬新身高:", sim_count_label: "已使用藥水數量:", sim_error_no_calc: "請先使用上方的功能計算一次您目前的身高，才能開始模擬。", sim_extreme_tall: "（已達最高身高極限！）", sim_extreme_short: "（已達最矮身高極限！）"
@@ -122,11 +143,17 @@ document.addEventListener('DOMContentLoaded', () => {
         potionResult: document.getElementById('potion-result'),
         potionCount: document.getElementById('potion-count'),
         potionExtremeNotice: document.getElementById('potion-extreme-notice'),
+        updateModalOverlay: document.getElementById('update-modal-overlay'),
+        closeModalBtn: document.getElementById('close-modal-btn'),
+        updateModalTitle: document.getElementById('update-modal-title'),
+        updateModalIntro: document.getElementById('update-modal-intro'),
+        updateModalList: document.getElementById('update-modal-list'),
     };
 
     let history = [];
     let uploadedImageUrl = null;
     let lastCalculatedScale = null;
+    let lastResult = null; // BUG FIX: Store the last successful result object
     let potionCounter = 0;
 
     function saveHistory() { localStorage.setItem('skyHeightHistory', JSON.stringify(history)); }
@@ -232,8 +259,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const drawCanvasContent = (ctx, canvas) => {
-        const current = dom.resCurrent.textContent;
-        if (current === '...' || !dom.resultActions.style.display || dom.resultActions.style.display === 'none') {
+        // BUG FIX: Use the 'lastResult' object as the source of truth, not the animated DOM text.
+        if (!lastResult) {
             ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--details-bg');
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             return;
@@ -269,16 +296,17 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.fillText(t('res_current'), x, playerName ? 60 : 50);
         
         ctx.font = `bold 70px "Courier New", Courier, monospace`;
-        ctx.fillText(current, x, 95);
+        ctx.fillText(lastResult.current.toFixed(4), x, 95);
         
         if (showRange) {
             ctx.font = `20px ${baseFont}`;
-            const rangeText = `${t('res_tallest')} ${dom.resTallest.textContent} | ${t('res_shortest')} ${dom.resShortest.textContent}`;
+            const rangeText = `${t('res_tallest')} ${lastResult.tallest.toFixed(4)} | ${t('res_shortest')} ${lastResult.shortest.toFixed(4)}`;
             ctx.fillText(rangeText, x, 180);
         }
         
         ctx.font = `12px "Arial", sans-serif`;
         ctx.globalAlpha = 0.8;
+        ctx.textAlign = 'center'; // Ensure footer text is centered
         ctx.fillText('Generated by sky-cotl-height-tool', canvas.width / 2, 220);
         ctx.globalAlpha = 1.0;
     };
@@ -367,6 +395,7 @@ document.addEventListener('DOMContentLoaded', () => {
             dom.statusEl.innerHTML = results.error; dom.statusEl.className = 'status-error';
             dom.simulatorContainer.style.display = 'none';
         } else {
+            lastResult = results; // BUG FIX: Store the successful result
             animateValue(dom.resCurrent, 0, results.current, 500);
             animateValue(dom.resTallest, 0, results.tallest, 500);
             animateValue(dom.resShortest, 0, results.shortest, 500);
@@ -383,19 +412,17 @@ document.addEventListener('DOMContentLoaded', () => {
             renderHistory();
             dom.historyContainer.style.display = 'block';
 
-            setTimeout(updatePreview, 500);
+            setTimeout(updatePreview, 100); // Update preview slightly after calculation starts
         }
     });
 
     dom.copyBtn.addEventListener('click', () => {
-        const current = dom.resCurrent.textContent;
-        if (current === '...' || !dom.resultActions.style.display || dom.resultActions.style.display === 'none') { 
+        if (!lastResult) { 
             dom.statusEl.innerHTML = t('status_copy_empty'); 
             dom.statusEl.className = 'status-error'; 
             return; 
         }
-        const tallest = dom.resTallest.textContent; const shortest = dom.resShortest.textContent;
-        const copyText = `${t('res_current')} ${current}\n${t('res_tallest')} ${tallest}\n${t('res_shortest')} ${shortest}`;
+        const copyText = `${t('res_current')} ${lastResult.current.toFixed(4)}\n${t('res_tallest')} ${lastResult.tallest.toFixed(4)}\n${t('res_shortest')} ${lastResult.shortest.toFixed(4)}`;
         navigator.clipboard.writeText(copyText).then(() => {
             dom.statusEl.innerHTML = t('status_copy_success'); dom.statusEl.className = 'status-success';
             const originalText = t('copy_btn');
@@ -407,8 +434,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
     dom.imageBtn.addEventListener('click', () => {
-        const current = dom.resCurrent.textContent;
-        if (current === '...') return;
+        if (!lastResult) return;
         
         const downloadCanvas = document.createElement('canvas');
         downloadCanvas.width = 500; downloadCanvas.height = 250;
@@ -486,11 +512,36 @@ document.addEventListener('DOMContentLoaded', () => {
         dom.potionExtremeNotice.textContent = '';
     });
 
+    // --- Update Modal Logic ---
+    function showUpdateModal() {
+        const notes = UPDATE_NOTES[currentLang] || UPDATE_NOTES['en'];
+        dom.updateModalTitle.textContent = notes.title;
+        dom.updateModalIntro.textContent = notes.intro;
+        dom.updateModalList.innerHTML = notes.notes.map(note => `<li>${note}</li>`).join('');
+        dom.updateModalOverlay.classList.remove('hidden');
+    }
+    function hideUpdateModal() {
+        dom.updateModalOverlay.classList.add('hidden');
+    }
+    dom.closeModalBtn.addEventListener('click', hideUpdateModal);
+    dom.updateModalOverlay.addEventListener('click', (e) => {
+        if (e.target === dom.updateModalOverlay) {
+            hideUpdateModal();
+        }
+    });
+
+    function checkVersion() {
+        const lastSeenVersion = localStorage.getItem('lastSeenVersion');
+        if (lastSeenVersion !== APP_VERSION) {
+            showUpdateModal();
+            localStorage.setItem('lastSeenVersion', APP_VERSION);
+        }
+    }
+
+    // --- Initializations ---
     populateBgSelectors();
     loadHistory();
     setLanguage(currentLang);
     updatePreview(); 
+    checkVersion(); // Check for updates on page load
 });
-
-
-
