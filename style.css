@@ -122,31 +122,25 @@ button:hover { background-color: #357abd; }
 #status { margin-top: 15px; text-align: center; font-size: 0.9em; height: auto; min-height: 20px; line-height: 1.5; }
 .status-error { color: var(--error-color); }
 .status-success { color: var(--success-color); }
-.footer {
-    margin-top: 20px;
-    text-align: center;
-    font-size: 0.9em;
-    color: var(--label-color);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 12px;
-}
-.footer a {
-    color: var(--label-color); text-decoration: none;
-    transition: color 0.2s;
-}
+.footer { display: flex; flex-direction: column; align-items: center; gap: 15px; margin-top: 20px; }
+.footer-links { display: flex; justify-content: center; align-items: center; gap: 12px; }
+.footer a { color: var(--label-color); text-decoration: none; transition: color 0.2s; }
 .footer a:hover { color: var(--primary-color); }
 .footer-separator { color: var(--border-color); }
 .footer-lang-switcher { display: flex; align-items: center; gap: 8px; }
-.footer-lang-switcher .lang-option {
-    cursor: pointer;
-    transition: color 0.2s;
-}
-.footer-lang-switcher .lang-option.active {
-    font-weight: bold;
-    color: var(--font-color);
-}
-.footer-lang-switcher .lang-option:not(.active):hover {
-    color: var(--primary-color);
-}
+.footer-lang-switcher .lang-option { cursor: pointer; transition: color 0.2s; }
+.footer-lang-switcher .lang-option.active { font-weight: bold; color: var(--font-color); }
+.footer-lang-switcher .lang-option:not(.active):hover { color: var(--primary-color); }
+.footer-disclaimers { text-align: center; font-size: 0.75em; color: var(--label-color); max-width: 500px; }
+.footer-disclaimers p { margin: 5px 0; }
+.preview-container { margin-bottom: 15px; }
+#preview-canvas { width: 100%; height: auto; border-radius: 8px; background-color: var(--border-color); }
+.toggle-group { flex-direction: row; justify-content: space-between; align-items: center; }
+.switch { position: relative; display: inline-block; width: 44px; height: 24px; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; }
+.slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 4px; bottom: 4px; background-color: white; transition: .4s; }
+input:checked + .slider { background-color: var(--primary-color); }
+input:checked + .slider:before { transform: translateX(20px); }
+.slider.round { border-radius: 34px; }
+.slider.round:before { border-radius: 50%; }
