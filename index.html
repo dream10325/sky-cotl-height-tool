@@ -143,10 +143,16 @@
 
     <div class="container simulator-container" id="simulator-container" style="display: none;">
         <h2 data-lang-key="sim_title">重塑藥水模擬器</h2>
-        <p class="instructions" data-lang-key="sim_desc">點擊按鈕來模擬使用一瓶重塑藥水後，您的身高可能會隨機變成多少。</p>
+        <p class="instructions" data-lang-key="sim_desc"></p>
+        <p class="sim-disclaimer" data-lang-key="sim_disclaimer_text"></p>
         <div class="sim-controls">
              <button id="drink-potion-btn" data-lang-key="sim_drink_btn">喝一瓶重塑藥水！</button>
              <button id="reset-sim-btn" class="secondary-btn" data-lang-key="sim_reset_btn">重設</button>
+        </div>
+        <div class="sim-metaphysics">
+            <p data-lang-key="sim_meta_title"></p>
+            <label class="meta-option"><input type="checkbox" id="meta-tall-friend"> <span data-lang-key="sim_meta_tall"></span></label>
+            <label class="meta-option"><input type="checkbox" id="meta-short-friend"> <span data-lang-key="sim_meta_short"></span></label>
         </div>
         <div class="sim-results">
             <div class="result-item">
@@ -176,13 +182,12 @@
             <div id="lang-switcher" class="footer-lang-switcher">
                 <span class="lang-option" data-lang="en">English</span>
                 <span class="lang-option active" data-lang="zh-Hant">繁體中文</span>
+                <span class="lang-option" data-lang="ja">日本語</span>
             </div>
         </div>
         <div class="footer-disclaimers">
-            <p data-lang-key="disclaimer_free" class="free-notice"></p>
+            <p data-lang-key="disclaimer_free"></p>
             <p data-lang-key="disclaimer_privacy"></p>
-            <p data-lang-key="disclaimer_accuracy"></p>
-            <p data-lang-key="disclaimer_unofficial"></p>
         </div>
     </footer>
 
