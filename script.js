@@ -123,7 +123,7 @@ const translations = {
         confirm_delete_item: "Are you sure you want to delete this record?",
         item_deleted: "Record deleted.",
         github_link: "GitHub",
-        report_issue_link: "Report an Issue",
+        report_issue_link: "Report an Issue (Chinese Only)",
         text_align: "Text Alignment:",
         align_center: "Center",
         align_left: "Left",
@@ -199,7 +199,7 @@ const translations = {
         confirm_delete_item: "この記録を本当に削除しますか？",
         item_deleted: "記録を削除しました。",
         github_link: "GitHub",
-        report_issue_link: "不具合報告",
+        report_issue_link: "不具合報告 (中国語のみ)",
         text_align: "文字揃え:",
         align_center: "中央揃え",
         align_left: "左揃え",
@@ -785,3 +785,4 @@ document.addEventListener('DOMContentLoaded', () => {
     setLanguage(currentLang);
     updatePreview(); 
 });
+
