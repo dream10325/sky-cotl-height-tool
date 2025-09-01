@@ -75,7 +75,7 @@ textarea {
 .qr-upload-area p {
     margin: 0 0 10px 0;
     color: var(--label-color);
-    pointer-events: none;
+    pointer-events: none; /* So it doesn't interfere with drop events */
 }
 button {
     width: 100%; padding: 12px; margin-top: 15px; border: none; border-radius: 8px;
@@ -100,31 +100,6 @@ button.secondary-btn:hover { background-color: var(--details-bg); }
 .result-item .label { color: var(--label-color); }
 .result-item .value { font-family: 'Courier New', Courier, monospace; font-weight: bold; color: var(--result-color); }
 .result-item.important .value { font-size: 1.2em; }
-.result-item.json-output {
-    display: block;
-    text-align: left;
-}
-.result-item.json-output .json-header {
-    display: flex; justify-content: space-between; align-items: center; gap: 10px;
-}
-.result-item.json-output .label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: bold;
-}
-.result-item.json-output .value {
-    background-color: var(--details-bg);
-    padding: 10px;
-    border-radius: 8px;
-    display: block;
-    width: 100%;
-    box-sizing: border-box;
-    white-space: pre-wrap;
-    word-break: break-all;
-    font-size: 0.9em;
-    max-height: 200px;
-    overflow-y: auto;
-}
 .result-actions { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
 .customization-details { margin: 0; padding: 0; background: none; border: none; }
 .customization-details summary { font-size: 1em; font-weight: normal; }
@@ -191,6 +166,8 @@ button.secondary-btn:hover { background-color: var(--details-bg); }
 .footer-lang-switcher .lang-option:not(.active):hover { color: var(--primary-color); }
 .footer-disclaimers { text-align: center; font-size: 0.75em; color: var(--label-color); max-width: 500px; }
 .footer-disclaimers p { margin: 5px 0; line-height: 1.5; }
+.free-notice { font-weight: bold; color: var(--success-color); }
+html[data-theme='dark'] .free-notice { color: #81c784; }
 .preview-container { margin-bottom: 15px; }
 #preview-canvas { width: 100%; height: auto; border-radius: 8px; background-color: var(--border-color); }
 .toggle-group { flex-direction: row; justify-content: space-between; align-items: center; }
@@ -215,6 +192,8 @@ input:checked + .slider:before { transform: translateX(20px); }
 html[data-theme='dark'] .extreme-notice {
     color: #81c784;
 }
+
+/* NEW STYLES */
 .sim-disclaimer {
     margin: 10px 0;
     padding: 10px;
