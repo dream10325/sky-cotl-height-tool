@@ -806,4 +806,3 @@ document.addEventListener('DOMContentLoaded', () => {
     setLanguage(currentLang);
     updatePreview(); 
 });
-不然我丟出他的完整修改後的檔案
