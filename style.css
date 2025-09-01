@@ -192,8 +192,6 @@ input:checked + .slider:before { transform: translateX(20px); }
 html[data-theme='dark'] .extreme-notice {
     color: #81c784;
 }
-
-/* NEW STYLES */
 .sim-disclaimer {
     margin: 10px 0;
     padding: 10px;
@@ -232,4 +230,29 @@ html[data-theme='dark'] .extreme-notice {
 .sim-metaphysics input[type="checkbox"] {
     width: 16px;
     height: 16px;
+}
+.result-item.json-output {
+    display: block;
+    text-align: left;
+    align-items: flex-start;
+    flex-direction: column;
+}
+.result-item.json-output .json-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+.result-item.json-output .json-pre {
+    background-color: var(--details-bg);
+    padding: 12px;
+    border-radius: 8px;
+    margin-top: 8px;
+    font-size: 0.9em;
+    white-space: pre-wrap;
+    word-break: break-all;
+    font-family: 'Courier New', monospace;
+    width: 100%;
+    box-sizing: border-box;
 }
