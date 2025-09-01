@@ -13,14 +13,14 @@ const translations = {
         faq_q2: "Q: 要穿特定造型後才能計算身高嗎？",
         faq_a2: "A: 沒有這回事，如果無法使用可能是我正在更新網站。",
         faq_q3: "Q: 身高計算結果與以前不同？",
-        faq_a3: "A: 因為新版修正了一個重大問題，現在的數值才是正確的。", // **已修改**
+        faq_a3: "A: 因為新版修正了一個重大問題，現在的數值才是正確的。",
         input_label: "請在此貼上掃描到的完整網址：",
         placeholder: "將完整網址貼在這裡……",
         calculate_btn: "開始計算",
         res_current: "當前身高:",
         res_tallest: "最高身高:",
         res_shortest: "最低身高:",
-        res_details: "詳細資訊 (debug用):", // **已修改**
+        res_details: "詳細資訊 (debug用):",
         copy_btn: "複製結果",
         image_btn: "生成分享圖",
         status_calculating: "計算中……",
@@ -60,7 +60,7 @@ const translations = {
         sim_disclaimer_text: "本功能僅為娛樂用，不代表遊戲內實際機率。",
         sim_drink_btn: "喝一瓶重塑藥水！",
         sim_reset_btn: "重設",
-        sim_meta_title: "玄學選項 (僅為趣味)", // **已修改**
+        sim_meta_title: "玄學選項 (僅為趣味)",
         sim_meta_tall: "牽著高個子好友",
         sim_meta_short: "牽著矮個子好友",
         sim_result_label: "模擬新身高:",
@@ -89,14 +89,14 @@ const translations = {
         faq_q2: "Q: Do I need a specific outfit to calculate my height?",
         faq_a2: "A: Not at all. If it's not working, it's likely because I am in the middle of an update.",
         faq_q3: "Q: My height calculation is different than before.",
-        faq_a3: "A: A major bug was fixed in the new version. The current values are the correct ones.", // **已修改**
+        faq_a3: "A: A major bug was fixed in the new version. The current values are the correct ones.",
         input_label: "Paste the full URL from the QR Code:",
         placeholder: "Paste the full URL here...",
         calculate_btn: "Calculate",
         res_current: "Current Height:",
         res_tallest: "Tallest Height:",
         res_shortest: "Shortest Height:",
-        res_details: "Details (for debugging):", // **已修改**
+        res_details: "Details (for debugging):",
         copy_btn: "Copy Results",
         image_btn: "Generate Image",
         status_calculating: "Calculating...",
@@ -136,7 +136,7 @@ const translations = {
         sim_disclaimer_text: "This feature is for entertainment purposes only and does not represent actual in-game probabilities.",
         sim_drink_btn: "Drink a Resize Potion!",
         sim_reset_btn: "Reset",
-        sim_meta_title: "Metaphysics Options (For fun only)", // **已修改**
+        sim_meta_title: "Metaphysics Options (For fun only)",
         sim_meta_tall: "Holding hands with a tall friend",
         sim_meta_short: "Holding hands with a short friend",
         sim_result_label: "Simulated New Height:",
@@ -165,14 +165,14 @@ const translations = {
         faq_q2: "Q: 特定の格好でないと身長は計算できませんか？",
         faq_a2: "A: そのようなことはありません。利用できない場合、サイトを更新している可能性があります。",
         faq_q3: "Q: 身長の計算結果が以前と異なります。",
-        faq_a3: "A: 新しいバージョンで重大なバグが修正されました。現在の数値が正しい値です。", // **已修改**
+        faq_a3: "A: 新しいバージョンで重大なバグが修正されました。現在の数値が正しい値です。",
         input_label: "スキャンした完全なURLをここに貼り付けてください：",
         placeholder: "完全なURLをここに貼り付け…",
         calculate_btn: "計算開始",
         res_current: "現在の身長:",
         res_tallest: "最高身長:",
         res_shortest: "最低身長:",
-        res_details: "詳細情報（デバッグ用）:", // **已修改**
+        res_details: "詳細情報（デバッグ用）:",
         copy_btn: "結果をコピー",
         image_btn: "共有画像を生成",
         status_calculating: "計算中…",
@@ -212,7 +212,7 @@ const translations = {
         sim_disclaimer_text: "この機能は娯楽目的のものです。ゲーム内の実際の確率を示すものではありません。",
         sim_drink_btn: "リサイズドリンクを1本飲む！",
         sim_reset_btn: "リセット",
-        sim_meta_title: "オカルト設定（お遊び用）", // **已修改**
+        sim_meta_title: "オカルト設定（お遊び用）",
         sim_meta_tall: "高身長のフレンドと手をつなぐ",
         sim_meta_short: "低身長のフレンドと手をつなぐ",
         sim_result_label: "シミュレートされた新しい身長:",
@@ -255,93 +255,76 @@ function setLanguage(lang) {
 
 function t(key) { return translations[currentLang][key] || key; }
 
-function decodeAndCalculate(fullUrl) {
+// START: 這是從您最舊版移植過來、最可靠的計算函式
+function decodeAndCalculate(rawData) {
     try {
-        let decoded;
-        try {
-            const startMarker = "ImJvZHki";
-            let b64Str = fullUrl;
-            const startIndex = fullUrl.indexOf(startMarker);
-            if (startIndex !== -1) {
-                b64Str = fullUrl.substring(startIndex);
-            } else if (fullUrl.includes('o=')) {
-                b64Str = fullUrl.split('o=').pop() || '';
-            }
+        // 步驟 1: 清理並解碼 Base64
+        const startMarker = "ImJvZHki";
+        const startIndex = rawData.indexOf(startMarker);
+        if (startIndex === -1) { return { error: t('status_error_general') }; }
+        
+        let b64Str = rawData.substring(startIndex);
+        b64Str = b64Str.replace(/-/g, '+').replace(/_/g, '/');
+        const padding = b64Str.length % 4;
+        if (padding) { b64Str += '='.repeat(4 - padding); }
+        
+        const decodedText = atob(b64Str);
 
-            b64Str = b64Str.replace(/-/g, '+').replace(/_/g, '/');
-            const padding = b64Str.length % 4;
-            if (padding) { b64Str += '='.repeat(4 - padding); }
-            decoded = atob(b64Str);
-        } catch (e) {
-            console.error("Failed to decode Base64 string:", e);
-            return { error: "Invalid Base64 string. Please check the URL." };
+        // 步驟 2: 解析 height
+        const heightKeyIndex = decodedText.search(/h?eigh/);
+        if (heightKeyIndex === -1) { return { error: t('status_error_general') }; }
+        const heightSearchArea = decodedText.substring(heightKeyIndex + 4);
+        const heightMatch = heightSearchArea.match(/-?\d*\.\d+/);
+        if (!heightMatch) { return { error: t('status_error_general') }; }
+        const height = parseFloat(heightMatch[0]);
+
+        // 步驟 3: 解析 scale (兼容浮點數與整數兩種格式)
+        let scale;
+        const scaleKeyIndex = decodedText.search(/scale/);
+        if (scaleKeyIndex === -1) { return { error: t('status_error_general') }; }
+        const scaleSearchArea = decodedText.substring(scaleKeyIndex + 5);
+        
+        // 優先嘗試匹配浮點數
+        const scaleFloatMatch = scaleSearchArea.match(/-?\d*\.\d+/);
+        if (scaleFloatMatch) {
+            scale = parseFloat(scaleFloatMatch[0]);
+        } else {
+            // 如果找不到浮點數，再嘗試匹配整數並進行換算
+            const scaleIntMatch = scaleSearchArea.match(/-?\d+/);
+            if (scaleIntMatch) {
+                scale = parseInt(scaleIntMatch[0], 10) / 1000000000.0;
+            } else {
+                return { error: t('status_error_general') };
+            }
         }
 
-        const result = {};
-        
-        const extract = (key, type = 'string') => {
-            const regex = new RegExp(key + "[^a-zA-Z0-9.-]*([a-zA-Z0-9.-]+)");
-            const match = decoded.match(regex);
-            if (match && match[1]) {
-                const value = match[1];
-                switch (type) {
-                    case 'hex':
-                        return parseInt(value, 16);
-                    case 'float':
-                        return parseFloat(value);
-                    case 'string':
-                    default:
-                        return value;
-                }
-            }
-            return null;
-        };
-        
-        const keysToExtract = [
-            { name: 'wing', type: 'hex' }, 
-            { name: 'hair', type: 'hex' },
-            { name: 'neck', type: 'hex', alias: 'nec' },
-            { name: 'feet', type: 'string' },
-            { name: 'ornament', type: 'string', alias: 'orn' }, 
-            { name: 'face', type: 'hex' },
-            { name: 'prop', type: 'string' }, 
-            { name: 'height', type: 'float' },
-            { name: 'scale', type: 'float' },
-            { name: 'voice', type: 'float', alias: 'voi' },
-            { name: 'attitude', type: 'string', alias: 'attitud' }, 
-            { name: 'seed', type: 'float', alias: 'seet' },
-            { name: 'refreshversion', type: 'float' }
-        ];
-
-        keysToExtract.forEach(k => {
-            result[k.name] = extract(k.alias || k.name, k.type);
-        });
-
-        if (result.height === null || result.scale === null) {
-            return { error: t('status_error_general') };
-        }
-        
-        const height = parseFloat(result.height);
-        const scale = parseFloat(result.scale);
-        
+        // 步驟 4: 計算身高
         const currentHeight = 7.6 - (8.3 * scale) - (3 * height);
         const shortestHeight = 7.6 - (8.3 * scale) - (3 * -2.0);
         const tallestHeight = 7.6 - (8.3 * scale) - (3 * 2.0);
 
-        return {
-            current: currentHeight,
-            tallest: tallestHeight,
-            shortest: shortestHeight,
-            scale: scale,
-            timestamp: new Date().getTime(),
+        // 步驟 5: 準備要回傳的完整資料
+        const jsonResult = {
+            height_raw: height,
+            scale_raw: scale,
+            note: "These are the final parsed values used for calculation."
+        };
+
+        return { 
+            current: currentHeight, 
+            tallest: tallestHeight, 
+            shortest: shortestHeight, 
+            scale: scale, 
+            timestamp: new Date().getTime(), 
             note: "",
-            json: result
+            json: jsonResult // 將解析出的核心數值放入 json 物件中，以便 debug 顯示
         };
     } catch (e) {
         console.error("Calculation failed:", e);
         return { error: t('status_error_general') };
     }
 }
+// END: 移植的計算函式
 
 function animateValue(element, start, end, duration) {
     let startTimestamp = null;
@@ -624,7 +607,7 @@ document.addEventListener('DOMContentLoaded', () => {
             animateValue(dom.resTallest, parseFloat(dom.resTallest.textContent) || 0, results.tallest, 500);
             animateValue(dom.resShortest, parseFloat(dom.resShortest.textContent) || 0, results.shortest, 500);
             
-            if (dom.resJson) {
+            if (dom.resJson && results.json) {
                 dom.resJson.textContent = JSON.stringify(results.json, null, 2);
             }
 
