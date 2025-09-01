@@ -253,7 +253,7 @@ function setLanguage(lang) {
 function t(key) { return translations[currentLang][key] || key; }
 function calculateHeight(fullUrl) {
     try {
-        let decoded;
+        let decodedText;
         try {
             const startMarker = "ImJvZHki";
             let b64Str = fullUrl;
@@ -267,18 +267,53 @@ function calculateHeight(fullUrl) {
             b64Str = b64Str.replace(/-/g, '+').replace(/_/g, '/');
             const padding = b64Str.length % 4;
             if (padding) { b64Str += '='.repeat(4 - padding); }
-            decoded = atob(b64Str);
+            decodedText = atob(b64Str);
         } catch (e) {
             console.error("Failed to decode Base64 string:", e);
             return { error: "Invalid Base64 string. Please check the URL." };
         }
 
+        let height;
+        const heightKeyIndex = decodedText.search(/h?eigh/);
+        const heightKeywordMatch = decodedText.match(/h?eigh/);
+        const searchStart = heightKeyIndex + (heightKeywordMatch ? heightKeywordMatch[0].length : 4);
+        const heightSearchArea = decodedText.substring(searchStart);
+        const heightFloatMatch = heightSearchArea.match(/-?\d*\.\d+/);
+        if (heightFloatMatch) {
+            height = parseFloat(heightFloatMatch[0]);
+        } else {
+            const heightIntMatch = heightSearchArea.match(/-?\d+/);
+            if (heightIntMatch) {
+                height = parseInt(heightIntMatch[0], 10);
+            } else {
+                return { error: t('status_error_general') };
+            }
+        }
+
+        let scale;
+        const scaleKeyIndex = decodedText.search(/scale/);
+        if (scaleKeyIndex === -1) { return { error: t('status_error_general') }; }
+        const scaleSearchArea = decodedText.substring(scaleKeyIndex + 5);
+        const scaleFloatMatch = scaleSearchArea.match(/-?\d*\.\d+/);
+        if (scaleFloatMatch) {
+            scale = parseFloat(scaleFloatMatch[0]);
+        } else {
+            const scaleIntMatch = scaleSearchArea.match(/-?\d+/);
+            if (scaleIntMatch) {
+                scale = parseInt(scaleIntMatch[0], 10) / 1000000000.0;
+            } else {
+                return { error: t('status_error_general') };
+            }
+        }
+
         const result = {};
+        result.height = height; 
+        result.scale = scale.toFixed(12);
 
         // Helper for extracting simple key-value pairs
         const extract = (key, type = 'string') => {
             const regex = new RegExp(key + "[^a-zA-Z0-9.-]*([a-zA-Z0-9.-]+)");
-            const match = decoded.match(regex);
+            const match = decodedText.match(regex);
             if (match && match[1]) {
                 const value = match[1];
                 switch (type) {
@@ -302,8 +337,8 @@ function calculateHeight(fullUrl) {
             { name: 'ornament', type: 'string', alias: 'orn' }, 
             { name: 'face', type: 'hex' },
             { name: 'prop', type: 'string' }, 
-            { name: 'height', type: 'float' },
-            { name: 'scale', type: 'float' }, 
+            // { name: 'height', type: 'float' },
+            // { name: 'scale', type: 'float' }, 
             { name: 'voice', type: 'float', alias: 'voi' },
             { name: 'attitude', type: 'string', alias: 'attitud' }, 
             { name: 'seed', type: 'float', alias: 'seet' },
@@ -314,13 +349,10 @@ function calculateHeight(fullUrl) {
             result[k.name] = extract(k.alias || k.name, k.type);
         });
 
-        const unknown1Match = decoded.match(/\x03F[\s\S]{1,5}([0-9]+)/);
+        const unknown1Match = decodedText.match(/\x03F[\s\S]{1,5}([0-9]+)/);
         result.unknown1 = unknown1Match ? unknown1Match[1] : 'unknown';
-        const unknown2Match = decoded.match(/a\x16\x01[\s\S]{1,3}([0-9]+)/);
+        const unknown2Match = decodedText.match(/a\x16\x01[\s\S]{1,3}([0-9]+)/);
         result.unknown2 = unknown2Match ? unknown2Match[1] : 'unknown';
-
-        const height = result.height;
-        const scale = parseInt(result.scale, 10) / 1000000000.0;
 
         if (height === null || scale === null) {
             return { error: t('status_error_general') };

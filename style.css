@@ -119,7 +119,6 @@ button.secondary-btn:hover { background-color: var(--details-bg); }
 .result-item.json-output .label {
     display: block;
     margin-bottom: 8px;
-    font-weight: bold;
 }
 
 .result-item.json-output .value {
