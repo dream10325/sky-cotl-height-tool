@@ -306,8 +306,7 @@ function decodeAndCalculate(rawData) {
         // 步驟 5: 準備要回傳的完整資料
         const jsonResult = {
             height_raw: height,
-            scale_raw: scale,
-            note: "These are the final parsed values used for calculation."
+            scale_raw: scale
         };
 
         return { 
