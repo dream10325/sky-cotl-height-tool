@@ -20,6 +20,7 @@ const translations = {
         res_current: "當前身高:",
         res_tallest: "最高身高:",
         res_shortest: "最低身高:",
+        res_json_label: "外觀詳細資訊 (JSON):",
         copy_btn: "複製結果",
         image_btn: "生成分享圖",
         status_calculating: "計算中……",
@@ -95,6 +96,7 @@ const translations = {
         res_current: "Current Height:",
         res_tallest: "Tallest Height:",
         res_shortest: "Shortest Height:",
+        res_json_label: "Appearance Details (JSON):",
         copy_btn: "Copy Results",
         image_btn: "Generate Image",
         status_calculating: "Calculating...",
@@ -170,6 +172,7 @@ const translations = {
         res_current: "現在の身長:",
         res_tallest: "最高身長:",
         res_shortest: "最低身長:",
+        res_json_label: "外見の詳細情報 (JSON):",
         copy_btn: "結果をコピー",
         image_btn: "共有画像を生成",
         status_calculating: "計算中…",
@@ -251,66 +254,98 @@ function setLanguage(lang) {
 }
 
 function t(key) { return translations[currentLang][key] || key; }
-function decodeAndCalculate(rawData) {
+
+function calculateHeight(fullUrl) {
     try {
-        const startMarker = "ImJvZHki";
-        const startIndex = rawData.indexOf(startMarker);
-        if (startIndex === -1) { return { error: t('status_error_general') }; }
-        let b64Str = rawData.substring(startIndex);
-        b64Str = b64Str.replace(/-/g, '+').replace(/_/g, '/');
-        const padding = b64Str.length % 4;
-        if (padding) { b64Str += '='.repeat(4 - padding); }
-        const decodedText = atob(b64Str);
-        let height;
-        const heightKeyIndex = decodedText.search(/h?eigh/);
-        if (heightKeyIndex === -1) { return { error: t('status_error_general') }; }
+        let decoded;
+        try {
+            const startMarker = "ImJvZHki";
+            let b64Str = fullUrl;
+            const startIndex = fullUrl.indexOf(startMarker);
+            if (startIndex !== -1) {
+                b64Str = fullUrl.substring(startIndex);
+            } else if (fullUrl.includes('o=')) {
+                b64Str = fullUrl.split('o=').pop() || '';
+            }
+
+            b64Str = b64Str.replace(/-/g, '+').replace(/_/g, '/');
+            const padding = b64Str.length % 4;
+            if (padding) { b64Str += '='.repeat(4 - padding); }
+            decoded = atob(b64Str);
+        } catch (e) {
+            console.error("Failed to decode Base64 string:", e);
+            return { error: "Invalid Base64 string. Please check the URL." };
+        }
+
+        const result = {};
+
+        const extract = (key, type = 'string') => {
+            const regex = new RegExp(key + "[^a-zA-Z0-9.-]*([a-zA-Z0-9.-]+)");
+            const match = decoded.match(regex);
+            if (match && match[1]) {
+                const value = match[1];
+                switch (type) {
+                    case 'hex':
+                        return parseInt(value, 16);
+                    case 'float':
+                        return parseFloat(value);
+                    case 'string':
+                    default:
+                        return value;
+                }
+            }
+            return null;
+        };
         
-        const heightKeywordMatch = decodedText.match(/h?eigh/);
-        const searchStart = heightKeyIndex + (heightKeywordMatch ? heightKeywordMatch[0].length : 4);
-        const heightSearchArea = decodedText.substring(searchStart);
-        const heightFloatMatch = heightSearchArea.match(/-?\d*\.\d+/);
-        if (heightFloatMatch) {
-            height = parseFloat(heightFloatMatch[0]);
-        } else {
-            const heightIntMatch = heightSearchArea.match(/-?\d+/);
-            if (heightIntMatch) {
-                height = parseInt(heightIntMatch[0], 10);
-            } else {
-                return { error: t('status_error_general') };
+        const keysToExtract = [
+            { name: 'wing', type: 'hex' }, { name: 'hair', type: 'hex' },
+            { name: 'neck', type: 'hex', alias: 'nec' }, { name: 'feet', type: 'string' },
+            { name: 'ornament', type: 'string', alias: 'orn' }, { name: 'face', type: 'hex' },
+            { name: 'prop', type: 'string' }, { name: 'height', type: 'float' },
+            { name: 'scale', type: 'float' }, { name: 'voice', type: 'float', alias: 'voi' },
+            { name: 'attitude', type: 'string', alias: 'attitud' }, { name: 'seed', type: 'float', alias: 'seet' },
+            { name: 'refreshversion', type: 'float' }
+        ];
+
+        keysToExtract.forEach(k => {
+            const value = extract(k.alias || k.name, k.type);
+            if (value !== null) {
+                result[k.name] = value;
             }
+        });
+
+        const unknown1Match = decoded.match(/\x03F[\s\S]{1,5}([0-9]+)/);
+        if (unknown1Match && unknown1Match[1]) result.unknown1 = unknown1Match[1];
+        const unknown2Match = decoded.match(/a\x16\x01[\s\S]{1,3}([0-9]+)/);
+        if (unknown2Match && unknown2Match[1]) result.unknown2 = unknown2Match[1];
+
+        const height = result.height;
+        const scale = result.scale !== null ? parseInt(result.scale, 10) / 1000000000.0 : null;
+
+        if (height === null || scale === null) {
+            return { error: t('status_error_general') };
         }
-        let scale;
-        const scaleKeyIndex = decodedText.search(/scale/);
-        if (scaleKeyIndex === -1) { return { error: t('status_error_general') }; }
-        const scaleSearchArea = decodedText.substring(scaleKeyIndex + 5);
-        const scaleFloatMatch = scaleSearchArea.match(/-?\d*\.\d+/);
-        if (scaleFloatMatch) {
-            scale = parseFloat(scaleFloatMatch[0]);
-        } else {
-            const scaleIntMatch = scaleSearchArea.match(/-?\d+/);
-            if (scaleIntMatch) {
-                scale = parseInt(scaleIntMatch[0], 10) / 1000000000.0;
-            } else {
-                return { error: t('status_error_general') };
-            }
-        }
+
         const currentHeight = 7.6 - (8.3 * scale) - (3 * height);
         const shortestHeight = 7.6 - (8.3 * scale) - (3 * -2.0);
         const tallestHeight = 7.6 - (8.3 * scale) - (3 * 2.0);
-        
+
         return {
             current: currentHeight,
             tallest: tallestHeight,
             shortest: shortestHeight,
             scale: scale,
             timestamp: new Date().getTime(),
-            note: ""
+            note: "",
+            json: result
         };
     } catch (e) {
         console.error("Calculation failed:", e);
         return { error: t('status_error_general') };
     }
 }
+
+
 function animateValue(element, start, end, duration) {
     let startTimestamp = null;
     const step = (timestamp) => {
@@ -326,6 +361,8 @@ document.addEventListener('DOMContentLoaded', () => {
         calculateBtn: document.getElementById('calculate-btn'), b64Input: document.getElementById('b64-input'),
         resCurrent: document.getElementById('res-current'), resTallest: document.getElementById('res-tallest'),
         resShortest: document.getElementById('res-shortest'), 
+        resJson: document.getElementById('res-json'),
+        jsonOutputContainer: document.getElementById('json-output-container'),
         statusEl: document.getElementById('status'),
         copyBtn: document.getElementById('copy-btn'), imageBtn: document.getElementById('image-btn'),
         resultActions: document.getElementById('result-actions'), langSwitcher: document.getElementById('lang-switcher'),
@@ -358,9 +395,9 @@ document.addEventListener('DOMContentLoaded', () => {
     function saveHistory() { localStorage.setItem('skyHeightHistory', JSON.stringify(history)); }
     function loadHistory() {
         const savedHistory = localStorage.getItem('skyHeightHistory');
-        history = savedHistory ? JSON.parse(savedHistory) : [];
+        history = (savedHistory ? JSON.parse(savedHistory) : []).filter(item => item && typeof item.current === 'number');
         if (history.length > 0) {
-            dom.historyContainer.style.display = 'block';
+            if(dom.historyContainer) dom.historyContainer.style.display = 'block';
             renderHistory();
         }
     }
@@ -566,38 +603,56 @@ document.addEventListener('DOMContentLoaded', () => {
     dom.playerNameInput.addEventListener('input', updatePreview);
     dom.showRangeToggle.addEventListener('change', updatePreview);
     dom.calculateBtn.addEventListener('click', () => {
-        dom.resCurrent.textContent = '...'; dom.resTallest.textContent = '...'; dom.resShortest.textContent = '...';
+        dom.resCurrent.textContent = '...';
+        dom.resTallest.textContent = '...';
+        dom.resShortest.textContent = '...';
+        if (dom.resJson) dom.resJson.textContent = '';
+        if (dom.jsonOutputContainer) dom.jsonOutputContainer.style.display = 'none';
         dom.resultActions.style.display = 'none';
-        lastResult = null; 
-        dom.statusEl.innerHTML = t('status_calculating'); dom.statusEl.className = '';
+        lastResult = null;
+        dom.statusEl.innerHTML = t('status_calculating');
+        dom.statusEl.className = '';
         const rawData = dom.b64Input.value.trim();
         if (!rawData) {
-            dom.statusEl.innerHTML = t('status_error_empty'); dom.statusEl.className = 'status-error';
+            dom.statusEl.innerHTML = t('status_error_empty');
+            dom.statusEl.className = 'status-error';
             return;
         }
-        const results = decodeAndCalculate(rawData);
-        if (results.error) {
-            dom.statusEl.innerHTML = results.error; dom.statusEl.className = 'status-error';
-            dom.simulatorContainer.style.display = 'none';
-        } else {
-            lastResult = results;
-            animateValue(dom.resCurrent, parseFloat(dom.resCurrent.textContent) || 0, results.current, 500);
-            animateValue(dom.resTallest, parseFloat(dom.resTallest.textContent) || 0, results.tallest, 500);
-            animateValue(dom.resShortest, parseFloat(dom.resShortest.textContent) || 0, results.shortest, 500);
-            
-            dom.statusEl.innerHTML = t('status_success'); dom.statusEl.className = 'status-success';
-            dom.resultActions.style.display = 'block';
-            
-            lastCalculatedScale = results.scale;
-            dom.simulatorContainer.style.display = 'block';
-            dom.resetSimBtn.click();
-            history.unshift(results);
-            if (history.length > 10) history.pop();
-            saveHistory();
-            renderHistory();
-            dom.historyContainer.style.display = 'block';
-            setTimeout(updatePreview, 100);
-        }
+        setTimeout(() => {
+            const result = calculateHeight(rawData);
+            if (result.error) {
+                dom.statusEl.innerHTML = result.error;
+                dom.statusEl.className = 'status-error';
+                if(dom.simulatorContainer) dom.simulatorContainer.style.display = 'none';
+            } else {
+                lastResult = result;
+                lastCalculatedScale = result.scale;
+                potionCounter = 0;
+                if(dom.potionCount) dom.potionCount.textContent = potionCounter;
+                if(dom.potionExtremeNotice) dom.potionExtremeNotice.textContent = '';
+                if(dom.potionResult) dom.potionResult.textContent = '...';
+                if(dom.simulatorContainer) dom.simulatorContainer.style.display = 'block';
+
+                dom.statusEl.innerHTML = t('status_success');
+                dom.statusEl.className = 'status-success';
+                animateValue(dom.resCurrent, 0, result.current, 500);
+                animateValue(dom.resTallest, 0, result.tallest, 500);
+                animateValue(dom.resShortest, 0, result.shortest, 500);
+                if (dom.resJson && result.json) {
+                    dom.resJson.textContent = JSON.stringify(result.json, null, 2);
+                    if (dom.jsonOutputContainer) dom.jsonOutputContainer.style.display = 'block';
+                }
+                dom.resultActions.style.display = 'flex';
+                if(dom.historyContainer) dom.historyContainer.style.display = 'block';
+                history.unshift(result);
+                if (history.length > 20) {
+                    history.pop();
+                }
+                saveHistory();
+                renderHistory();
+                updatePreview();
+            }
+        }, 50);
     });
     dom.copyBtn.addEventListener('click', () => {
         if (!lastResult) { 
@@ -751,3 +806,4 @@ document.addEventListener('DOMContentLoaded', () => {
     setLanguage(currentLang);
     updatePreview(); 
 });
+不然我丟出他的完整修改後的檔案
