@@ -13,13 +13,14 @@ const translations = {
         faq_q2: "Q: 要穿特定造型後才能計算身高嗎？",
         faq_a2: "A: 沒有這回事，如果無法使用可能是我正在更新網站。",
         faq_q3: "Q: 身高計算結果與以前不同？",
-        faq_a3: "A: 因為09/01 01:58修正了一個重大問題，現在的數值才是正確的。",
+        faq_a3: "A: 因為新版修正了一個重大問題，現在的數值才是正確的。", // **已修改**
         input_label: "請在此貼上掃描到的完整網址：",
         placeholder: "將完整網址貼在這裡……",
         calculate_btn: "開始計算",
         res_current: "當前身高:",
         res_tallest: "最高身高:",
         res_shortest: "最低身高:",
+        res_details: "詳細資訊 (debug用):", // **已修改**
         copy_btn: "複製結果",
         image_btn: "生成分享圖",
         status_calculating: "計算中……",
@@ -59,7 +60,7 @@ const translations = {
         sim_disclaimer_text: "本功能僅為娛樂用，不代表遊戲內實際機率。",
         sim_drink_btn: "喝一瓶重塑藥水！",
         sim_reset_btn: "重設",
-        sim_meta_title: "玄學選項 (僅為趣味，不影響機率)",
+        sim_meta_title: "玄學選項 (僅為趣味)", // **已修改**
         sim_meta_tall: "牽著高個子好友",
         sim_meta_short: "牽著矮個子好友",
         sim_result_label: "模擬新身高:",
@@ -88,13 +89,14 @@ const translations = {
         faq_q2: "Q: Do I need a specific outfit to calculate my height?",
         faq_a2: "A: Not at all. If it's not working, it's likely because I am in the middle of an update.",
         faq_q3: "Q: My height calculation is different than before.",
-        faq_a3: "A: A major bug was fixed on 09/01 at 01:58. The current values are the correct ones.",
+        faq_a3: "A: A major bug was fixed in the new version. The current values are the correct ones.", // **已修改**
         input_label: "Paste the full URL from the QR Code:",
         placeholder: "Paste the full URL here...",
         calculate_btn: "Calculate",
         res_current: "Current Height:",
         res_tallest: "Tallest Height:",
         res_shortest: "Shortest Height:",
+        res_details: "Details (for debugging):", // **已修改**
         copy_btn: "Copy Results",
         image_btn: "Generate Image",
         status_calculating: "Calculating...",
@@ -134,7 +136,7 @@ const translations = {
         sim_disclaimer_text: "This feature is for entertainment purposes only and does not represent actual in-game probabilities.",
         sim_drink_btn: "Drink a Resize Potion!",
         sim_reset_btn: "Reset",
-        sim_meta_title: "Metaphysics Options (For fun only, does not affect odds)",
+        sim_meta_title: "Metaphysics Options (For fun only)", // **已修改**
         sim_meta_tall: "Holding hands with a tall friend",
         sim_meta_short: "Holding hands with a short friend",
         sim_result_label: "Simulated New Height:",
@@ -163,13 +165,14 @@ const translations = {
         faq_q2: "Q: 特定の格好でないと身長は計算できませんか？",
         faq_a2: "A: そのようなことはありません。利用できない場合、サイトを更新している可能性があります。",
         faq_q3: "Q: 身長の計算結果が以前と異なります。",
-        faq_a3: "A: 09/01 01:58に重大なバグが修正されました。現在の数値が正しい値です。",
+        faq_a3: "A: 新しいバージョンで重大なバグが修正されました。現在の数値が正しい値です。", // **已修改**
         input_label: "スキャンした完全なURLをここに貼り付けてください：",
         placeholder: "完全なURLをここに貼り付け…",
         calculate_btn: "計算開始",
         res_current: "現在の身長:",
         res_tallest: "最高身長:",
         res_shortest: "最低身長:",
+        res_details: "詳細情報（デバッグ用）:", // **已修改**
         copy_btn: "結果をコピー",
         image_btn: "共有画像を生成",
         status_calculating: "計算中…",
@@ -209,7 +212,7 @@ const translations = {
         sim_disclaimer_text: "この機能は娯楽目的のものです。ゲーム内の実際の確率を示すものではありません。",
         sim_drink_btn: "リサイズドリンクを1本飲む！",
         sim_reset_btn: "リセット",
-        sim_meta_title: "オカルト設定（お遊び用、確率への影響なし）",
+        sim_meta_title: "オカルト設定（お遊び用）", // **已修改**
         sim_meta_tall: "高身長のフレンドと手をつなぐ",
         sim_meta_short: "低身長のフレンドと手をつなぐ",
         sim_result_label: "シミュレートされた新しい身長:",
@@ -251,66 +254,95 @@ function setLanguage(lang) {
 }
 
 function t(key) { return translations[currentLang][key] || key; }
-function decodeAndCalculate(rawData) {
+
+function decodeAndCalculate(fullUrl) {
     try {
-        const startMarker = "ImJvZHki";
-        const startIndex = rawData.indexOf(startMarker);
-        if (startIndex === -1) { return { error: t('status_error_general') }; }
-        let b64Str = rawData.substring(startIndex);
-        b64Str = b64Str.replace(/-/g, '+').replace(/_/g, '/');
-        const padding = b64Str.length % 4;
-        if (padding) { b64Str += '='.repeat(4 - padding); }
-        const decodedText = atob(b64Str);
-        let height;
-        const heightKeyIndex = decodedText.search(/h?eigh/);
-        if (heightKeyIndex === -1) { return { error: t('status_error_general') }; }
+        let decoded;
+        try {
+            const startMarker = "ImJvZHki";
+            let b64Str = fullUrl;
+            const startIndex = fullUrl.indexOf(startMarker);
+            if (startIndex !== -1) {
+                b64Str = fullUrl.substring(startIndex);
+            } else if (fullUrl.includes('o=')) {
+                b64Str = fullUrl.split('o=').pop() || '';
+            }
+
+            b64Str = b64Str.replace(/-/g, '+').replace(/_/g, '/');
+            const padding = b64Str.length % 4;
+            if (padding) { b64Str += '='.repeat(4 - padding); }
+            decoded = atob(b64Str);
+        } catch (e) {
+            console.error("Failed to decode Base64 string:", e);
+            return { error: "Invalid Base64 string. Please check the URL." };
+        }
+
+        const result = {};
         
-        const heightKeywordMatch = decodedText.match(/h?eigh/);
-        const searchStart = heightKeyIndex + (heightKeywordMatch ? heightKeywordMatch[0].length : 4);
-        const heightSearchArea = decodedText.substring(searchStart);
-        const heightFloatMatch = heightSearchArea.match(/-?\d*\.\d+/);
-        if (heightFloatMatch) {
-            height = parseFloat(heightFloatMatch[0]);
-        } else {
-            const heightIntMatch = heightSearchArea.match(/-?\d+/);
-            if (heightIntMatch) {
-                height = parseInt(heightIntMatch[0], 10);
-            } else {
-                return { error: t('status_error_general') };
+        const extract = (key, type = 'string') => {
+            const regex = new RegExp(key + "[^a-zA-Z0-9.-]*([a-zA-Z0-9.-]+)");
+            const match = decoded.match(regex);
+            if (match && match[1]) {
+                const value = match[1];
+                switch (type) {
+                    case 'hex':
+                        return parseInt(value, 16);
+                    case 'float':
+                        return parseFloat(value);
+                    case 'string':
+                    default:
+                        return value;
+                }
             }
+            return null;
+        };
+        
+        const keysToExtract = [
+            { name: 'wing', type: 'hex' }, 
+            { name: 'hair', type: 'hex' },
+            { name: 'neck', type: 'hex', alias: 'nec' },
+            { name: 'feet', type: 'string' },
+            { name: 'ornament', type: 'string', alias: 'orn' }, 
+            { name: 'face', type: 'hex' },
+            { name: 'prop', type: 'string' }, 
+            { name: 'height', type: 'float' },
+            { name: 'scale', type: 'float' },
+            { name: 'voice', type: 'float', alias: 'voi' },
+            { name: 'attitude', type: 'string', alias: 'attitud' }, 
+            { name: 'seed', type: 'float', alias: 'seet' },
+            { name: 'refreshversion', type: 'float' }
+        ];
+
+        keysToExtract.forEach(k => {
+            result[k.name] = extract(k.alias || k.name, k.type);
+        });
+
+        if (result.height === null || result.scale === null) {
+            return { error: t('status_error_general') };
         }
-        let scale;
-        const scaleKeyIndex = decodedText.search(/scale/);
-        if (scaleKeyIndex === -1) { return { error: t('status_error_general') }; }
-        const scaleSearchArea = decodedText.substring(scaleKeyIndex + 5);
-        const scaleFloatMatch = scaleSearchArea.match(/-?\d*\.\d+/);
-        if (scaleFloatMatch) {
-            scale = parseFloat(scaleFloatMatch[0]);
-        } else {
-            const scaleIntMatch = scaleSearchArea.match(/-?\d+/);
-            if (scaleIntMatch) {
-                scale = parseInt(scaleIntMatch[0], 10) / 1000000000.0;
-            } else {
-                return { error: t('status_error_general') };
-            }
-        }
+        
+        const height = parseFloat(result.height);
+        const scale = parseFloat(result.scale);
+        
         const currentHeight = 7.6 - (8.3 * scale) - (3 * height);
         const shortestHeight = 7.6 - (8.3 * scale) - (3 * -2.0);
         const tallestHeight = 7.6 - (8.3 * scale) - (3 * 2.0);
-        
+
         return {
             current: currentHeight,
             tallest: tallestHeight,
             shortest: shortestHeight,
             scale: scale,
             timestamp: new Date().getTime(),
-            note: ""
+            note: "",
+            json: result
         };
     } catch (e) {
         console.error("Calculation failed:", e);
         return { error: t('status_error_general') };
     }
 }
+
 function animateValue(element, start, end, duration) {
     let startTimestamp = null;
     const step = (timestamp) => {
@@ -321,11 +353,13 @@ function animateValue(element, start, end, duration) {
     };
     window.requestAnimationFrame(step);
 }
+
 document.addEventListener('DOMContentLoaded', () => {
     const dom = {
         calculateBtn: document.getElementById('calculate-btn'), b64Input: document.getElementById('b64-input'),
         resCurrent: document.getElementById('res-current'), resTallest: document.getElementById('res-tallest'),
         resShortest: document.getElementById('res-shortest'), 
+        resJson: document.getElementById('res-json'),
         statusEl: document.getElementById('status'),
         copyBtn: document.getElementById('copy-btn'), imageBtn: document.getElementById('image-btn'),
         resultActions: document.getElementById('result-actions'), langSwitcher: document.getElementById('lang-switcher'),
@@ -367,12 +401,13 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderHistory() {
         dom.historyList.innerHTML = '';
         history.forEach((item, index) => {
+            const currentHeightDisplay = item.current ? item.current.toFixed(4) : 'N/A';
             const li = document.createElement('li');
             const date = new Date(item.timestamp).toLocaleString();
             li.innerHTML = `
                 <button class="delete-history-item" data-index="${index}" title="${t('confirm_delete_item')}">×</button>
                 <div class="history-item-main">
-                    <span class="history-value">${t('history_current_label')}: ${item.current.toFixed(4)}</span>
+                    <span class="history-value">${t('history_current_label')}: ${currentHeightDisplay}</span>
                     <span class="timestamp">${date}</span>
                 </div>
                 <button class="history-note" data-index="${index}">${item.note || t('history_note_placeholder')}</button>
@@ -565,8 +600,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     dom.playerNameInput.addEventListener('input', updatePreview);
     dom.showRangeToggle.addEventListener('change', updatePreview);
+    
     dom.calculateBtn.addEventListener('click', () => {
         dom.resCurrent.textContent = '...'; dom.resTallest.textContent = '...'; dom.resShortest.textContent = '...';
+        if (dom.resJson) dom.resJson.textContent = '';
         dom.resultActions.style.display = 'none';
         lastResult = null; 
         dom.statusEl.innerHTML = t('status_calculating'); dom.statusEl.className = '';
@@ -575,7 +612,9 @@ document.addEventListener('DOMContentLoaded', () => {
             dom.statusEl.innerHTML = t('status_error_empty'); dom.statusEl.className = 'status-error';
             return;
         }
+        
         const results = decodeAndCalculate(rawData);
+        
         if (results.error) {
             dom.statusEl.innerHTML = results.error; dom.statusEl.className = 'status-error';
             dom.simulatorContainer.style.display = 'none';
@@ -585,6 +624,10 @@ document.addEventListener('DOMContentLoaded', () => {
             animateValue(dom.resTallest, parseFloat(dom.resTallest.textContent) || 0, results.tallest, 500);
             animateValue(dom.resShortest, parseFloat(dom.resShortest.textContent) || 0, results.shortest, 500);
             
+            if (dom.resJson) {
+                dom.resJson.textContent = JSON.stringify(results.json, null, 2);
+            }
+
             dom.statusEl.innerHTML = t('status_success'); dom.statusEl.className = 'status-success';
             dom.resultActions.style.display = 'block';
             
@@ -599,6 +642,7 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(updatePreview, 100);
         }
     });
+    
     dom.copyBtn.addEventListener('click', () => {
         if (!lastResult) { 
             dom.statusEl.innerHTML = t('status_copy_empty'); 
@@ -661,6 +705,7 @@ document.addEventListener('DOMContentLoaded', () => {
             triggerDownload();
         }
     });
+
     dom.drinkPotionBtn.addEventListener('click', () => {
         if (lastCalculatedScale === null) {
             alert(t('sim_error_no_calc'));
@@ -681,12 +726,14 @@ document.addEventListener('DOMContentLoaded', () => {
         potionCounter++;
         dom.potionCount.textContent = potionCounter;
     });
+
     dom.resetSimBtn.addEventListener('click', () => {
         potionCounter = 0;
         dom.potionResult.textContent = '...';
         dom.potionCount.textContent = '0';
         dom.potionExtremeNotice.textContent = '';
     });
+
     function handleQrUpload(file) {
         if (!file || !file.type.startsWith('image/')) {
             return;
@@ -721,22 +768,26 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         reader.readAsDataURL(file);
     }
+    
     dom.qrUploadArea.addEventListener('click', () => dom.qrFileInput.click());
     dom.qrFileInput.addEventListener('change', (e) => {
         if (e.target.files && e.target.files.length > 0) {
             handleQrUpload(e.target.files[0]);
         }
     });
+    
     dom.qrUploadArea.addEventListener('dragover', (e) => {
         e.preventDefault();
         e.stopPropagation();
         dom.qrUploadArea.classList.add('dragover');
     });
+
     dom.qrUploadArea.addEventListener('draleave', (e) => {
         e.preventDefault();
         e.stopPropagation();
         dom.qrUploadArea.classList.remove('dragover');
     });
+
     dom.qrUploadArea.addEventListener('drop', (e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -746,6 +797,7 @@ document.addEventListener('DOMContentLoaded', () => {
             e.dataTransfer.clearData();
         }
     });
+
     populateBgSelectors();
     loadHistory();
     setLanguage(currentLang);
