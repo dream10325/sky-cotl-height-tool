@@ -59,7 +59,6 @@ textarea {
     border-radius: 8px; font-family: 'Courier New', Courier, monospace; font-size: 0.9em;
     box-sizing: border-box; resize: vertical; background-color: var(--card-bg); color: var(--font-color);
 }
-/* NEW: QR Upload Area Styles */
 .qr-upload-area {
     margin-top: 15px;
     border: 2px dashed var(--border-color);
@@ -78,7 +77,6 @@ textarea {
     color: var(--label-color);
     pointer-events: none; /* So it doesn't interfere with drop events */
 }
-
 button {
     width: 100%; padding: 12px; margin-top: 15px; border: none; border-radius: 8px;
     background-color: var(--primary-color); color: white; font-size: 1.1em;
@@ -193,4 +191,45 @@ input:checked + .slider:before { transform: translateX(20px); }
 }
 html[data-theme='dark'] .extreme-notice {
     color: #81c784;
+}
+
+/* NEW STYLES */
+.sim-disclaimer {
+    margin: 10px 0;
+    padding: 10px;
+    background-color: var(--details-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    text-align: center;
+    font-weight: bold;
+    color: var(--primary-color);
+    font-size: 0.9em;
+}
+.sim-metaphysics {
+    margin-top: 15px;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.sim-metaphysics p {
+    margin: 0 0 5px 0;
+    font-weight: bold;
+    color: var(--label-color);
+    font-size: 0.9em;
+    text-align: center;
+}
+.sim-metaphysics .meta-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9em;
+    cursor: pointer;
+    margin-bottom: 0;
+}
+.sim-metaphysics input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
 }
