@@ -255,10 +255,8 @@ function setLanguage(lang) {
 
 function t(key) { return translations[currentLang][key] || key; }
 
-// START: 這是從您最舊版移植過來、最可靠的計算函式
 function decodeAndCalculate(rawData) {
     try {
-        // 步驟 1: 清理並解碼 Base64
         const startMarker = "ImJvZHki";
         const startIndex = rawData.indexOf(startMarker);
         if (startIndex === -1) { return { error: t('status_error_general') }; }
@@ -270,7 +268,6 @@ function decodeAndCalculate(rawData) {
         
         const decodedText = atob(b64Str);
 
-        // 步驟 2: 解析 height
         const heightKeyIndex = decodedText.search(/h?eigh/);
         if (heightKeyIndex === -1) { return { error: t('status_error_general') }; }
         const heightSearchArea = decodedText.substring(heightKeyIndex + 4);
@@ -278,18 +275,15 @@ function decodeAndCalculate(rawData) {
         if (!heightMatch) { return { error: t('status_error_general') }; }
         const height = parseFloat(heightMatch[0]);
 
-        // 步驟 3: 解析 scale (兼容浮點數與整數兩種格式)
         let scale;
         const scaleKeyIndex = decodedText.search(/scale/);
         if (scaleKeyIndex === -1) { return { error: t('status_error_general') }; }
         const scaleSearchArea = decodedText.substring(scaleKeyIndex + 5);
         
-        // 優先嘗試匹配浮點數
         const scaleFloatMatch = scaleSearchArea.match(/-?\d*\.\d+/);
         if (scaleFloatMatch) {
             scale = parseFloat(scaleFloatMatch[0]);
         } else {
-            // 如果找不到浮點數，再嘗試匹配整數並進行換算
             const scaleIntMatch = scaleSearchArea.match(/-?\d+/);
             if (scaleIntMatch) {
                 scale = parseInt(scaleIntMatch[0], 10) / 1000000000.0;
@@ -298,12 +292,10 @@ function decodeAndCalculate(rawData) {
             }
         }
 
-        // 步驟 4: 計算身高
         const currentHeight = 7.6 - (8.3 * scale) - (3 * height);
         const shortestHeight = 7.6 - (8.3 * scale) - (3 * -2.0);
         const tallestHeight = 7.6 - (8.3 * scale) - (3 * 2.0);
 
-        // 步驟 5: 準備要回傳的完整資料
         const jsonResult = {
             height_raw: height,
             scale_raw: scale
@@ -316,14 +308,13 @@ function decodeAndCalculate(rawData) {
             scale: scale, 
             timestamp: new Date().getTime(), 
             note: "",
-            json: jsonResult // 將解析出的核心數值放入 json 物件中，以便 debug 顯示
+            json: jsonResult
         };
     } catch (e) {
         console.error("Calculation failed:", e);
         return { error: t('status_error_general') };
     }
 }
-// END: 移植的計算函式
 
 function animateValue(element, start, end, duration) {
     let startTimestamp = null;
@@ -785,5 +776,3 @@ document.addEventListener('DOMContentLoaded', () => {
     setLanguage(currentLang);
     updatePreview(); 
 });
-
-
