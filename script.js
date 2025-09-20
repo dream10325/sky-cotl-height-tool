@@ -271,7 +271,7 @@ function decodeAndCalculate(rawData) {
         const heightKeyIndex = decodedText.search(/h?eigh/);
         if (heightKeyIndex === -1) { return { error: t('status_error_general') }; }
         const heightSearchArea = decodedText.substring(heightKeyIndex + 4);
-        const heightMatch = heightSearchArea.match(/-?\d*\.\d+/);
+        const heightMatch = heightSearchArea.match(/-?[\d.eE+-]+/);
         if (!heightMatch) { return { error: t('status_error_general') }; }
         const height = parseFloat(heightMatch[0]);
 
@@ -280,7 +280,7 @@ function decodeAndCalculate(rawData) {
         if (scaleKeyIndex === -1) { return { error: t('status_error_general') }; }
         const scaleSearchArea = decodedText.substring(scaleKeyIndex + 5);
         
-        const scaleFloatMatch = scaleSearchArea.match(/-?\d*\.\d+/);
+        const scaleFloatMatch = scaleSearchArea.match(/-?[\d.eE+-]+/);
         if (scaleFloatMatch) {
             scale = parseFloat(scaleFloatMatch[0]);
         } else {
