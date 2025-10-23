@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>光遇身高查看工具</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
     <div class="container">
@@ -13,12 +15,20 @@
             <h1 data-lang-key="title">光遇身高查看工具</h1>
             <div class="header-buttons">
                 <button id="theme-switcher" class="icon-button" aria-label="Toggle theme">
-                    <svg id="theme-icon-light" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
-                    <svg id="theme-icon-dark" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="display:none;"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+                    <svg id="theme-icon-light" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                    <svg id="theme-icon-dark" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2" style="display:none;">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    </svg>
                 </button>
             </div>
         </div>
-        
+
         <details>
             <summary data-lang-key="toggle_instructions">點此展開/收合使用教學</summary>
             <div class="instructions">
@@ -28,26 +38,17 @@
                 <p data-lang-key="inst_4"></p>
                 <p data-lang-key="inst_5"></p>
 
-                <hr>
-                <h4 data-lang-key="faq_title" style="margin-top: 15px;"></h4>
-                <p>
-                    <b data-lang-key="faq_q1"></b><br>
-                    <span data-lang-key="faq_a1"></span>
-                </p>
-                <p>
-                    <b data-lang-key="faq_q2"></b><br>
-                    <span data-lang-key="faq_a2"></span>
-                </p>
-                <p>
-                    <b data-lang-key="faq_q3"></b><br>
-                    <span data-lang-key="faq_a3"></span>
-                </p>
             </div>
         </details>
-        
+
+        <div class="measurement-notice">
+            <h4 data-lang-key="measurement_notice_title">測量須知與範圍說明</h4>
+            <p data-lang-key="measurement_notice_body">1. <b>估算值：</b>由於遊戲產生的 QR code
+                資料格式多樣且模糊，本工具計算出的身高結果為「盡力而為」的估算值，僅供參考。<br>2. <b>範圍差異：</b>本工具所採用的身高範圍為 0 至 14。</p>
+        </div>
         <label for="b64-input" data-lang-key="input_label">請在此貼上掃描到的完整網址：</label>
         <textarea id="b64-input" data-lang-key="placeholder" placeholder="將完整網址貼在這裡……"></textarea>
-        
+
         <div id="qr-upload-area" class="qr-upload-area">
             <p data-lang-key="upload_instruction">或拖曳、選擇含有 QR Code 的截圖</p>
             <button id="qr-upload-btn" class="secondary-btn" data-lang-key="upload_btn">選擇圖片</button>
@@ -70,7 +71,7 @@
                 <span class="label" data-lang-key="res_shortest">最低身高:</span>
                 <span class="value" id="res-shortest">...</span>
             </div>
-            
+
             <div class="result-item json-output">
                 <div class="json-header">
                     <span class="label" data-lang-key="res_details">詳細資訊 (debug用):</span>
@@ -90,7 +91,8 @@
                         </div>
                         <div class="option-group">
                             <label for="player-name" data-lang-key="player_name">玩家名稱 (選填):</label>
-                            <input type="text" id="player-name" data-lang-key="player_name_placeholder" placeholder="Your Name">
+                            <input type="text" id="player-name" data-lang-key="player_name_placeholder"
+                                placeholder="Your Name">
                         </div>
                         <div class="option-group">
                             <label data-lang-key="bg_style_upload">上傳我的圖片:</label>
@@ -108,16 +110,21 @@
                         <div class="option-group">
                             <label data-lang-key="text_color">文字顏色:</label>
                             <div id="text-color-selector" class="selector-group">
-                                <button class="selectable-option text-color-option active" data-color="white" data-lang-key="text_white">淺色</button>
-                                <button class="selectable-option text-color-option" data-color="black" data-lang-key="text_black">深色</button>
+                                <button class="selectable-option text-color-option active" data-color="white"
+                                    data-lang-key="text_white">淺色</button>
+                                <button class="selectable-option text-color-option" data-color="black"
+                                    data-lang-key="text_black">深色</button>
                             </div>
                         </div>
-                         <div class="option-group">
+                        <div class="option-group">
                             <label data-lang-key="text_align">文字對齊:</label>
                             <div id="text-align-selector" class="selector-group">
-                                <button class="selectable-option text-align-option active" data-align="center" data-lang-key="align_center">置中</button>
-                                <button class="selectable-option text-align-option" data-align="left" data-lang-key="align_left">靠左</button>
-                                <button class="selectable-option text-align-option" data-align="right" data-lang-key="align_right">靠右</button>
+                                <button class="selectable-option text-align-option active" data-align="center"
+                                    data-lang-key="align_center">置中</button>
+                                <button class="selectable-option text-align-option" data-align="left"
+                                    data-lang-key="align_left">靠左</button>
+                                <button class="selectable-option text-align-option" data-align="right"
+                                    data-lang-key="align_right">靠右</button>
                             </div>
                         </div>
                         <div class="option-group toggle-group">
@@ -148,13 +155,15 @@
         <p class="instructions" data-lang-key="sim_desc"></p>
         <p class="sim-disclaimer" data-lang-key="sim_disclaimer_text"></p>
         <div class="sim-controls">
-             <button id="drink-potion-btn" data-lang-key="sim_drink_btn">喝一瓶重塑藥水！</button>
-             <button id="reset-sim-btn" class="secondary-btn" data-lang-key="sim_reset_btn">重設</button>
+            <button id="drink-potion-btn" data-lang-key="sim_drink_btn">喝一瓶重塑藥水！</button>
+            <button id="reset-sim-btn" class="secondary-btn" data-lang-key="sim_reset_btn">重設</button>
         </div>
         <div class="sim-metaphysics">
             <p data-lang-key="sim_meta_title"></p>
-            <label class="meta-option"><input type="checkbox" id="meta-tall-friend"> <span data-lang-key="sim_meta_tall"></span></label>
-            <label class="meta-option"><input type="checkbox" id="meta-short-friend"> <span data-lang-key="sim_meta_short"></span></label>
+            <label class="meta-option"><input type="checkbox" id="meta-tall-friend"> <span
+                    data-lang-key="sim_meta_tall"></span></label>
+            <label class="meta-option"><input type="checkbox" id="meta-short-friend"> <span
+                    data-lang-key="sim_meta_short"></span></label>
         </div>
         <div class="sim-results">
             <div class="result-item">
@@ -173,18 +182,20 @@
 
     <footer class="footer">
         <div class="footer-links">
-            <a href="https://github.com/dream10325/sky-cotl-height-tool" target="_blank" rel="noopener noreferrer" data-lang-key="github_link">
+            <a href="https://github.com/dream10325/sky-cotl-height-tool" target="_blank" rel="noopener noreferrer"
+                data-lang-key="github_link">
                 GitHub
             </a>
             <span class="footer-separator">|</span>
-            <a href="https://discord.gg/WfevubxfR7" target="_blank" rel="noopener noreferrer" data-lang-key="report_issue_link">
+            <a href="https://discord.gg/WfevubxfR7" target="_blank" rel="noopener noreferrer"
+                data-lang-key="report_issue_link">
                 問題回報
             </a>
             <span class="footer-separator">|</span>
             <div id="lang-switcher" class="footer-lang-switcher">
-                <span class="lang-option" data-lang="en">English</span>
-                <span class="lang-option active" data-lang="zh-Hant">繁體中文</span>
-                <span class="lang-option" data-lang="ja">日本語</span>
+                <button type="button" class="lang-option" data-lang="en">English</button>
+                <button type="button" class="lang-option active" data-lang="zh-Hant">繁體中文</button>
+                <button type="button" class="lang-option" data-lang="ja">日本語</button>
             </div>
         </div>
         <div class="footer-disclaimers">
@@ -194,6 +205,7 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+    <script src="translations.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
