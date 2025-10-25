@@ -204,7 +204,6 @@ textarea {
     margin: 0 0 10px 0;
     color: var(--label-color);
     pointer-events: none;
-    /* So it doesn't interfere with drop events */
 }
 
 button {
@@ -717,4 +716,3 @@ html[data-theme='dark'] .extreme-notice {
     width: 100%;
     box-sizing: border-box;
 }
-
