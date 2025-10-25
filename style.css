@@ -57,10 +57,20 @@ body {
     margin-bottom: 20px;
 }
 
+.header-buttons-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 38px;
+    position: relative;
+}
+
 .header-buttons {
     display: flex;
     align-items: center;
     gap: 10px;
+    min-width: 38px;
+    justify-content: flex-end;
 }
 
 h1,
@@ -73,7 +83,7 @@ h1,
 }
 
 h1 {
-    padding-left: 48px;
+    padding-left: 0;
 }
 
 .simulator-container h2 {
@@ -97,10 +107,53 @@ h1 {
     transition: background-color 0.2s, color 0.2s, border-color 0.2s;
 }
 
-.icon-button svg {
+.icon-button svg,
+#globe-icon {
     width: 20px;
     height: 20px;
     stroke: currentColor;
+}
+
+.lang-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 10px var(--shadow-color);
+    padding: 5px;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: 8px;
+}
+
+.lang-menu .lang-option {
+    cursor: pointer;
+    transition: color 0.2s;
+    background: none;
+    border: none;
+    padding: 8px 12px;
+    margin: 0;
+    font: inherit;
+    color: var(--label-color);
+    white-space: nowrap;
+    width: 100%;
+    text-align: left;
+    border-radius: 6px;
+}
+
+.lang-menu .lang-option.active {
+    font-weight: bold;
+    color: var(--font-color);
+    background-color: var(--details-bg);
+}
+
+.lang-menu .lang-option:not(.active):hover {
+    color: var(--primary-color);
+    background-color: var(--details-bg);
 }
 
 .icon-button:hover {
