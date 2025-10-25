@@ -459,6 +459,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    dom.b64Input.addEventListener('paste', () => {
+    setTimeout(() => {
+        dom.calculateBtn.click();
+    }, 0);
+    });
+    
     dom.copyBtn.addEventListener('click', () => {
         if (!lastResult) {
             dom.statusEl.innerHTML = t('status_copy_empty');
@@ -619,4 +625,5 @@ document.addEventListener('DOMContentLoaded', () => {
     setLanguage(currentLang);
     updatePreview();
 });
+
 
