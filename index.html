@@ -12,7 +12,7 @@
 
     <div class="container">
         <div class="header">
-            <h1 data-lang-key="title">光遇身高查看工具</h1>
+            <h1 data-lang-key="title">...</h1>
             <div class="header-buttons">
                 <button id="theme-switcher" class="icon-button" aria-label="Toggle theme">
                     <svg id="theme-icon-light" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -30,7 +30,7 @@
         </div>
 
         <details>
-            <summary data-lang-key="toggle_instructions">點此展開/收合使用教學</summary>
+            <summary data-lang-key="toggle_instructions">...</summary>
             <div class="instructions">
                 <p data-lang-key="inst_1"></p>
                 <p data-lang-key="inst_2"></p>
@@ -42,39 +42,38 @@
         </details>
 
         <div class="measurement-notice">
-            <h4 data-lang-key="measurement_notice_title">測量須知與範圍說明</h4>
-            <p data-lang-key="measurement_notice_body">1. <b>估算值：</b>由於遊戲產生的 QR code
-                資料格式多樣且模糊，本工具計算出的身高結果為「盡力而為」的估算值，僅供參考。<br>2. <b>範圍差異：</b>本工具所採用的身高範圍為 0 至 14。</p>
+            <h4 data-lang-key="measurement_notice_title">...</h4>
+            <p data-lang-key="measurement_notice_body">...</p>
         </div>
-        <label for="b64-input" data-lang-key="input_label">請在此貼上掃描到的完整網址：</label>
-        <textarea id="b64-input" data-lang-key="placeholder" placeholder="將完整網址貼在這裡……"></textarea>
+        <label for="b64-input" data-lang-key="input_label">...</label>
+        <textarea id="b64-input" data-lang-key="placeholder"></textarea>
 
         <div id="qr-upload-area" class="qr-upload-area">
-            <p data-lang-key="upload_instruction">或拖曳、選擇含有 QR Code 的截圖</p>
-            <button id="qr-upload-btn" class="secondary-btn" data-lang-key="upload_btn">選擇圖片</button>
+            <p data-lang-key="upload_instruction">...</p>
+            <button id="qr-upload-btn" class="secondary-btn" data-lang-key="upload_btn">...</button>
             <input type="file" id="qr-file-input" accept="image/*" style="display: none;">
         </div>
         <canvas id="qr-canvas" style="display: none;"></canvas>
 
-        <button id="calculate-btn" data-lang-key="calculate_btn">開始計算</button>
+        <button id="calculate-btn" data-lang-key="calculate_btn">...</button>
 
         <div class="results">
             <div class="result-item important">
-                <span class="label" data-lang-key="res_current">當前身高:</span>
+                <span class="label" data-lang-key="res_current">...</span>
                 <span class="value" id="res-current">...</span>
             </div>
             <div class="result-item">
-                <span class="label" data-lang-key="res_tallest">最高身高:</span>
+                <span class="label" data-lang-key="res_tallest">...</span>
                 <span class="value" id="res-tallest">...</span>
             </div>
             <div class="result-item">
-                <span class="label" data-lang-key="res_shortest">最低身高:</span>
+                <span class="label" data-lang-key="res_shortest">...</span>
                 <span class="value" id="res-shortest">...</span>
             </div>
 
             <div class="result-item json-output">
                 <div class="json-header">
-                    <span class="label" data-lang-key="res_details">詳細資訊 (debug用):</span>
+                    <span class="label" data-lang-key="res_details">...</span>
                 </div>
                 <div class="json-wrapper">
                     <pre class="value json-pre" id="res-json" aria-live="polite" tabindex="0"></pre>
@@ -82,59 +81,58 @@
             </div>
 
             <div class="result-actions" id="result-actions" style="display: none;">
-                <button id="copy-btn" data-lang-key="copy_btn">複製結果</button>
+                <button id="copy-btn" data-lang-key="copy_btn">...</button>
                 <details class="customization-details">
-                    <summary data-lang-key="customize_image">自訂並生成分享圖</summary>
+                    <summary data-lang-key="customize_image">...</summary>
                     <div class="customization-options">
                         <div class="preview-container">
                             <canvas id="preview-canvas" width="500" height="250"></canvas>
                         </div>
                         <div class="option-group">
-                            <label for="player-name" data-lang-key="player_name">玩家名稱 (選填):</label>
-                            <input type="text" id="player-name" data-lang-key="player_name_placeholder"
-                                placeholder="Your Name">
+                            <label for="player-name" data-lang-key="player_name">...</label>
+                            <input type="text" id="player-name" data-lang-key="player_name_placeholder">
                         </div>
                         <div class="option-group">
-                            <label data-lang-key="bg_style_upload">上傳我的圖片:</label>
+                            <label data-lang-key="bg_style_upload">...</label>
                             <input type="file" id="upload-bg" accept="image/*">
                             <div id="uploaded-image-preview" class="selector-group image-selector"></div>
                         </div>
                         <div class="option-group">
-                            <label data-lang-key="bg_style_image">內建圖片背景:</label>
+                            <label data-lang-key="bg_style_image">...</label>
                             <div id="bg-selector" class="selector-group image-selector"></div>
                         </div>
                         <div class="option-group">
-                            <label data-lang-key="bg_style_gradient">純色背景:</label>
+                            <label data-lang-key="bg_style_gradient">...</label>
                             <div id="gradient-selector" class="selector-group"></div>
                         </div>
                         <div class="option-group">
-                            <label data-lang-key="text_color">文字顏色:</label>
+                            <label data-lang-key="text_color">...</label>
                             <div id="text-color-selector" class="selector-group">
                                 <button class="selectable-option text-color-option active" data-color="white"
-                                    data-lang-key="text_white">淺色</button>
+                                    data-lang-key="text_white">...</button>
                                 <button class="selectable-option text-color-option" data-color="black"
-                                    data-lang-key="text_black">深色</button>
+                                    data-lang-key="text_black">...</button>
                             </div>
                         </div>
                         <div class="option-group">
-                            <label data-lang-key="text_align">文字對齊:</label>
+                            <label data-lang-key="text_align">...</label>
                             <div id="text-align-selector" class="selector-group">
                                 <button class="selectable-option text-align-option active" data-align="center"
-                                    data-lang-key="align_center">置中</button>
+                                    data-lang-key="align_center">...</button>
                                 <button class="selectable-option text-align-option" data-align="left"
-                                    data-lang-key="align_left">靠左</button>
+                                    data-lang-key="align_left">...</button>
                                 <button class="selectable-option text-align-option" data-align="right"
-                                    data-lang-key="align_right">靠右</button>
+                                    data-lang-key="align_right">...</button>
                             </div>
                         </div>
                         <div class="option-group toggle-group">
-                            <label for="show-range-toggle" data-lang-key="show_range">顯示身高範圍:</label>
+                            <label for="show-range-toggle" data-lang-key="show_range">...</label>
                             <label class="switch">
                                 <input type="checkbox" id="show-range-toggle" checked>
                                 <span class="slider round"></span>
                             </label>
                         </div>
-                        <button id="image-btn" data-lang-key="image_btn">生成分享圖</button>
+                        <button id="image-btn" data-lang-key="image_btn">...</button>
                     </div>
                 </details>
             </div>
@@ -143,38 +141,38 @@
 
         <div id="history" class="history-container" style="display: none;">
             <div class="history-header">
-                <h2 data-lang-key="history_title">歷史紀錄</h2>
-                <button id="clear-history-btn" data-lang-key="clear_history_btn">清空紀錄</button>
+                <h2 data-lang-key="history_title">...</h2>
+                <button id="clear-history-btn" data-lang-key="clear_history_btn">...</button>
             </div>
             <ul id="history-list"></ul>
         </div>
     </div>
 
     <div class="container simulator-container" id="simulator-container" style="display: none;">
-        <h2 data-lang-key="sim_title">重塑藥水模擬器</h2>
-        <p class="instructions" data-lang-key="sim_desc"></p>
-        <p class="sim-disclaimer" data-lang-key="sim_disclaimer_text"></p>
+        <h2 data-lang-key="sim_title">...</h2>
+        <p class="instructions" data-lang-key="sim_desc">...</p>
+        <p class="sim-disclaimer" data-lang-key="sim_disclaimer_text">...</p>
         <div class="sim-controls">
-            <button id="drink-potion-btn" data-lang-key="sim_drink_btn">喝一瓶重塑藥水！</button>
-            <button id="reset-sim-btn" class="secondary-btn" data-lang-key="sim_reset_btn">重設</button>
+            <button id="drink-potion-btn" data-lang-key="sim_drink_btn">...</button>
+            <button id="reset-sim-btn" class="secondary-btn" data-lang-key="sim_reset_btn">...</button>
         </div>
         <div class="sim-metaphysics">
-            <p data-lang-key="sim_meta_title"></p>
+            <p data-lang-key="sim_meta_title">...</p>
             <label class="meta-option"><input type="checkbox" id="meta-tall-friend"> <span
-                    data-lang-key="sim_meta_tall"></span></label>
+                    data-lang-key="sim_meta_tall">...</span></label>
             <label class="meta-option"><input type="checkbox" id="meta-short-friend"> <span
-                    data-lang-key="sim_meta_short"></span></label>
+                    data-lang-key="sim_meta_short">...</span></label>
         </div>
         <div class="sim-results">
             <div class="result-item">
-                <span class="label" data-lang-key="sim_result_label">模擬新身高:</span>
+                <span class="label" data-lang-key="sim_result_label">...</span>
                 <div>
                     <span class="value" id="potion-result">...</span>
                     <span id="potion-extreme-notice" class="extreme-notice"></span>
                 </div>
             </div>
             <div class="result-item">
-                <span class="label" data-lang-key="sim_count_label">已使用藥水數量:</span>
+                <span class="label" data-lang-key="sim_count_label">...</span>
                 <span class="value" id="potion-count">0</span>
             </div>
         </div>
@@ -184,12 +182,12 @@
         <div class="footer-links">
             <a href="https://github.com/dream10325/sky-cotl-height-tool" target="_blank" rel="noopener noreferrer"
                 data-lang-key="github_link">
-                GitHub
+                ...
             </a>
             <span class="footer-separator">|</span>
             <a href="https://discord.gg/WfevubxfR7" target="_blank" rel="noopener noreferrer"
                 data-lang-key="report_issue_link">
-                問題回報
+                ...
             </a>
             <span class="footer-separator">|</span>
             <div id="lang-switcher" class="footer-lang-switcher">
@@ -199,8 +197,8 @@
             </div>
         </div>
         <div class="footer-disclaimers">
-            <p data-lang-key="disclaimer_free"></p>
-            <p data-lang-key="disclaimer_privacy"></p>
+            <p data-lang-key="disclaimer_free">...</p>
+            <p data-lang-key="disclaimer_privacy">...</p>
         </div>
     </footer>
 
@@ -208,4 +206,5 @@
     <script src="translations.js"></script>
     <script src="script.js"></script>
 </body>
+
 </html>
