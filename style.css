@@ -136,7 +136,6 @@ summary {
     padding-left: 20px;
 }
 
-/* --- 這是我們新增的「測量須知」樣式 --- */
 .measurement-notice {
     background-color: var(--details-bg);
     border: 1px solid var(--border-color);
@@ -156,8 +155,6 @@ summary {
     margin: 0;
     font-size: 0.95em;
 }
-
-/* --- 樣式結束 --- */
 
 code {
     background-color: var(--border-color);
@@ -720,3 +717,4 @@ html[data-theme='dark'] .extreme-notice {
     width: 100%;
     box-sizing: border-box;
 }
+
