@@ -1,6 +1,6 @@
 let currentLang = 'zh-Hant';
 const backgroundImages = [
-    { id: 'bg1', path: 'images/bg1.png' }, { id: 'bg2', path: 'images/bg2.png' }, { id: 'bg3', path: 'images/bg3.png' },
+    { id: 'bg1', path: 'images/bg1.png' }, { id: 'bg2', path: 'images/bg2.png' }, { id: 'bg3', path: 'images/bg3.png' }, { id: 'bg4', path: 'images/bg4.png' }, { id: 'bg5', path: 'images/bg5.png' }, { id: 'bg6', path: 'images/bg6.png' }, { id: 'bg7', path: 'images/bg7.png' }, { id: 'bg8', path: 'images/bg8.png' }
 ];
 const backgroundGradients = [
     { id: 'daylight', colors: ['#a1c4fd', '#c2e9fb'] }, { id: 'dawn', colors: ['#f6d365', '#fda085'] },
@@ -619,3 +619,4 @@ document.addEventListener('DOMContentLoaded', () => {
     setLanguage(currentLang);
     updatePreview();
 });
+
