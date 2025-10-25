@@ -145,6 +145,9 @@ document.addEventListener('DOMContentLoaded', () => {
         statusEl: document.getElementById('status'),
         copyBtn: document.getElementById('copy-btn'), imageBtn: document.getElementById('image-btn'),
         resultActions: document.getElementById('result-actions'), langSwitcher: document.getElementById('lang-switcher'),
+        langSwitcher: document.getElementById('lang-switcher'),
+        langSwitcherHeader: document.getElementById('lang-switcher-header'),
+        langMenuHeader: document.getElementById('lang-menu-header'),
         themeSwitcher: document.getElementById('theme-switcher'), themeIconLight: document.getElementById('theme-icon-light'),
         themeIconDark: document.getElementById('theme-icon-dark'), historyContainer: document.getElementById('history'),
         historyList: document.getElementById('history-list'), clearHistoryBtn: document.getElementById('clear-history-btn'),
@@ -248,6 +251,28 @@ document.addEventListener('DOMContentLoaded', () => {
             setLanguage(langToggle.dataset.lang);
             renderHistory();
             updatePreview();
+        }
+    });
+
+    dom.langSwitcherHeader.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isHidden = dom.langMenuHeader.style.display === 'none';
+        dom.langMenuHeader.style.display = isHidden ? 'block' : 'none';
+    });
+
+    dom.langMenuHeader.addEventListener('click', (e) => {
+        const langToggle = e.target.closest('.lang-option');
+        if (langToggle) {
+            setLanguage(langToggle.dataset.lang);
+            renderHistory();
+            updatePreview();
+            dom.langMenuHeader.style.display = 'none';
+        }
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!dom.langMenuHeader.contains(e.target) && !dom.langSwitcherHeader.contains(e.target)) {
+            dom.langMenuHeader.style.display = 'none';
         }
     });
 
@@ -376,10 +401,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 dom.uploadedImagePreview.innerHTML = '';
                 const previewBtn = document.createElement('button');
                 previewBtn.type = 'button';
-                previewBtn.classList.add('selectable-option', 'bg-selection', 'active'); // 直接設為 active
+                previewBtn.classList.add('selectable-option', 'bg-selection', 'active');
                 previewBtn.dataset.type = 'uploaded';
                 previewBtn.dataset.source = uploadedImageUrl;
-                previewBtn.style.backgroundImage = `url(${uploadedImageUrl})`; // 3. 使用 backgroundImage
+                previewBtn.style.backgroundImage = `url(${uploadedImageUrl})`;
                 dom.uploadedImagePreview.appendChild(previewBtn);
                 document.querySelectorAll('.bg-selection').forEach(el => {
                     if (el !== previewBtn) el.classList.remove('active');
