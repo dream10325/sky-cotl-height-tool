@@ -12,6 +12,20 @@
 
     <div class="container">
         <div class="header">
+            <div class="header-buttons-left">
+                <button id="lang-switcher-header" class="icon-button" aria-label="Toggle language">
+                    <svg id="globe-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                    </svg>
+                </button>
+                <div id="lang-menu-header" class="lang-menu" style="display: none;">
+                    <button type="button" class="lang-option" data-lang="en">English</button>
+                    <button type="button" class="lang-option active" data-lang="zh-Hant">繁體中文</button>
+                    <button type="button" class="lang-option" data-lang="ja">日本語</button>
+                </div>
+            </div>
             <h1 data-lang-key="title">...</h1>
             <div class="header-buttons">
                 <button id="theme-switcher" class="icon-button" aria-label="Toggle theme">
