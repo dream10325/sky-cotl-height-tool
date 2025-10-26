@@ -44,32 +44,29 @@ function decodeAndCalculate(rawData) {
 
         let height;
 
-        const heightKeyIndex = decodedText.search(/eight/);
-        if (heightKeyIndex === -1) {
+        const heightKeyMatch = decodedText.match(/eigh/i);
+        if (!heightKeyMatch) {
             return { error: t('status_error_general') };
         }
 
-        const heightSearchArea = decodedText.substring(heightKeyIndex + 5);
-        const negativeHeightMatch = heightSearchArea.match(/^"?:(-?\d+\.?\d*)/);
-        if (negativeHeightMatch) {
-            height = parseFloat(negativeHeightMatch[1]);
+        const heightSearchArea = decodedText.substring(heightKeyMatch.index + heightKeyMatch[0].length);
+
+        const heightMatch = heightSearchArea.match(/(-?\d*\.\d+|-?\d+\.?\d*)/);
+        if (heightMatch) {
+            height = parseFloat(heightMatch[1]);
         } else {
-            const fuzzyHeightMatch = heightSearchArea.match(/^"?:(\d+)\.?/);
-            if (fuzzyHeightMatch) {
-                height = parseFloat(fuzzyHeightMatch[1]);
-            } else {
-                return { error: t('status_error_general') };
-            }
+            return { error: t('status_error_general') };
         }
+
 
         let scale;
 
-        const scaleKeyIndex = decodedText.search(/scale/);
-        if (scaleKeyIndex === -1) {
+        const scaleKeyMatch = decodedText.match(/scale/i);
+        if (!scaleKeyMatch) {
             return { error: t('status_error_general') };
         }
 
-        const scaleSearchArea = decodedText.substring(scaleKeyIndex + 5);
+        const scaleSearchArea = decodedText.substring(scaleKeyMatch.index + scaleKeyMatch[0].length);
 
         const scientificMatch = scaleSearchArea.match(/[":]*(\d+\.?\d*)[eE]([-+]?\d+)/);
         if (scientificMatch) {
@@ -85,16 +82,13 @@ function decodeAndCalculate(rawData) {
 
                 const searchWindow = scaleSearchArea.substring(0, 30);
 
-                integerMatch = searchWindow.match(/^.{0,10}(\d{1,10})/);
+                integerMatch = searchWindow.match(/^.*?(\d{1,10})/);
 
                 if (integerMatch) {
                     const scaleInt = parseInt(integerMatch[1]);
 
-                    if (scaleInt < 100) {
-                        scale = scaleInt / 1000000000.0;
-                    } else {
-                        scale = scaleInt / 1000000000.0;
-                    }
+                    scale = scaleInt / 1000000000.0;
+
                 } else {
                     return { error: t('status_error_general') };
                 }
@@ -560,41 +554,35 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!file || !file.type.startsWith('image/')) {
             return;
         }
-
-        dom.statusEl.innerHTML = t('status_qr_reading');
-        dom.statusEl.className = '';
-
-        if (typeof QrScanner === 'undefined') {
-            dom.statusEl.innerHTML = "錯誤：QR 函式庫載入失敗";
-            dom.statusEl.className = 'status-error';
-            return;
-        }
-
-        QrScanner.WORKER_PATH = 'https://cdn.jsdelivr.net/npm/qr-scanner@1.4.2/qr-scanner-worker.min.js?v=1.4.2';
-
-        dom.statusEl.innerHTML = t('status_qr_scanning');
-
-        try {
-            const result = await QrScanner.scanImage(file, {
-                returnDetailedScanResult: false
-            });
-
-            dom.statusEl.innerHTML = t('status_qr_success');
-            dom.statusEl.className = 'status-success';
-            dom.b64Input.value = result;
-            dom.calculateBtn.click();
-
-        } catch (err) {
-            console.error("QR Scan failed:", err);
-
-            const errString = (err || 'unknown error').toString().toLowerCase();
-            if (errString.includes('no qr code found')) {
-                dom.statusEl.innerHTML = t('status_qr_fail');
-            } else {
-                dom.statusEl.innerHTML = t('status_error_general');
-            }
-            dom.statusEl.className = 'status-error';
-        }
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            dom.statusEl.innerHTML = t('status_qr_reading');
+            dom.statusEl.className = '';
+            const image = new Image();
+            image.onload = () => {
+                dom.statusEl.innerHTML = t('status_qr_scanning');
+                const canvas = dom.qrCanvas;
+                const ctx = canvas.getContext('2d');
+                canvas.width = image.width;
+                canvas.height = image.height;
+                ctx.drawImage(image, 0, 0, image.width, image.height);
+                const imageData = ctx.getImageData(0, 0, image.width, image.height);
+                const code = jsQR(imageData.data, imageData.width, imageData.height, {
+                    inversionAttempts: "dontInvert",
+                });
+                if (code) {
+                    dom.statusEl.innerHTML = t('status_qr_success');
+                    dom.statusEl.className = 'status-success';
+                    dom.b64Input.value = code.data;
+                    dom.calculateBtn.click();
+                } else {
+                    dom.statusEl.innerHTML = t('status_qr_fail');
+                    dom.statusEl.className = 'status-error';
+                }
+            };
+            image.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
     }
 
     dom.qrUploadArea.addEventListener('click', () => dom.qrFileInput.click());
