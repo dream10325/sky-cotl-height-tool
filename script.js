@@ -51,7 +51,7 @@ function decodeAndCalculate(rawData) {
 
         const heightSearchArea = decodedText.substring(heightKeyMatch.index + heightKeyMatch[0].length);
 
-        const heightMatch = heightSearchArea.match(/-?(\d*\.\d+|\d+\.?\d*)/);
+        const heightMatch = heightSearchArea.match(/(-?\d*\.\d+|-?\d+\.?\d*)/);
         if (heightMatch) {
             height = parseFloat(heightMatch[1]);
         } else {
@@ -657,3 +657,4 @@ document.addEventListener('DOMContentLoaded', () => {
     setLanguage(currentLang);
     updatePreview();
 });
+
