@@ -460,11 +460,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     dom.b64Input.addEventListener('paste', () => {
-    setTimeout(() => {
-        dom.calculateBtn.click();
-    }, 0);
+        setTimeout(() => {
+            dom.calculateBtn.click();
+        }, 0);
     });
-    
+
     dom.copyBtn.addEventListener('click', () => {
         if (!lastResult) {
             dom.statusEl.innerHTML = t('status_copy_empty');
@@ -556,39 +556,45 @@ document.addEventListener('DOMContentLoaded', () => {
         dom.potionExtremeNotice.textContent = '';
     });
 
-    function handleQrUpload(file) {
+    async function handleQrUpload(file) {
         if (!file || !file.type.startsWith('image/')) {
             return;
         }
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            dom.statusEl.innerHTML = t('status_qr_reading');
-            dom.statusEl.className = '';
-            const image = new Image();
-            image.onload = () => {
-                dom.statusEl.innerHTML = t('status_qr_scanning');
-                const canvas = dom.qrCanvas;
-                const ctx = canvas.getContext('2d');
-                canvas.width = image.width;
-                canvas.height = image.height;
-                ctx.drawImage(image, 0, 0, image.width, image.height);
-                const imageData = ctx.getImageData(0, 0, image.width, image.height);
-                const code = jsQR(imageData.data, imageData.width, imageData.height, {
-                    inversionAttempts: "dontInvert",
-                });
-                if (code) {
-                    dom.statusEl.innerHTML = t('status_qr_success');
-                    dom.statusEl.className = 'status-success';
-                    dom.b64Input.value = code.data;
-                    dom.calculateBtn.click();
-                } else {
-                    dom.statusEl.innerHTML = t('status_qr_fail');
-                    dom.statusEl.className = 'status-error';
-                }
-            };
-            image.src = e.target.result;
-        };
-        reader.readAsDataURL(file);
+
+        dom.statusEl.innerHTML = t('status_qr_reading');
+        dom.statusEl.className = '';
+
+        if (typeof QrScanner === 'undefined') {
+            dom.statusEl.innerHTML = "錯誤：QR 函式庫載入失敗";
+            dom.statusEl.className = 'status-error';
+            return;
+        }
+
+        QrScanner.WORKER_PATH = 'https://cdn.jsdelivr.net/npm/qr-scanner@1.4.2/qr-scanner-worker.min.js?v=1.4.2';
+
+        dom.statusEl.innerHTML = t('status_qr_scanning');
+
+        try {
+            const result = await QrScanner.scanImage(file, {
+                returnDetailedScanResult: false
+            });
+
+            dom.statusEl.innerHTML = t('status_qr_success');
+            dom.statusEl.className = 'status-success';
+            dom.b64Input.value = result;
+            dom.calculateBtn.click();
+
+        } catch (err) {
+            console.error("QR Scan failed:", err);
+
+            const errString = (err || 'unknown error').toString().toLowerCase();
+            if (errString.includes('no qr code found')) {
+                dom.statusEl.innerHTML = t('status_qr_fail');
+            } else {
+                dom.statusEl.innerHTML = t('status_error_general');
+            }
+            dom.statusEl.className = 'status-error';
+        }
     }
 
     dom.qrUploadArea.addEventListener('click', () => dom.qrFileInput.click());
