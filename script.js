@@ -504,7 +504,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 drawCanvasContent(ctx, downloadCanvas);
                 triggerDownload();
             };
-            bgImage.onerror = () => { alert('背景圖片載入失敗！'); };
+            bgImage.onerror = () => { alert('背景圖片載入失敗!'); };
         } else if (activeBg && activeBg.dataset.type === 'gradient') {
             const colors = activeBg.dataset.colors.split(',');
             const gradient = ctx.createLinearGradient(0, 0, downloadCanvas.width, downloadCanvas.height);
@@ -550,48 +550,89 @@ document.addEventListener('DOMContentLoaded', () => {
         dom.potionExtremeNotice.textContent = '';
     });
 
-async function handleQrUpload(file) {
+    function loadImageToCanvas(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => resolve(img);
+                img.onerror = reject;
+                img.src = e.target.result;
+            };
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+        });
+    }
+
+    async function handleQrUpload(file) {
         if (!file || !file.type.startsWith('image/')) {
+            dom.statusEl.innerHTML = t('status_error_general');
+            dom.statusEl.className = 'status-error';
             return;
         }
 
         dom.statusEl.innerHTML = t('status_qr_reading');
         dom.statusEl.className = '';
 
-        if (typeof QrScanner === 'undefined') {
-            dom.statusEl.innerHTML = "錯誤：QR 函式庫載入失敗";
+        if (typeof jsQR === 'undefined') {
+            dom.statusEl.innerHTML = "錯誤: QR 掃描庫載入失敗，請重新整理頁面";
             dom.statusEl.className = 'status-error';
             return;
         }
 
-        QrScanner.WORKER_PATH = 'https://cdn.jsdelivr.net/npm/qr-scanner@1.4.2/qr-scanner-worker.min.js?v=1.4.2';
-        
-        dom.statusEl.innerHTML = t('status_qr_scanning');
-
         try {
-            const result = await QrScanner.scanImage(file, {
-                returnDetailedScanResult: false
+            dom.statusEl.innerHTML = t('status_qr_scanning');
+
+            const img = await loadImageToCanvas(file);
+            
+            const canvas = dom.qrCanvas;
+            const ctx = canvas.getContext('2d');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.drawImage(img, 0, 0);
+
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            
+            const code = jsQR(imageData.data, imageData.width, imageData.height, {
+                inversionAttempts: "dontInvert",
             });
 
-            dom.statusEl.innerHTML = t('status_qr_success');
-            dom.statusEl.className = 'status-success';
-            dom.b64Input.value = result;
-            dom.calculateBtn.click();
+            if (code && code.data) {
+                dom.statusEl.innerHTML = t('status_qr_success');
+                dom.statusEl.className = 'status-success';
+                dom.b64Input.value = code.data;
+                
+                setTimeout(() => {
+                    dom.calculateBtn.click();
+                }, 100);
+            } else {
+                const codeInverted = jsQR(imageData.data, imageData.width, imageData.height, {
+                    inversionAttempts: "attemptBoth",
+                });
+                
+                if (codeInverted && codeInverted.data) {
+                    dom.statusEl.innerHTML = t('status_qr_success');
+                    dom.statusEl.className = 'status-success';
+                    dom.b64Input.value = codeInverted.data;
+                    
+                    setTimeout(() => {
+                        dom.calculateBtn.click();
+                    }, 100);
+                } else {
+                    dom.statusEl.innerHTML = t('status_qr_fail');
+                    dom.statusEl.className = 'status-error';
+                }
+            }
 
         } catch (err) {
-            console.error("QR Scan failed:", err); 
-            
-            const errString = (err || 'unknown error').toString().toLowerCase();
-            if (errString.includes('no qr code found')) {
-                 dom.statusEl.innerHTML = t('status_qr_fail');
-            } else {
-                 dom.statusEl.innerHTML = t('status_error_general');
-            }
+            console.error("QR Scan error:", err);
+            dom.statusEl.innerHTML = `掃描失敗: ${err.message || t('status_error_general')}`;
             dom.statusEl.className = 'status-error';
         }
     }
 
     dom.qrUploadArea.addEventListener('click', () => dom.qrFileInput.click());
+
     dom.qrFileInput.addEventListener('change', (e) => {
         if (e.target.files && e.target.files.length > 0) {
             handleQrUpload(e.target.files[0]);
@@ -604,7 +645,7 @@ async function handleQrUpload(file) {
         dom.qrUploadArea.classList.add('dragover');
     });
 
-    dom.qrUploadArea.addEventListener('draleave', (e) => {
+    dom.qrUploadArea.addEventListener('dragleave', (e) => {
         e.preventDefault();
         e.stopPropagation();
         dom.qrUploadArea.classList.remove('dragover');
@@ -614,6 +655,7 @@ async function handleQrUpload(file) {
         e.preventDefault();
         e.stopPropagation();
         dom.qrUploadArea.classList.remove('dragover');
+        
         if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
             handleQrUpload(e.dataTransfer.files[0]);
             e.dataTransfer.clearData();
