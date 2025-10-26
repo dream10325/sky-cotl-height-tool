@@ -44,7 +44,7 @@ function decodeAndCalculate(rawData) {
 
         let height;
 
-        const heightKeyMatch = decodedText.match(/eight|heigh/i);
+        const heightKeyMatch = decodedText.match(/eigh/i);
         if (!heightKeyMatch) {
             return { error: t('status_error_general') };
         }
