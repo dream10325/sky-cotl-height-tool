@@ -600,14 +600,14 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.drawImage(image, 0, 0, width, height);
 
         try {
-            if (typeof zxing === 'undefined') {
+            if (typeof ZXing === 'undefined') {
                 console.error("ZXing library not loaded. Check index.html.");
                 dom.statusEl.innerHTML = "錯誤：QR 函式庫載入失敗";
                 dom.statusEl.className = 'status-error';
                 return;
             }
 
-            const codeReader = new zxing.BrowserQRCodeReader();
+            const codeReader = new ZXing.BrowserQRCodeReader();
 
             const result = await codeReader.decodeFromCanvas(canvas);
 
@@ -657,4 +657,5 @@ document.addEventListener('DOMContentLoaded', () => {
     setLanguage(currentLang);
     updatePreview();
 });
+
 
