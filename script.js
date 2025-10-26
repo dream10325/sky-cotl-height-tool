@@ -44,32 +44,29 @@ function decodeAndCalculate(rawData) {
 
         let height;
 
-        const heightKeyIndex = decodedText.search(/eight/);
-        if (heightKeyIndex === -1) {
+        const heightKeyMatch = decodedText.match(/eight|heigh/i);
+        if (!heightKeyMatch) {
             return { error: t('status_error_general') };
         }
 
-        const heightSearchArea = decodedText.substring(heightKeyIndex + 5);
-        const negativeHeightMatch = heightSearchArea.match(/^"?:(-?\d+\.?\d*)/);
-        if (negativeHeightMatch) {
-            height = parseFloat(negativeHeightMatch[1]);
+        const heightSearchArea = decodedText.substring(heightKeyMatch.index + heightKeyMatch[0].length);
+
+        const heightMatch = heightSearchArea.match(/-?(\d*\.\d+|\d+\.?\d*)/);
+        if (heightMatch) {
+            height = parseFloat(heightMatch[1]);
         } else {
-            const fuzzyHeightMatch = heightSearchArea.match(/^"?:(\d+)\.?/);
-            if (fuzzyHeightMatch) {
-                height = parseFloat(fuzzyHeightMatch[1]);
-            } else {
-                return { error: t('status_error_general') };
-            }
+            return { error: t('status_error_general') };
         }
+
 
         let scale;
 
-        const scaleKeyIndex = decodedText.search(/scale/);
-        if (scaleKeyIndex === -1) {
+        const scaleKeyMatch = decodedText.match(/scale/i);
+        if (!scaleKeyMatch) {
             return { error: t('status_error_general') };
         }
 
-        const scaleSearchArea = decodedText.substring(scaleKeyIndex + 5);
+        const scaleSearchArea = decodedText.substring(scaleKeyMatch.index + scaleKeyMatch[0].length);
 
         const scientificMatch = scaleSearchArea.match(/[":]*(\d+\.?\d*)[eE]([-+]?\d+)/);
         if (scientificMatch) {
@@ -85,16 +82,13 @@ function decodeAndCalculate(rawData) {
 
                 const searchWindow = scaleSearchArea.substring(0, 30);
 
-                integerMatch = searchWindow.match(/^.{0,10}(\d{1,10})/);
+                integerMatch = searchWindow.match(/^.*?(\d{1,10})/);
 
                 if (integerMatch) {
                     const scaleInt = parseInt(integerMatch[1]);
 
-                    if (scaleInt < 100) {
-                        scale = scaleInt / 1000000000.0;
-                    } else {
-                        scale = scaleInt / 1000000000.0;
-                    }
+                    scale = scaleInt / 1000000000.0;
+
                 } else {
                     return { error: t('status_error_general') };
                 }
@@ -460,11 +454,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     dom.b64Input.addEventListener('paste', () => {
-    setTimeout(() => {
-        dom.calculateBtn.click();
-    }, 0);
+        setTimeout(() => {
+            dom.calculateBtn.click();
+        }, 0);
     });
-    
+
     dom.copyBtn.addEventListener('click', () => {
         if (!lastResult) {
             dom.statusEl.innerHTML = t('status_copy_empty');
@@ -556,39 +550,77 @@ document.addEventListener('DOMContentLoaded', () => {
         dom.potionExtremeNotice.textContent = '';
     });
 
-    function handleQrUpload(file) {
+    async function handleQrUpload(file) {
         if (!file || !file.type.startsWith('image/')) {
             return;
         }
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            dom.statusEl.innerHTML = t('status_qr_reading');
-            dom.statusEl.className = '';
-            const image = new Image();
-            image.onload = () => {
-                dom.statusEl.innerHTML = t('status_qr_scanning');
-                const canvas = dom.qrCanvas;
-                const ctx = canvas.getContext('2d');
-                canvas.width = image.width;
-                canvas.height = image.height;
-                ctx.drawImage(image, 0, 0, image.width, image.height);
-                const imageData = ctx.getImageData(0, 0, image.width, image.height);
-                const code = jsQR(imageData.data, imageData.width, imageData.height, {
-                    inversionAttempts: "dontInvert",
-                });
-                if (code) {
-                    dom.statusEl.innerHTML = t('status_qr_success');
-                    dom.statusEl.className = 'status-success';
-                    dom.b64Input.value = code.data;
-                    dom.calculateBtn.click();
-                } else {
-                    dom.statusEl.innerHTML = t('status_qr_fail');
-                    dom.statusEl.className = 'status-error';
-                }
-            };
-            image.src = e.target.result;
-        };
-        reader.readAsDataURL(file);
+
+        dom.statusEl.innerHTML = t('status_qr_reading');
+        dom.statusEl.className = '';
+
+        const image = new Image();
+        try {
+            const imageSrc = await new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = (e) => resolve(e.target.result);
+                reader.onerror = (err) => reject(err);
+                reader.readAsDataURL(file);
+            });
+
+            await new Promise((resolve) => {
+                image.onload = resolve;
+                image.src = imageSrc;
+            });
+        } catch (err) {
+            console.error("Image loading failed:", err);
+            dom.statusEl.innerHTML = t('status_qr_fail');
+            dom.statusEl.className = 'status-error';
+            return;
+        }
+
+        dom.statusEl.innerHTML = t('status_qr_scanning');
+
+        const canvas = dom.qrCanvas;
+        const ctx = canvas.getContext('2d');
+        const MAX_DIM = 1200;
+
+        let { width, height } = image;
+        if (width > MAX_DIM || height > MAX_DIM) {
+            if (width > height) {
+                height = (height / width) * MAX_DIM;
+                width = MAX_DIM;
+            } else {
+                width = (width / height) * MAX_DIM;
+                height = MAX_DIM;
+            }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        ctx.drawImage(image, 0, 0, width, height);
+
+        try {
+            if (typeof zxing === 'undefined') {
+                console.error("ZXing library not loaded. Check index.html.");
+                dom.statusEl.innerHTML = "錯誤：QR 函式庫載入失敗";
+                dom.statusEl.className = 'status-error';
+                return;
+            }
+
+            const codeReader = new zxing.BrowserQRCodeReader();
+
+            const result = await codeReader.decodeFromCanvas(canvas);
+
+            dom.statusEl.innerHTML = t('status_qr_success');
+            dom.statusEl.className = 'status-success';
+            dom.b64Input.value = result.getText();
+            dom.calculateBtn.click();
+
+        } catch (err) {
+            console.error("QR Scan failed:", err);
+            dom.statusEl.innerHTML = t('status_qr_fail');
+            dom.statusEl.className = 'status-error';
+        }
     }
 
     dom.qrUploadArea.addEventListener('click', () => dom.qrFileInput.click());
@@ -625,5 +657,3 @@ document.addEventListener('DOMContentLoaded', () => {
     setLanguage(currentLang);
     updatePreview();
 });
-
-
