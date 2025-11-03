@@ -68,13 +68,13 @@ function decodeAndCalculate(rawData) {
 
         const scaleSearchArea = decodedText.substring(scaleKeyMatch.index + scaleKeyMatch[0].length);
 
-        const scientificMatch = scaleSearchArea.match(/[":]*(\d+\.?\d*)[eE]([-+]?\d+)/);
+        const scientificMatch = scaleSearchArea.match(/[":]*(-?\d+\.?\d*)[eE]([-+]?\d+)/);
         if (scientificMatch) {
             const base = parseFloat(scientificMatch[1]);
             const exponent = parseInt(scientificMatch[2]);
             scale = base * Math.pow(10, exponent);
         } else {
-            const standardFloatMatch = scaleSearchArea.match(/[":]*(\d*\.\d+)/);
+            const standardFloatMatch = scaleSearchArea.match(/[":]*(-?\d*\.\d+)/);
             if (standardFloatMatch) {
                 scale = parseFloat(standardFloatMatch[1]);
             } else {
