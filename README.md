@@ -21,7 +21,6 @@ All calculations are done in your browser. No data is uploaded, so you can use i
 
     **方法二：貼上網址**
     * 使用另一部手機或網頁掃碼工具讀取你的截圖。
-    * 掃描後會得到一串以 `https://sky.thatg.co/o=` 開頭的網址。
     * **複製整個網址**並貼到本工具的輸入框。
 
 ## How to Use
@@ -35,5 +34,4 @@ All calculations are done in your browser. No data is uploaded, so you can use i
 
     **Method 2: Paste the URL**
     * Use another phone's camera or a web QR code scanner to read your screenshot.
-    * This will give you a URL that starts with `https://sky.thatg.co/o=`.
     * **Copy the entire URL**, paste it into the tool's input box.
