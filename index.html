@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>光遇身高查看工具</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
@@ -14,10 +14,8 @@
         <div class="header">
             <div class="header-buttons-left">
                 <button id="lang-switcher-header" class="icon-button" aria-label="Toggle language">
-                    <svg id="globe-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                    <svg id="globe-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
                     </svg>
                 </button>
                 <div id="lang-menu-header" class="lang-menu" style="display: none;">
@@ -26,18 +24,16 @@
                     <button type="button" class="lang-option" data-lang="ja">日本語</button>
                 </div>
             </div>
-            <h1 data-lang-key="title">...</h1>
+
+            <h1 data-lang-key="title">Loading...</h1>
+
             <div class="header-buttons">
                 <button id="theme-switcher" class="icon-button" aria-label="Toggle theme">
-                    <svg id="theme-icon-light" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                    <svg id="theme-icon-light" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                     </svg>
-                    <svg id="theme-icon-dark" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor" stroke-width="2" style="display:none;">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    <svg id="theme-icon-dark" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="display:none;">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                     </svg>
                 </button>
             </div>
@@ -46,12 +42,11 @@
         <details>
             <summary data-lang-key="toggle_instructions">...</summary>
             <div class="instructions">
-                <p data-lang-key="inst_1"></p>
-                <p data-lang-key="inst_2"></p>
-                <p data-lang-key="inst_3"></p>
-                <p data-lang-key="inst_4"></p>
-                <p data-lang-key="inst_5"></p>
-
+                <p data-lang-key="inst_1">...</p>
+                <p data-lang-key="inst_2">...</p>
+                <p data-lang-key="inst_3">...</p>
+                <p data-lang-key="inst_4">...</p>
+                <p data-lang-key="inst_5">...</p>
             </div>
         </details>
 
@@ -59,14 +54,16 @@
             <h4 data-lang-key="measurement_notice_title">...</h4>
             <p data-lang-key="measurement_notice_body">...</p>
         </div>
+
         <label for="b64-input" data-lang-key="input_label">...</label>
-        <textarea id="b64-input" data-lang-key="placeholder"></textarea>
+        <textarea id="b64-input" data-lang-key="placeholder" placeholder="..."></textarea>
 
         <div id="qr-upload-area" class="qr-upload-area">
             <p data-lang-key="upload_instruction">...</p>
             <button id="qr-upload-btn" class="secondary-btn" data-lang-key="upload_btn">...</button>
             <input type="file" id="qr-file-input" accept="image/*" style="display: none;">
         </div>
+        
         <canvas id="qr-canvas" style="display: none;"></canvas>
 
         <button id="calculate-btn" data-lang-key="calculate_btn">...</button>
@@ -96,6 +93,7 @@
 
             <div class="result-actions" id="result-actions" style="display: none;">
                 <button id="copy-btn" data-lang-key="copy_btn">...</button>
+                
                 <details class="customization-details">
                     <summary data-lang-key="customize_image">...</summary>
                     <div class="customization-options">
@@ -104,7 +102,7 @@
                         </div>
                         <div class="option-group">
                             <label for="player-name" data-lang-key="player_name">...</label>
-                            <input type="text" id="player-name" data-lang-key="player_name_placeholder">
+                            <input type="text" id="player-name" data-lang-key="player_name_placeholder" placeholder="...">
                         </div>
                         <div class="option-group">
                             <label data-lang-key="bg_style_upload">...</label>
@@ -122,21 +120,16 @@
                         <div class="option-group">
                             <label data-lang-key="text_color">...</label>
                             <div id="text-color-selector" class="selector-group">
-                                <button class="selectable-option text-color-option active" data-color="white"
-                                    data-lang-key="text_white">...</button>
-                                <button class="selectable-option text-color-option" data-color="black"
-                                    data-lang-key="text_black">...</button>
+                                <button class="selectable-option text-color-option active" data-color="white" data-lang-key="text_white">...</button>
+                                <button class="selectable-option text-color-option" data-color="black" data-lang-key="text_black">...</button>
                             </div>
                         </div>
                         <div class="option-group">
                             <label data-lang-key="text_align">...</label>
                             <div id="text-align-selector" class="selector-group">
-                                <button class="selectable-option text-align-option active" data-align="center"
-                                    data-lang-key="align_center">...</button>
-                                <button class="selectable-option text-align-option" data-align="left"
-                                    data-lang-key="align_left">...</button>
-                                <button class="selectable-option text-align-option" data-align="right"
-                                    data-lang-key="align_right">...</button>
+                                <button class="selectable-option text-align-option active" data-align="center" data-lang-key="align_center">...</button>
+                                <button class="selectable-option text-align-option" data-align="left" data-lang-key="align_left">...</button>
+                                <button class="selectable-option text-align-option" data-align="right" data-lang-key="align_right">...</button>
                             </div>
                         </div>
                         <div class="option-group toggle-group">
@@ -151,6 +144,7 @@
                 </details>
             </div>
         </div>
+        
         <div id="status"></div>
 
         <div id="history" class="history-container" style="display: none;">
@@ -172,10 +166,8 @@
         </div>
         <div class="sim-metaphysics">
             <p data-lang-key="sim_meta_title">...</p>
-            <label class="meta-option"><input type="checkbox" id="meta-tall-friend"> <span
-                    data-lang-key="sim_meta_tall">...</span></label>
-            <label class="meta-option"><input type="checkbox" id="meta-short-friend"> <span
-                    data-lang-key="sim_meta_short">...</span></label>
+            <label class="meta-option"><input type="checkbox" id="meta-tall-friend"> <span data-lang-key="sim_meta_tall">...</span></label>
+            <label class="meta-option"><input type="checkbox" id="meta-short-friend"> <span data-lang-key="sim_meta_short">...</span></label>
         </div>
         <div class="sim-results">
             <div class="result-item">
@@ -194,15 +186,9 @@
 
     <footer class="footer">
         <div class="footer-links">
-            <a href="https://github.com/dream10325/sky-cotl-height-tool" target="_blank" rel="noopener noreferrer"
-                data-lang-key="github_link">
-                ...
-            </a>
+            <a href="https://github.com/dream10325/sky-cotl-height-tool" target="_blank" rel="noopener noreferrer" data-lang-key="github_link">...</a>
             <span class="footer-separator">|</span>
-            <a href="https://discord.gg/WfevubxfR7" target="_blank" rel="noopener noreferrer"
-                data-lang-key="report_issue_link">
-                ...
-            </a>
+            <a href="https://discord.gg/WfevubxfR7" target="_blank" rel="noopener noreferrer" data-lang-key="report_issue_link">...</a>
             <span class="footer-separator">|</span>
             <div id="lang-switcher" class="footer-lang-switcher">
                 <button type="button" class="lang-option" data-lang="en">English</button>
@@ -217,8 +203,10 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
-    <script src="translations.js"></script>
-    <script src="script.js"></script>
+    
+    <script src="js/translations.js"></script>
+    <script src="js/calculator.js"></script>
+    <script src="js/script.js"></script>
 </body>
 
 </html>
