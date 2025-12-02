@@ -1,0 +1,36 @@
+:root {
+    --primary-color: #E6A23C;
+    --primary-hover: #F7BA2A;
+    --primary-text: #FFFFFF;
+    --accent-color: #2CA89A;
+    --accent-bg: rgba(44, 168, 154, 0.15);
+    --bg-overlay: rgba(255, 255, 255, 0.65);
+    --card-bg: rgba(255, 255, 255, 0.4);
+    --border-color: rgba(255, 255, 255, 0.6);
+    --font-color: #2D3748;
+    --label-color: #4A5568;
+    --blur-strength: 20px;
+    --shadow-soft: 0 8px 32px rgba(31, 38, 135, 0.1);
+    --success-color: #2ecc71;
+    --error-color: #e74c3c;
+    --details-bg: rgba(255, 255, 255, 0.3);
+    --footer-bg: rgba(255, 255, 255, 0.85);
+    --option-inactive-bg: rgba(255, 255, 255, 0.5);
+    --option-border: rgba(0, 0, 0, 0.1);
+}
+
+html[data-theme='dark'] {
+    --bg-overlay: rgba(20, 25, 40, 0.75);
+    --card-bg: rgba(0, 0, 0, 0.3);
+    --border-color: rgba(255, 255, 255, 0.15);
+    --font-color: #E2E8F0;
+    --label-color: #A0AEC0;
+    --primary-text: #1A202C;
+    --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.4);
+    --details-bg: rgba(0, 0, 0, 0.2);
+    --accent-color: #4BE3D4;
+    --accent-bg: rgba(75, 227, 212, 0.1);
+    --footer-bg: rgba(20, 25, 40, 0.85);
+    --option-inactive-bg: rgba(255, 255, 255, 0.05);
+    --option-border: rgba(255, 255, 255, 0.2);
+}

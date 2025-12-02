@@ -23,6 +23,28 @@ const backgroundGradients = [
     { id: 'night', colors: ['#2c3e50', '#1a293f'] },
 ];
 
+function renderChangelog() {
+    const listContainer = document.getElementById('changelog-list');
+    if (!listContainer || typeof versionData === 'undefined') return;
+
+    listContainer.innerHTML = versionData.map(item => {
+        const contentList = item.changes[currentLang] || item.changes['en'];
+        const listHtml = contentList.map(text => `<li>${text}</li>`).join('');
+
+        return `
+            <div class="version-item">
+                <div class="version-header">
+                    <span class="version-tag">${item.ver}</span>
+                    <span class="version-date">${item.date}</span>
+                </div>
+                <ul class="version-content">
+                    ${listHtml}
+                </ul>
+            </div>
+        `;
+    }).join('');
+}
+
 function setLanguage(lang) {
     currentLang = lang;
     document.documentElement.lang = lang;
@@ -44,6 +66,7 @@ function setLanguage(lang) {
     document.querySelectorAll('.lang-option').forEach(span => {
         span.classList.toggle('active', span.dataset.lang === lang);
     });
+    renderChangelog();
 }
 
 function t(key) {
@@ -613,5 +636,6 @@ document.addEventListener('DOMContentLoaded', () => {
     populateBgSelectors();
     loadHistory();
     setLanguage(currentLang);
+    renderChangelog();
     updatePreview();
 });

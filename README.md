@@ -13,25 +13,23 @@ All calculations are done in your browser. No data is uploaded, so you can use i
 ## 如何使用
 
 1.  在遊戲中，前往 **設定 > 帳號 > 帳號資訊 > 造型 QR code**。
-2.  將該 QR Code 畫面**截圖**。
-3.  接下來，你有兩種方式可以使用本工具：
+2.  將該畫面**截圖**。（請注意：並非加好友用的 QR Code）
+3.  取得截圖後，請選擇以下其中一種方式：
 
     **方法一 ：直接上傳截圖**
-    * 回到本工具網頁，點擊「選擇圖片」按鈕，或直接將截圖檔案拖曳至上傳區域。
+    * 點擊「選擇圖片」按鈕，或直接將截圖檔案拖曳至上傳區域。
 
     **方法二：貼上網址**
-    * 使用另一部手機或網頁掃碼工具讀取你的截圖。
-    * **複製整個網址**並貼到本工具的輸入框。
+    * 使用掃碼工具讀取截圖，將取得的 `https://sky.thatg.co/o=` 開頭網址，完整複製並貼入工具的輸入框。
 
 ## How to Use
 
 1.  In the game, go to **Settings > Account > Account Info > Outfit QR Code**.
-2.  **Take a screenshot** of the QR Code screen.
-3.  You now have two ways to use this tool:
+2.  **Take a screenshot** of the QR Code. (Note: NOT the friend invite QR code)
+3.  Choose one of the following methods:
 
-    **Method 1: Upload the Screenshot**
-    * Return to this web tool and click "Select Image" or drag and drop your screenshot file into the upload area.
+    **Method 1: Upload Screenshot**
+    * Click "Select Image" or drag and drop your screenshot into the upload area.
 
-    **Method 2: Paste the URL**
-    * Use another phone's camera or a web QR code scanner to read your screenshot.
-    * **Copy the entire URL**, paste it into the tool's input box.
+    **Method 2: Paste URL**
+    * Use a scanner to read the screenshot. Copy the URL starting with `https://sky.thatg.co/o=` and paste it into the tool's input box.
