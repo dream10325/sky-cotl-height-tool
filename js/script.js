@@ -410,6 +410,9 @@ document.addEventListener('DOMContentLoaded', () => {
             animateValue(dom.resShortest, parseFloat(dom.resShortest.textContent) || 0, results.shortest, 500);
 
             if (dom.resJson && results.json) {
+                if (typeof versionData !== 'undefined' && versionData.length > 0) {
+                    results.json.tool_version = versionData[0].ver;
+                }
                 dom.resJson.textContent = JSON.stringify(results.json, null, 2);
             }
 
