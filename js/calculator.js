@@ -1,5 +1,10 @@
 function calculateStats(height, scale) {
     const currentHeight = 7.6 - (8.3 * scale) - (3 * height);
+
+    if (currentHeight < -1 || currentHeight > 15) {
+        return { error: 'status_error_out_of_bounds' };
+    }
+
     const shortestHeight = 7.6 - (8.3 * scale) - (3 * -2.0);
     const tallestHeight = 7.6 - (8.3 * scale) - (3 * 2.0);
 

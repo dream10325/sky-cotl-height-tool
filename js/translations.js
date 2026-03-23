@@ -2,7 +2,6 @@ const translations = {
     'zh-Hant': {
         measurement_notice_title: "測量須知與範圍說明",
         measurement_notice_body: "1. 這是透過網址反推的模擬數值，由於QR Code格式多樣，進行非單純數字的計算無法取得詳細數值。<br>2. 本工具無使用外掛測量，無連線到伺服器進行抓取資料，因此計算結果僅供參考。<br>3. 身高範圍採用的是負0到14",
-
         title: "光遇身高查看工具",
         toggle_instructions: "點此展開/收合使用教學",
         inst_1: "1. 在遊戲中，前往 <b>設定 > 帳號 > 帳號資訊 > 造型 QR code</b>。",
@@ -10,7 +9,6 @@ const translations = {
         inst_3: "3. 取得截圖後，請選擇以下其中一種方式：",
         inst_4: "<b>方法一：直接上傳截圖</b><br>點擊「選擇圖片」按鈕，或直接將截圖檔案拖曳至上傳區域。",
         inst_5: "<b>方法二：貼上網址</b><br>使用掃碼工具讀取截圖，將取得的 <code>https://sky.thatg.co/o=</code> 開頭網址，完整複製並貼入下方輸入框。",
-
         input_label: "請在此貼上掃描到的完整網址：",
         placeholder: "將完整網址貼在這裡……",
         calculate_btn: "開始計算",
@@ -23,6 +21,7 @@ const translations = {
         status_calculating: "計算中……",
         status_error_empty: "錯誤：輸入框是空的。",
         status_error_general: "無法識別您貼上的內容。<br>請檢查看看：<ul><li>是不是貼錯了？</li><li>是不是沒有複製完整？</li></ul>",
+        status_error_out_of_bounds: "計算失敗：官方 QR Code 數據異常（缺乏身高資訊）。<br>請嘗試在遊戲內更換外觀或多次重開遊戲，如果結果還是相同請嘗試再喝一次重塑藥水。",
         status_success: "計算完成！",
         status_copy_success: "身高結果已複製到剪貼簿！",
         status_copy_fail: "複製失敗，您的瀏覽器可能不支援。",
@@ -52,7 +51,6 @@ const translations = {
         show_range: "顯示身高範圍:",
         disclaimer_free: "此工具永久免費且開放原始碼，計算結果僅供參考。",
         disclaimer_privacy: "所有計算均在您的瀏覽器中完成，QR Code 資訊不會被上傳或儲存至任何伺服器。",
-        
         sim_title: "重塑藥水模擬器",
         sim_desc: "點擊按鈕來模擬使用重塑藥水後的隨機身高。",
         sim_disclaimer_text: "本功能僅為娛樂用，不代表遊戲內實際機率。",
@@ -77,7 +75,6 @@ const translations = {
     'en': {
         measurement_notice_title: "Measurement Notice & Range",
         measurement_notice_body: "1. These are simulated values derived from the URL. Due to diverse QR code formats, detailed values cannot be obtained through non-numeric calculations.<br>2. This tool does not use measurement plugins or connect to servers to fetch data, so results are for reference only.<br>3. The height range adopted is -0 to 14.",
-
         title: "Sky Height Tool",
         toggle_instructions: "Click to Expand/Collapse Instructions",
         inst_1: "1. In the game, go to <b>Settings > Account > Account Info > Outfit QR Code</b>.",
@@ -85,7 +82,6 @@ const translations = {
         inst_3: "3. Choose one of the following methods:",
         inst_4: "<b>Method 1: Upload Screenshot</b><br>Click \"Select Image\" or drag and drop your screenshot into the upload area.",
         inst_5: "<b>Method 2: Paste URL</b><br>Use a scanner to read the screenshot. Copy the URL starting with <code>https://sky.thatg.co/o=</code> and paste it below.",
-
         input_label: "Paste the full URL from the QR Code:",
         placeholder: "Paste the full URL here...",
         calculate_btn: "Calculate",
@@ -98,6 +94,7 @@ const translations = {
         status_calculating: "Calculating...",
         status_error_empty: "Error: Input box is empty.",
         status_error_general: "Couldn't recognize the content.<br>Please check if:<ul><li>You pasted the wrong text.</li><li>The text is incomplete.</li></ul>",
+        status_error_out_of_bounds: "Calculation failed: Official QR Code data is abnormal (missing height info).<br>Please try changing your outfit in the game or restarting the game multiple times. If the result remains the same, try drinking another resize potion.",
         status_success: "Calculation complete!",
         status_copy_success: "Results copied to clipboard!",
         status_copy_fail: "Copy failed. Your browser may not support this feature.",
@@ -151,7 +148,6 @@ const translations = {
     'ja': {
         measurement_notice_title: "測定に関する注意事項と範囲",
         measurement_notice_body: "1. これらはURLから逆算したシミュレーション値です。QRコードの形式が多様なため、単純な数値計算では詳細な値を取得できません。<br>2. 本ツールは測定プラグインを使用せず、サーバーに接続してデータを取得することもありません。そのため、計算結果は参考程度にお考えください。<br>3. 身長範囲はマイナス0から14を採用しています。",
-
         title: "Sky 身長測定ツール",
         toggle_instructions: "使い方を開く/閉じる",
         inst_1: "1. ゲーム内で<b>設定 > アカウント > アカウント情報 > アバターQRコード</b>の順に進みます。",
@@ -159,7 +155,6 @@ const translations = {
         inst_3: "3. 次に、以下のいずれかの方法を選択してください：",
         inst_4: "<b>方法1：スクリーンショットを直接アップロード</b><br>「画像を選択」ボタンをクリックするか、スクリーンショットをアップロードエリアにドラッグ＆ドロップしてください。",
         inst_5: "<b>方法2：URLを貼り付け</b><br>QRコードスキャナーでスクリーンショットを読み取り、<code>https://sky.thatg.co/o=</code>から始まるURLをコピーして下の入力欄に貼り付けてください。",
-
         input_label: "スキャンした完全なURLをここに貼り付けてください：",
         placeholder: "完全なURLをここに貼り付け…",
         calculate_btn: "計算開始",
@@ -172,6 +167,7 @@ const translations = {
         status_calculating: "計算中…",
         status_error_empty: "エラー：入力欄が空です。",
         status_error_general: "貼り付けられた内容を認識できませんでした。<br>以下を確認してください：<ul><li>間違った内容を貼り付けていませんか？</li><li>URLが途中で切れていませんか？</li></ul>",
+        status_error_out_of_bounds: "計算失敗：公式QRコードのデータが異常です（身長情報が欠落しています）。<br>ゲーム内で外見を変更するか、ゲームを何度か再起動してみてください。それでも結果が同じ場合は、リサイズドリンクをもう一度飲んでみてください。",
         status_success: "計算が完了しました！",
         status_copy_success: "身長の結果をクリップボードにコピーしました！",
         status_copy_fail: "コピーに失敗しました。お使いのブラウザは対応していない可能性があります。",
