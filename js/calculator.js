@@ -159,6 +159,10 @@ function decodeAndCalculate(rawData) {
         if (height !== null && scale !== null) {
             return calculateStats(height, scale);
         }
+        
+        if (height !== null || scale !== null) {
+            return { error: 'status_error_out_of_bounds' };
+        }
 
         debugLog("最終解析數值失敗。");
         return { error: 'status_error_general' };

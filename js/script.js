@@ -545,6 +545,32 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    function preprocessImageData(imageData, contrast, brightness) {
+        const data = new Uint8ClampedArray(imageData.data);
+        const factor = (259 * (contrast + 255)) / (255 * (259 - contrast));
+        for (let i = 0; i < data.length; i += 4) {
+            let gray = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
+            gray = factor * (gray - 128) + 128 + brightness;
+            gray = Math.max(0, Math.min(255, gray));
+            data[i] = gray;
+            data[i + 1] = gray;
+            data[i + 2] = gray;
+        }
+        return new ImageData(data, imageData.width, imageData.height);
+    }
+
+    function binarize(imageData, threshold) {
+        const data = new Uint8ClampedArray(imageData.data);
+        for (let i = 0; i < data.length; i += 4) {
+            let gray = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
+            let val = gray > threshold ? 255 : 0;
+            data[i] = val;
+            data[i + 1] = val;
+            data[i + 2] = val;
+        }
+        return new ImageData(data, imageData.width, imageData.height);
+    }
+
     async function handleQrUpload(file) {
         if (!file || !file.type.startsWith('image/')) {
             dom.statusEl.innerHTML = t('status_error_general');
@@ -565,15 +591,35 @@ document.addEventListener('DOMContentLoaded', () => {
             dom.statusEl.innerHTML = t('status_qr_scanning');
             const img = await loadImageToCanvas(file);
             const canvas = dom.qrCanvas;
-            const ctx = canvas.getContext('2d');
-            canvas.width = img.width;
-            canvas.height = img.height;
-            ctx.drawImage(img, 0, 0);
+            const ctx = canvas.getContext('2d', { willReadFrequently: true });
+            
+            let code = null;
+            const scales = [1, 0.5, 0.25, 0.75, 1.5]; 
+            const processings = [
+                (imgData) => imgData,
+                (imgData) => preprocessImageData(imgData, 50, 0),
+                (imgData) => preprocessImageData(imgData, 100, 20),
+                (imgData) => preprocessImageData(imgData, 80, -20),
+                (imgData) => binarize(imgData, 128),
+                (imgData) => binarize(imgData, 100),
+                (imgData) => binarize(imgData, 150)
+            ];
 
-            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-            const code = jsQR(imageData.data, imageData.width, imageData.height, {
-                inversionAttempts: "dontInvert",
-            });
+            for (const scale of scales) {
+                canvas.width = img.width * scale;
+                canvas.height = img.height * scale;
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                const originalImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                
+                for (const process of processings) {
+                    const processedData = process(originalImageData);
+                    code = jsQR(processedData.data, processedData.width, processedData.height, {
+                        inversionAttempts: "attemptBoth",
+                    });
+                    if (code && code.data) break;
+                }
+                if (code && code.data) break;
+            }
 
             if (code && code.data) {
                 dom.statusEl.innerHTML = t('status_qr_success');
@@ -581,22 +627,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 dom.b64Input.value = code.data;
                 setTimeout(() => { dom.calculateBtn.click(); }, 100);
             } else {
-                const codeInverted = jsQR(imageData.data, imageData.width, imageData.height, {
-                    inversionAttempts: "attemptBoth",
-                });
-                if (codeInverted && codeInverted.data) {
-                    dom.statusEl.innerHTML = t('status_qr_success');
-                    dom.statusEl.className = 'status-success';
-                    dom.b64Input.value = codeInverted.data;
-                    setTimeout(() => { dom.calculateBtn.click(); }, 100);
-                } else {
-                    dom.statusEl.innerHTML = t('status_qr_fail');
-                    dom.statusEl.className = 'status-error';
-                }
+                dom.statusEl.innerHTML = t('status_qr_fail');
+                dom.statusEl.className = 'status-error';
             }
 
         } catch (err) {
-            console.error("QR Scan error:", err);
             dom.statusEl.innerHTML = `掃描失敗: ${err.message || t('status_error_general')}`;
             dom.statusEl.className = 'status-error';
         }
@@ -629,6 +664,22 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
             handleQrUpload(e.dataTransfer.files[0]);
             e.dataTransfer.clearData();
+        }
+    });
+
+    document.addEventListener('paste', (e) => {
+        if (e.clipboardData && e.clipboardData.items) {
+            const items = e.clipboardData.items;
+            for (let i = 0; i < items.length; i++) {
+                if (items[i].type.indexOf('image') !== -1) {
+                    e.preventDefault(); 
+                    const file = items[i].getAsFile();
+                    if (file) {
+                        handleQrUpload(file);
+                    }
+                    break;
+                }
+            }
         }
     });
 
