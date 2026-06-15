@@ -1,26 +1,5 @@
 const versionData = [
     {
-        ver: "v2.1",
-        date: "2026.06.09",
-        changes: {
-            "zh-Hant": [
-                "再次修正 QR Code 掃描失敗的問題",
-                "新增對於數值異常的錯誤訊息",
-                "移動計算提示訊息位置"
-            ],
-            "en": [
-                "Fixed QR code scanning issues again",
-                "Added error messages for abnormal values",
-                "Moved calculation hint message position"
-            ],
-            "ja": [
-                "QRコードのスキャンに失敗する問題を再度修正",
-                "数値異常に関するエラーメッセージを追加",
-                "計算ヒントメッセージの位置を移動"
-            ]
-        }
-    },
-    {
         ver: "v2.0",
         date: "2025.12.02",
         changes: {
