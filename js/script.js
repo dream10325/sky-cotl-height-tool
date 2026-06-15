@@ -54,9 +54,9 @@ function setLanguage(lang) {
             const translation = translations[lang][key];
             if (el.tagName === 'TEXTAREA' || el.tagName === 'INPUT') {
                 el.placeholder = translation;
-            } else if (key.startsWith('inst_') || key.startsWith('faq_') ||
-                key === 'status_error_general' || key === 'sim_desc' ||
-                key === 'sim_disclaimer_text' || key === 'measurement_notice_body') {
+            } else if (key.startsWith('inst_') || key.startsWith('faq_') || 
+                       key === 'status_error_general' || key === 'sim_desc' || 
+                       key === 'sim_disclaimer_text' || key === 'measurement_notice_body') {
                 el.innerHTML = translation;
             } else {
                 el.textContent = translation;
@@ -145,15 +145,9 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderHistory() {
         dom.historyList.innerHTML = '';
         history.forEach((item, index) => {
-            let currentHeightDisplay = 'N/A';
-            if (item.isAmbiguous && item.altCurrent !== undefined) {
-                currentHeightDisplay = `${item.current.toFixed(4)} / ${item.altCurrent.toFixed(4)}`;
-            } else if (item.current) {
-                currentHeightDisplay = item.current.toFixed(4) + (item.json && item.json.sign_unknown ? ' ?' : '');
-            }
-
+            const currentHeightDisplay = item.current ? item.current.toFixed(4) : 'N/A';
             const li = document.createElement('li');
-            const date = new Date(item.timestamp || Date.now()).toLocaleString();
+            const date = new Date(item.timestamp).toLocaleString();
             li.innerHTML = `
                 <button class="delete-history-item" data-index="${index}" title="${t('confirm_delete_item')}">×</button>
                 <div class="history-item-main">
@@ -206,7 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const playerName = dom.playerNameInput.value;
         const textColor = document.querySelector('.text-color-option.active').dataset.color;
         const textAlign = document.querySelector('.text-align-option.active').dataset.align;
-
+        
         ctx.fillStyle = textColor === 'white' ? '#FFFFFF' : '#2c3e50';
         ctx.textAlign = textAlign;
         ctx.textBaseline = 'top';
@@ -387,90 +381,28 @@ document.addEventListener('DOMContentLoaded', () => {
     dom.showRangeToggle.addEventListener('change', updatePreview);
 
     dom.calculateBtn.addEventListener('click', () => {
-        dom.resCurrent.innerHTML = '';
-        dom.resTallest.innerHTML = '';
-        dom.resShortest.innerHTML = '';
-        dom.resCurrent.textContent = '...';
-        dom.resTallest.textContent = '...';
+        dom.resCurrent.textContent = '...'; 
+        dom.resTallest.textContent = '...'; 
         dom.resShortest.textContent = '...';
         if (dom.resJson) dom.resJson.textContent = '';
         dom.resultActions.style.display = 'none';
         lastResult = null;
-        dom.statusEl.innerHTML = t('status_calculating');
+        dom.statusEl.innerHTML = t('status_calculating'); 
         dom.statusEl.className = '';
-
+        
         const rawData = dom.b64Input.value.trim();
         if (!rawData) {
-            dom.statusEl.innerHTML = t('status_error_empty');
+            dom.statusEl.innerHTML = t('status_error_empty'); 
             dom.statusEl.className = 'status-error';
             return;
         }
 
         const results = decodeAndCalculate(rawData);
 
-        const existingWarning = document.querySelector('.ambiguous-warning');
-        if (existingWarning) existingWarning.remove();
-
         if (results.error) {
-            dom.statusEl.innerHTML = t(results.error);
+            dom.statusEl.innerHTML = t(results.error); 
             dom.statusEl.className = 'status-error';
             dom.simulatorContainer.style.display = 'none';
-        } else if (results.ambiguous) {
-            lastResult = results.positive;
-            lastCalculatedScale = null;
-
-            dom.statusEl.innerHTML = t('status_success');
-            dom.statusEl.className = 'status-success';
-
-            const posR = results.positive;
-            const negR = results.negative;
-
-            dom.resCurrent.innerHTML = `
-                <div class="ambiguous-row">
-                    <span class="ambiguous-label">${t('ambiguous_positive_label')}</span>
-                    <span>${posR.current.toFixed(4)}</span>
-                </div>
-                <div class="ambiguous-row">
-                    <span class="ambiguous-label">${t('ambiguous_negative_label')}</span>
-                    <span>${negR.current.toFixed(4)}</span>
-                </div>`;
-            dom.resTallest.innerHTML = `
-                <div class="ambiguous-row"><span class="ambiguous-label">${t('ambiguous_positive_label')}</span><span>${posR.tallest.toFixed(4)}</span></div>
-                <div class="ambiguous-row"><span class="ambiguous-label">${t('ambiguous_negative_label')}</span><span>${negR.tallest.toFixed(4)}</span></div>`;
-            dom.resShortest.innerHTML = `
-                <div class="ambiguous-row"><span class="ambiguous-label">${t('ambiguous_positive_label')}</span><span>${posR.shortest.toFixed(4)}</span></div>
-                <div class="ambiguous-row"><span class="ambiguous-label">${t('ambiguous_negative_label')}</span><span>${negR.shortest.toFixed(4)}</span></div>`;
-
-            if (dom.resJson) {
-                const ver = (typeof versionData !== 'undefined' && versionData.length > 0) ? versionData[0].ver : undefined;
-                const jsonOut = {
-                    sign_unknown: true,
-                    height_raw: posR.json.height_raw,
-                    scale_abs: posR.json.scale_raw,
-                    tool_version: ver
-                };
-                dom.resJson.textContent = JSON.stringify(jsonOut, null, 2);
-            }
-
-            const warningEl = document.createElement('div');
-            warningEl.className = 'ambiguous-warning';
-            warningEl.innerHTML = t('ambiguous_warning');
-            document.querySelector('.results').insertAdjacentElement('beforebegin', warningEl);
-
-            dom.resultActions.style.display = 'block';
-            dom.simulatorContainer.style.display = 'none';
-
-            history.unshift({
-                ...posR,
-                isAmbiguous: true,
-                altCurrent: negR.current,
-                note: ''
-            });
-            if (history.length > 10) history.pop();
-            saveHistory();
-            renderHistory();
-            dom.historyContainer.style.display = 'block';
-
         } else {
             lastResult = results;
             animateValue(dom.resCurrent, parseFloat(dom.resCurrent.textContent) || 0, results.current, 500);
@@ -484,7 +416,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 dom.resJson.textContent = JSON.stringify(results.json, null, 2);
             }
 
-            dom.statusEl.innerHTML = t('status_success');
+            dom.statusEl.innerHTML = t('status_success'); 
             dom.statusEl.className = 'status-success';
             dom.resultActions.style.display = 'block';
 
@@ -512,13 +444,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         const copyText = `${t('res_current')} ${lastResult.current.toFixed(4)}\n${t('res_tallest')} ${lastResult.tallest.toFixed(4)}\n${t('res_shortest')} ${lastResult.shortest.toFixed(4)}`;
         navigator.clipboard.writeText(copyText).then(() => {
-            dom.statusEl.innerHTML = t('status_copy_success');
+            dom.statusEl.innerHTML = t('status_copy_success'); 
             dom.statusEl.className = 'status-success';
             const originalText = t('copy_btn');
             dom.copyBtn.textContent = t('copy_btn_copied');
             setTimeout(() => { dom.copyBtn.textContent = originalText; }, 2000);
         }).catch(err => {
-            dom.statusEl.innerHTML = t('status_copy_fail');
+            dom.statusEl.innerHTML = t('status_copy_fail'); 
             dom.statusEl.className = 'status-error';
         });
     });
@@ -527,11 +459,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!lastResult) return;
 
         const downloadCanvas = document.createElement('canvas');
-        downloadCanvas.width = 500;
+        downloadCanvas.width = 500; 
         downloadCanvas.height = 250;
         const ctx = downloadCanvas.getContext('2d');
         const activeBg = document.querySelector('.bg-selection.active');
-
+        
         const triggerDownload = () => {
             const now = new Date();
             const pad = (num) => num.toString().padStart(2, '0');
@@ -660,9 +592,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const img = await loadImageToCanvas(file);
             const canvas = dom.qrCanvas;
             const ctx = canvas.getContext('2d', { willReadFrequently: true });
-
+            
             let code = null;
-            const scales = [1, 0.5, 0.25, 0.75, 1.5];
+            const scales = [1, 0.5, 0.25, 0.75, 1.5]; 
             const processings = [
                 (imgData) => imgData,
                 (imgData) => preprocessImageData(imgData, 50, 0),
@@ -678,7 +610,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 canvas.height = img.height * scale;
                 ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
                 const originalImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-
+                
                 for (const process of processings) {
                     const processedData = process(originalImageData);
                     code = jsQR(processedData.data, processedData.width, processedData.height, {
@@ -740,7 +672,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const items = e.clipboardData.items;
             for (let i = 0; i < items.length; i++) {
                 if (items[i].type.indexOf('image') !== -1) {
-                    e.preventDefault();
+                    e.preventDefault(); 
                     const file = items[i].getAsFile();
                     if (file) {
                         handleQrUpload(file);
@@ -754,7 +686,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const savedTheme = localStorage.getItem('theme');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     applyTheme(savedTheme || (prefersDark ? 'dark' : 'light'));
-
+    
     populateBgSelectors();
     loadHistory();
     setLanguage(currentLang);

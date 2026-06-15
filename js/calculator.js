@@ -10,8 +10,7 @@ function calculateStats(height, scale) {
 
     const jsonResult = {
         height_raw: height,
-        scale_raw: scale,
-        sign_unknown: false
+        scale_raw: scale
     };
 
     return {
@@ -92,7 +91,6 @@ function decodeAndCalculate(rawData) {
 
         let height = null;
         let scale = null;
-        let isCompressedScale = false;
 
         const sAnchorMatch = decodedText.match(/["']s/i);
 
@@ -101,22 +99,17 @@ function decodeAndCalculate(rawData) {
             debugLog(`在索引 ${anchorIndex} 處找到錨點 "s"`);
 
             const afterS = decodedText.substring(anchorIndex + sAnchorMatch[0].length);
-
-            const firstMeaningfulChar = afterS.match(/[^\x00-\x1F\x7F-\xFF]/);
-            isCompressedScale = !firstMeaningfulChar || (firstMeaningfulChar[0] !== ':' && firstMeaningfulChar[0] !== '"');
-            debugLog(`壓縮格式偵測: ${isCompressedScale}`);
-
             const scaleCandidates = afterS.match(/(-?\d+\.?\d*(?:[eE][-+]?\d+)?)/g) || [];
 
             for (const cand of scaleCandidates) {
                 const val = parseFloat(cand);
                 if (cand.includes('.') || cand.toLowerCase().includes('e')) {
-                    scale = Math.abs(val);
+                    scale = val;
                     debugLog(`錨點體型值 (浮點數): ${scale}`);
                     break;
                 } else if (Math.abs(val) >= 1000) {
-                    scale = Math.abs(val / 1000000000.0);
-                    debugLog(`錨點體型值 (大整數): ${val} -> ${scale}${isCompressedScale ? ' [符號未知]' : ''}`);
+                    scale = val / 1000000000.0;
+                    debugLog(`錨點體型值 (大整數): ${val} -> ${scale}`);
                     break;
                 }
             }
@@ -164,19 +157,9 @@ function decodeAndCalculate(rawData) {
         }
 
         if (height !== null && scale !== null) {
-            if (isCompressedScale) {
-                const posResult = calculateStats(height, scale);
-                const negResult = calculateStats(height, -scale);
-                const posOk = !posResult.error;
-                const negOk = !negResult.error;
-                if (posOk && negOk) return { ambiguous: true, positive: posResult, negative: negResult };
-                if (posOk) return posResult;
-                if (negOk) return negResult;
-                return { error: 'status_error_out_of_bounds' };
-            }
             return calculateStats(height, scale);
         }
-
+        
         if (height !== null || scale !== null) {
             return { error: 'status_error_out_of_bounds' };
         }
